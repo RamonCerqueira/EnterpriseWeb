@@ -38,13 +38,59 @@ export const productSchema = z.object({
     .string()
     .min(2, "O código deve conter pelo menos 2 caracteres")
     .toUpperCase(),
-  preco: z.coerce.number().min(0.01, "O preço deve ser maior que zero"),
-  estoque: z.coerce.number().int("O estoque deve ser um número inteiro").min(0, "O estoque não pode ser negativo"),
+  preco: z.coerce.number().min(0, "O preço não pode ser negativo"),
+  estoque: z.coerce.number().min(0, "O estoque não pode ser negativo"),
   categoria: z.string().min(2, "Selecione uma categoria válida"),
   descricao: z
     .string()
     .optional()
     .or(z.literal("")),
+  
+  // Novos campos para suporte ao cadastro completo
+  abreviado: z.string().optional().or(z.literal("")),
+  marca: z.string().optional().or(z.literal("")),
+  fabricante: z.string().optional().or(z.literal("")),
+  codigoBarras: z.string().optional().or(z.literal("")),
+  unidade: z.string().optional().or(z.literal("")),
+  inativo: z.union([z.boolean(), z.string()]).optional(),
+  
+  preco2: z.coerce.number().optional().nullable(),
+  preco3: z.coerce.number().optional().nullable(),
+  preco4: z.coerce.number().optional().nullable(),
+  custo: z.coerce.number().optional().nullable(),
+  custoInformado: z.coerce.number().optional().nullable(),
+  custoTabela: z.coerce.number().optional().nullable(),
+  medio: z.coerce.number().optional().nullable(),
+  ultimo: z.coerce.number().optional().nullable(),
+  markupTabela: z.coerce.number().optional().nullable(),
+  descontoMaximo: z.coerce.number().optional().nullable(),
+  comissao: z.coerce.number().optional().nullable(),
+  
+  minimo: z.coerce.number().optional().nullable(),
+  estoqueMaximo: z.coerce.number().optional().nullable(),
+  localizacao: z.string().optional().or(z.literal("")),
+  peso: z.coerce.number().optional().nullable(),
+  pesoLiquido: z.coerce.number().optional().nullable(),
+  largura: z.coerce.number().optional().nullable(),
+  altura: z.coerce.number().optional().nullable(),
+  comprimento: z.coerce.number().optional().nullable(),
+  area: z.coerce.number().optional().nullable(),
+  areaM3: z.coerce.number().optional().nullable(),
+  
+  classificacaoFiscal: z.string().optional().or(z.literal("")),
+  csosn: z.string().optional().or(z.literal("")),
+  cfopVenda: z.string().optional().or(z.literal("")),
+  cfopCompra: z.string().optional().or(z.literal("")),
+  ipi: z.coerce.number().optional().nullable(),
+  icms: z.coerce.number().optional().nullable(),
+  frete: z.coerce.number().optional().nullable(),
+  
+  obs: z.string().optional().or(z.literal("")),
+  aplicacao: z.string().optional().or(z.literal("")),
+  caracteristicas: z.string().optional().or(z.literal("")),
+  balancoAuditoria: z.coerce.number().optional().nullable(),
+  diasGarantia: z.coerce.number().int().optional().nullable(),
+  eCommerce: z.union([z.boolean(), z.string()]).optional(),
 });
 
 export type UserInput = z.infer<typeof userSchema>;

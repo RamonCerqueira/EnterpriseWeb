@@ -13,21 +13,21 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search") || undefined;
     const category = searchParams.get("category") || undefined;
-    const stockStatus = searchParams.get("stockStatus") || undefined;
+    const statusFilter = searchParams.get("statusFilter") || undefined;
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "50");
 
-    const result = await dbService.getProducts({
+    const result = await dbService.getServices({
       search,
       category,
-      stockStatus,
+      statusFilter,
       page,
       limit,
     });
     return NextResponse.json(result);
   } catch (error) {
-    console.error("[SoftLine API] GET produtos error:", error);
-    return NextResponse.json({ error: "Falha ao obter produtos." }, { status: 500 });
+    console.error("[SoftLine API] GET servicos error:", error);
+    return NextResponse.json({ error: "Falha ao obter serviços." }, { status: 500 });
   }
 }
 
@@ -38,18 +38,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    // Permission checks - Op5/Op6 are Products/Produto, Op91 is Admin Geral
     const canManage = session.role === "Administrador" || session.permissions["Op91"] || session.permissions["Op5"] || session.permissions["Op6"];
     if (!canManage) {
       return NextResponse.json(
-        { error: "Acesso negado. Você não tem permissão para gerenciar produtos." },
+        { error: "Acesso negado. Você não tem permissão para gerenciar serviços." },
         { status: 403 }
       );
     }
 
     const body = await req.json();
     
-    // Zod validation checks
+    // Zod validation checks (shares schema with product)
     const validation = productSchema.safeParse(body);
     if (!validation.success) {
       return NextResponse.json(
@@ -58,11 +57,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const newProd = await dbService.createProduct(validation.data);
-    return NextResponse.json({ success: true, product: newProd });
+    const newServ = await dbService.createService(validation.data);
+    return NextResponse.json({ success: true, service: newServ });
   } catch (error) {
-    console.error("[SoftLine API] POST produtos error:", error);
-    return NextResponse.json({ error: "Falha ao registrar produto." }, { status: 500 });
+    console.error("[SoftLine API] POST servicos error:", error);
+    return NextResponse.json({ error: "Falha ao registrar serviço." }, { status: 500 });
   }
 }
 
@@ -76,7 +75,7 @@ export async function PUT(req: NextRequest) {
     const canManage = session.role === "Administrador" || session.permissions["Op91"] || session.permissions["Op5"] || session.permissions["Op6"];
     if (!canManage) {
       return NextResponse.json(
-        { error: "Acesso negado. Você não tem permissão para gerenciar produtos." },
+        { error: "Acesso negado. Você não tem permissão para gerenciar serviços." },
         { status: 403 }
       );
     }
@@ -86,10 +85,9 @@ export async function PUT(req: NextRequest) {
     const codPro = parseInt(id);
 
     if (isNaN(codPro)) {
-      return NextResponse.json({ error: "ID do produto inválido." }, { status: 400 });
+      return NextResponse.json({ error: "ID do serviço inválido." }, { status: 400 });
     }
 
-    // Zod validation checks
     const validation = productSchema.safeParse(data);
     if (!validation.success) {
       return NextResponse.json(
@@ -99,10 +97,10 @@ export async function PUT(req: NextRequest) {
     }
 
     const updated = await dbService.updateProduct(codPro, validation.data);
-    return NextResponse.json({ success: true, product: updated });
+    return NextResponse.json({ success: true, service: updated });
   } catch (error) {
-    console.error("[SoftLine API] PUT produtos error:", error);
-    return NextResponse.json({ error: "Falha ao atualizar produto." }, { status: 500 });
+    console.error("[SoftLine API] PUT servicos error:", error);
+    return NextResponse.json({ error: "Falha ao atualizar serviço." }, { status: 500 });
   }
 }
 
@@ -116,7 +114,7 @@ export async function DELETE(req: NextRequest) {
     const canManage = session.role === "Administrador" || session.permissions["Op91"] || session.permissions["Op5"] || session.permissions["Op6"];
     if (!canManage) {
       return NextResponse.json(
-        { error: "Acesso negado. Você não tem permissão para gerenciar produtos." },
+        { error: "Acesso negado. Você não tem permissão para gerenciar serviços." },
         { status: 403 }
       );
     }
@@ -125,13 +123,13 @@ export async function DELETE(req: NextRequest) {
     const id = parseInt(searchParams.get("id") || "");
 
     if (isNaN(id)) {
-      return NextResponse.json({ error: "ID do produto inválido." }, { status: 400 });
+      return NextResponse.json({ error: "ID do serviço inválido." }, { status: 400 });
     }
 
     await dbService.deleteProduct(id);
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("[SoftLine API] DELETE produtos error:", error);
-    return NextResponse.json({ error: "Falha ao excluir produto." }, { status: 500 });
+    console.error("[SoftLine API] DELETE servicos error:", error);
+    return NextResponse.json({ error: "Falha ao excluir serviço." }, { status: 500 });
   }
 }

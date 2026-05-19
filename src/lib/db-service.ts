@@ -397,19 +397,129 @@ export const dbService = {
     }
   },
 
-  // PRODUCTS (tabela Produto)
-  async getProducts() {
-    console.log("[SoftLine DB] Listing all live Produto inventory...");
+  // PRODUCTS (tabela Produto onde Servico != 'S')
+  async getProducts(params: {
+    search?: string;
+    category?: string;
+    stockStatus?: string;
+    page?: number;
+    limit?: number;
+  } = {}) {
+    const page = params.page || 1;
+    const limit = params.limit || 50;
+    const skip = (page - 1) * limit;
+
+    console.log(`[SoftLine DB] Listing paginated Produto inventory (page: ${page}, limit: ${limit})...`);
+
+    const whereClause: any = {
+      AND: [
+        {
+          OR: [
+            { Servico: { not: "S" } },
+            { Servico: null }
+          ]
+        }
+      ]
+    };
+
+    if (params.search) {
+      whereClause.AND.push({
+        OR: [
+          { Produto: { contains: params.search } },
+          { Referencia: { contains: params.search } },
+          { Marca: { contains: params.search } },
+          { Fabricante: { contains: params.search } }
+        ]
+      });
+    }
+
+    if (params.category && params.category !== "TODAS") {
+      whereClause.AND.push({ Categoria: params.category });
+    }
+
+    if (params.stockStatus && params.stockStatus !== "TODOS") {
+      if (params.stockStatus === "SEM") {
+        whereClause.AND.push({
+          OR: [
+            { Estoque: { lte: 0 } },
+            { Estoque: null }
+          ]
+        });
+      } else if (params.stockStatus === "BAIXO") {
+        whereClause.AND.push({
+          Estoque: { gt: 0, lte: 5 }
+        });
+      } else if (params.stockStatus === "OK") {
+        whereClause.AND.push({
+          Estoque: { gt: 5 }
+        });
+      }
+    }
+
     try {
+      const total = await prisma.produto.count({ where: whereClause });
+
       const list = await prisma.produto.findMany({
+        where: whereClause,
         orderBy: {
           CodPro: "asc",
         },
-        take: 200,
+        skip,
+        take: limit,
+        select: {
+          CodPro: true,
+          Produto: true,
+          Referencia: true,
+          Preco1: true,
+          Estoque: true,
+          Categoria: true,
+          Complemento: true,
+          Abreviado: true,
+          Marca: true,
+          Fabricante: true,
+          CodigoBarras: true,
+          Unidade: true,
+          Inativo: true,
+          Servico: true,
+          Preco2: true,
+          Preco3: true,
+          Preco4: true,
+          Custo: true,
+          CustoInformado: true,
+          CustoTabela: true,
+          Medio: true,
+          Ultimo: true,
+          MarkUpTabela: true,
+          DescontoMaximo: true,
+          Comissao: true,
+          Minimo: true,
+          EstoqueMaximo: true,
+          Localizacao: true,
+          Peso: true,
+          PesoLiquido: true,
+          Largura: true,
+          Altura: true,
+          Comprimento: true,
+          Area: true,
+          AreaM3: true,
+          ClassificacaoFiscal: true,
+          CSOSN: true,
+          CFOPVenda: true,
+          CFOPCompra: true,
+          IPI: true,
+          ICMS: true,
+          Frete: true,
+          Obs: true,
+          Aplicacao: true,
+          Caracteristicas: true,
+          BalancoAuditoria: true,
+          DiasGarantia: true,
+          ECommerce: true,
+          Data: true,
+        }
       });
 
-      return list.map((prod) => {
-        // Safe Decimal values conversion to JS numbers
+      const items = list.map((prod) => {
         const precoVal = prod.Preco1 instanceof Decimal ? prod.Preco1.toNumber() : Number(prod.Preco1 ?? 0);
         const estoqueVal = prod.Estoque instanceof Decimal ? prod.Estoque.toNumber() : Number(prod.Estoque ?? 0);
 
@@ -421,12 +531,234 @@ export const dbService = {
           estoque: estoqueVal,
           categoria: prod.Categoria || "Acessórios",
           descricao: prod.Complemento || "",
-          createdAt: new Date(),
+          abreviado: prod.Abreviado || "",
+          marca: prod.Marca || "",
+          fabricante: prod.Fabricante || "",
+          codigoBarras: prod.CodigoBarras || "",
+          unidade: prod.Unidade || "",
+          inativo: prod.Inativo === "S",
+          servico: prod.Servico || "X",
+          preco2: prod.Preco2 instanceof Decimal ? prod.Preco2.toNumber() : Number(prod.Preco2 ?? 0),
+          preco3: prod.Preco3 instanceof Decimal ? prod.Preco3.toNumber() : Number(prod.Preco3 ?? 0),
+          preco4: prod.Preco4 instanceof Decimal ? prod.Preco4.toNumber() : Number(prod.Preco4 ?? 0),
+          custo: prod.Custo instanceof Decimal ? prod.Custo.toNumber() : Number(prod.Custo ?? 0),
+          custoInformado: prod.CustoInformado instanceof Decimal ? prod.CustoInformado.toNumber() : Number(prod.CustoInformado ?? 0),
+          custoTabela: prod.CustoTabela instanceof Decimal ? prod.CustoTabela.toNumber() : Number(prod.CustoTabela ?? 0),
+          medio: prod.Medio instanceof Decimal ? prod.Medio.toNumber() : Number(prod.Medio ?? 0),
+          ultimo: prod.Ultimo instanceof Decimal ? prod.Ultimo.toNumber() : Number(prod.Ultimo ?? 0),
+          markupTabela: prod.MarkUpTabela !== null ? Number(prod.MarkUpTabela) : 0,
+          descontoMaximo: prod.DescontoMaximo !== null ? Number(prod.DescontoMaximo) : 0,
+          comissao: prod.Comissao instanceof Decimal ? prod.Comissao.toNumber() : Number(prod.Comissao ?? 0),
+          minimo: prod.Minimo instanceof Decimal ? prod.Minimo.toNumber() : Number(prod.Minimo ?? 0),
+          estoqueMaximo: prod.EstoqueMaximo instanceof Decimal ? prod.EstoqueMaximo.toNumber() : Number(prod.EstoqueMaximo ?? 0),
+          localizacao: prod.Localizacao || "",
+          peso: prod.Peso instanceof Decimal ? prod.Peso.toNumber() : Number(prod.Peso ?? 0),
+          pesoLiquido: prod.PesoLiquido !== null ? Number(prod.PesoLiquido) : 0,
+          largura: prod.Largura instanceof Decimal ? prod.Largura.toNumber() : Number(prod.Largura ?? 0),
+          altura: prod.Altura instanceof Decimal ? prod.Altura.toNumber() : Number(prod.Altura ?? 0),
+          comprimento: prod.Comprimento !== null ? Number(prod.Comprimento) : 0,
+          area: prod.Area instanceof Decimal ? prod.Area.toNumber() : Number(prod.Area ?? 0),
+          areaM3: prod.AreaM3 !== null ? Number(prod.AreaM3) : 0,
+          classificacaoFiscal: prod.ClassificacaoFiscal || "",
+          csosn: prod.CSOSN || "",
+          cfopVenda: prod.CFOPVenda || "",
+          cfopCompra: prod.CFOPCompra || "",
+          ipi: prod.IPI instanceof Decimal ? prod.IPI.toNumber() : Number(prod.IPI ?? 0),
+          icms: prod.ICMS instanceof Decimal ? prod.ICMS.toNumber() : Number(prod.ICMS ?? 0),
+          frete: prod.Frete instanceof Decimal ? prod.Frete.toNumber() : Number(prod.Frete ?? 0),
+          obs: prod.Obs || "",
+          aplicacao: prod.Aplicacao || "",
+          caracteristicas: prod.Caracteristicas || "",
+          balancoAuditoria: prod.BalancoAuditoria !== null ? Number(prod.BalancoAuditoria) : 0,
+          diasGarantia: prod.DiasGarantia !== null ? Number(prod.DiasGarantia) : 0,
+          eCommerce: prod.ECommerce === "S",
+          createdAt: prod.Data || new Date(),
         };
       });
+
+      return {
+        items,
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit)
+      };
     } catch (err) {
       console.error("[SoftLine DB] Live getProducts SQL error:", err);
-      return [];
+      return { items: [], total: 0, page: 1, limit: 50, pages: 0 };
+    }
+  },
+
+  // SERVICES (tabela Produto onde Servico == 'S')
+  async getServices(params: {
+    search?: string;
+    category?: string;
+    statusFilter?: string;
+    page?: number;
+    limit?: number;
+  } = {}) {
+    const page = params.page || 1;
+    const limit = params.limit || 50;
+    const skip = (page - 1) * limit;
+
+    console.log(`[SoftLine DB] Listing paginated Servicos (page: ${page}, limit: ${limit})...`);
+
+    const whereClause: any = {
+      Servico: "S"
+    };
+
+    if (params.search) {
+      whereClause.AND = [
+        {
+          OR: [
+            { Produto: { contains: params.search } },
+            { Referencia: { contains: params.search } },
+            { Complemento: { contains: params.search } }
+          ]
+        }
+      ];
+    }
+
+    if (params.category && params.category !== "TODAS") {
+      if (!whereClause.AND) whereClause.AND = [];
+      whereClause.AND.push({ Categoria: params.category });
+    }
+
+    if (params.statusFilter && params.statusFilter !== "TODOS") {
+      if (!whereClause.AND) whereClause.AND = [];
+      whereClause.AND.push({ Inativo: params.statusFilter === "INATIVOS" ? "S" : "N" });
+    }
+
+    try {
+      const total = await prisma.produto.count({ where: whereClause });
+
+      const list = await prisma.produto.findMany({
+        where: whereClause,
+        orderBy: {
+          CodPro: "asc",
+        },
+        skip,
+        take: limit,
+        select: {
+          CodPro: true,
+          Produto: true,
+          Referencia: true,
+          Preco1: true,
+          Estoque: true,
+          Categoria: true,
+          Complemento: true,
+          Abreviado: true,
+          Marca: true,
+          Fabricante: true,
+          CodigoBarras: true,
+          Unidade: true,
+          Inativo: true,
+          Servico: true,
+          Preco2: true,
+          Preco3: true,
+          Preco4: true,
+          Custo: true,
+          CustoInformado: true,
+          CustoTabela: true,
+          Medio: true,
+          Ultimo: true,
+          MarkUpTabela: true,
+          DescontoMaximo: true,
+          Comissao: true,
+          Minimo: true,
+          EstoqueMaximo: true,
+          Localizacao: true,
+          Peso: true,
+          PesoLiquido: true,
+          Largura: true,
+          Altura: true,
+          Comprimento: true,
+          Area: true,
+          AreaM3: true,
+          ClassificacaoFiscal: true,
+          CSOSN: true,
+          CFOPVenda: true,
+          CFOPCompra: true,
+          IPI: true,
+          ICMS: true,
+          Frete: true,
+          Obs: true,
+          Aplicacao: true,
+          Caracteristicas: true,
+          BalancoAuditoria: true,
+          DiasGarantia: true,
+          ECommerce: true,
+          Data: true,
+        }
+      });
+
+      const items = list.map((prod) => {
+        const precoVal = prod.Preco1 instanceof Decimal ? prod.Preco1.toNumber() : Number(prod.Preco1 ?? 0);
+        const estoqueVal = prod.Estoque instanceof Decimal ? prod.Estoque.toNumber() : Number(prod.Estoque ?? 0);
+
+        return {
+          id: prod.CodPro,
+          nome: prod.Produto || "",
+          codigo: prod.Referencia || "",
+          preco: precoVal,
+          estoque: estoqueVal,
+          categoria: prod.Categoria || "Serviços",
+          descricao: prod.Complemento || "",
+          abreviado: prod.Abreviado || "",
+          marca: prod.Marca || "",
+          fabricante: prod.Fabricante || "",
+          codigoBarras: prod.CodigoBarras || "",
+          unidade: prod.Unidade || "UN",
+          inativo: prod.Inativo === "S",
+          servico: "S",
+          preco2: prod.Preco2 instanceof Decimal ? prod.Preco2.toNumber() : Number(prod.Preco2 ?? 0),
+          preco3: prod.Preco3 instanceof Decimal ? prod.Preco3.toNumber() : Number(prod.Preco3 ?? 0),
+          preco4: prod.Preco4 instanceof Decimal ? prod.Preco4.toNumber() : Number(prod.Preco4 ?? 0),
+          custo: prod.Custo instanceof Decimal ? prod.Custo.toNumber() : Number(prod.Custo ?? 0),
+          custoInformado: prod.CustoInformado instanceof Decimal ? prod.CustoInformado.toNumber() : Number(prod.CustoInformado ?? 0),
+          custoTabela: prod.CustoTabela instanceof Decimal ? prod.CustoTabela.toNumber() : Number(prod.CustoTabela ?? 0),
+          medio: prod.Medio instanceof Decimal ? prod.Medio.toNumber() : Number(prod.Medio ?? 0),
+          ultimo: prod.Ultimo instanceof Decimal ? prod.Ultimo.toNumber() : Number(prod.Ultimo ?? 0),
+          markupTabela: prod.MarkUpTabela !== null ? Number(prod.MarkUpTabela) : 0,
+          descontoMaximo: prod.DescontoMaximo !== null ? Number(prod.DescontoMaximo) : 0,
+          comissao: prod.Comissao instanceof Decimal ? prod.Comissao.toNumber() : Number(prod.Comissao ?? 0),
+          minimo: prod.Minimo instanceof Decimal ? prod.Minimo.toNumber() : Number(prod.Minimo ?? 0),
+          estoqueMaximo: prod.EstoqueMaximo instanceof Decimal ? prod.EstoqueMaximo.toNumber() : Number(prod.EstoqueMaximo ?? 0),
+          localizacao: prod.Localizacao || "",
+          peso: prod.Peso instanceof Decimal ? prod.Peso.toNumber() : Number(prod.Peso ?? 0),
+          pesoLiquido: prod.PesoLiquido !== null ? Number(prod.PesoLiquido) : 0,
+          largura: prod.Largura instanceof Decimal ? prod.Largura.toNumber() : Number(prod.Largura ?? 0),
+          altura: prod.Altura instanceof Decimal ? prod.Altura.toNumber() : Number(prod.Altura ?? 0),
+          comprimento: prod.Comprimento !== null ? Number(prod.Comprimento) : 0,
+          area: prod.Area instanceof Decimal ? prod.Area.toNumber() : Number(prod.Area ?? 0),
+          areaM3: prod.AreaM3 !== null ? Number(prod.AreaM3) : 0,
+          classificacaoFiscal: prod.ClassificacaoFiscal || "",
+          csosn: prod.CSOSN || "",
+          cfopVenda: prod.CFOPVenda || "",
+          cfopCompra: prod.CFOPCompra || "",
+          ipi: prod.IPI instanceof Decimal ? prod.IPI.toNumber() : Number(prod.IPI ?? 0),
+          icms: prod.ICMS instanceof Decimal ? prod.ICMS.toNumber() : Number(prod.ICMS ?? 0),
+          frete: prod.Frete instanceof Decimal ? prod.Frete.toNumber() : Number(prod.Frete ?? 0),
+          obs: prod.Obs || "",
+          aplicacao: prod.Aplicacao || "",
+          caracteristicas: prod.Caracteristicas || "",
+          balancoAuditoria: prod.BalancoAuditoria !== null ? Number(prod.BalancoAuditoria) : 0,
+          diasGarantia: prod.DiasGarantia !== null ? Number(prod.DiasGarantia) : 0,
+          eCommerce: prod.ECommerce === "S",
+          createdAt: prod.Data || new Date(),
+        };
+      });
+
+      return {
+        items,
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit)
+      };
+    } catch (err) {
+      console.error("[SoftLine DB] Live getServices SQL error:", err);
+      return { items: [], total: 0, page: 1, limit: 50, pages: 0 };
     }
   },
 
@@ -449,29 +781,252 @@ export const dbService = {
           CodPro: nextCodPro,
           Produto: data.nome,
           Referencia: data.codigo,
-          Preco1: new Decimal(data.preco),
-          Estoque: new Decimal(data.estoque),
+          Preco1: new Decimal(data.preco || 0),
+          Estoque: new Decimal(data.estoque || 0),
           Categoria: data.categoria || "Acessórios",
           Complemento: data.descricao || "",
           Situacao: "ATV", // Active product
+          Servico: "X", // Products are marked with "X"
+          
+          // Novos campos mapeados para salvar
+          Abreviado: data.abreviado || null,
+          Marca: data.marca || null,
+          Fabricante: data.fabricante || null,
+          CodigoBarras: data.codigoBarras || null,
+          Unidade: data.unidade || null,
+          Inativo: data.inativo ? "S" : "N",
+          
+          Preco2: data.preco2 !== null && data.preco2 !== undefined ? new Decimal(data.preco2) : null,
+          Preco3: data.preco3 !== null && data.preco3 !== undefined ? new Decimal(data.preco3) : null,
+          Preco4: data.preco4 !== null && data.preco4 !== undefined ? new Decimal(data.preco4) : null,
+          Custo: data.custo !== null && data.custo !== undefined ? new Decimal(data.custo) : null,
+          CustoInformado: data.custoInformado !== null && data.custoInformado !== undefined ? new Decimal(data.custoInformado) : null,
+          CustoTabela: data.custoTabela !== null && data.custoTabela !== undefined ? new Decimal(data.custoTabela) : null,
+          Medio: data.medio !== null && data.medio !== undefined ? new Decimal(data.medio) : null,
+          Ultimo: data.ultimo !== null && data.ultimo !== undefined ? new Decimal(data.ultimo) : null,
+          MarkUpTabela: data.markupTabela !== null && data.markupTabela !== undefined ? Number(data.markupTabela) : null,
+          DescontoMaximo: data.descontoMaximo !== null && data.descontoMaximo !== undefined ? Number(data.descontoMaximo) : null,
+          Comissao: data.comissao !== null && data.comissao !== undefined ? new Decimal(data.comissao) : null,
+          
+          Minimo: data.minimo !== null && data.minimo !== undefined ? new Decimal(data.minimo) : null,
+          EstoqueMaximo: data.estoqueMaximo !== null && data.estoqueMaximo !== undefined ? new Decimal(data.estoqueMaximo) : null,
+          Localizacao: data.localizacao || null,
+          Peso: data.peso !== null && data.peso !== undefined ? new Decimal(data.peso) : null,
+          PesoLiquido: data.pesoLiquido !== null && data.pesoLiquido !== undefined ? Number(data.pesoLiquido) : null,
+          Largura: data.largura !== null && data.largura !== undefined ? new Decimal(data.largura) : null,
+          Altura: data.altura !== null && data.altura !== undefined ? new Decimal(data.altura) : null,
+          Comprimento: data.comprimento !== null && data.comprimento !== undefined ? Number(data.comprimento) : null,
+          Area: data.area !== null && data.area !== undefined ? new Decimal(data.area) : null,
+          AreaM3: data.areaM3 !== null && data.areaM3 !== undefined ? Number(data.areaM3) : null,
+          
+          ClassificacaoFiscal: data.classificacaoFiscal || null,
+          CSOSN: data.csosn || null,
+          CFOPVenda: data.cfopVenda || null,
+          CFOPCompra: data.cfopCompra || null,
+          IPI: data.ipi !== null && data.ipi !== undefined ? new Decimal(data.ipi) : null,
+          ICMS: data.icms !== null && data.icms !== undefined ? new Decimal(data.icms) : null,
+          Frete: data.frete !== null && data.frete !== undefined ? new Decimal(data.frete) : null,
+          
+          Obs: data.obs || null,
+          Aplicacao: data.aplicacao || null,
+          Caracteristicas: data.caracteristicas || null,
+          BalancoAuditoria: data.balancoAuditoria !== null && data.balancoAuditoria !== undefined ? Number(data.balancoAuditoria) : null,
+          DiasGarantia: data.diasGarantia !== null && data.diasGarantia !== undefined ? Number(data.diasGarantia) : null,
+          ECommerce: data.eCommerce ? "S" : "N",
+          Data: new Date(),
         },
       });
-
-      const precoVal = newProd.Preco1 instanceof Decimal ? newProd.Preco1.toNumber() : Number(newProd.Preco1 ?? 0);
-      const estoqueVal = newProd.Estoque instanceof Decimal ? newProd.Estoque.toNumber() : Number(newProd.Estoque ?? 0);
 
       return {
         id: newProd.CodPro,
         nome: newProd.Produto || "",
         codigo: newProd.Referencia || "",
-        preco: precoVal,
-        estoque: estoqueVal,
+        preco: newProd.Preco1 instanceof Decimal ? newProd.Preco1.toNumber() : Number(newProd.Preco1 ?? 0),
+        estoque: newProd.Estoque instanceof Decimal ? newProd.Estoque.toNumber() : Number(newProd.Estoque ?? 0),
         categoria: newProd.Categoria || "",
         descricao: newProd.Complemento || "",
       };
     } catch (err) {
       console.error("[SoftLine DB] Live createProduct SQL error:", err);
       throw new Error("Falha ao registrar produto no catálogo de estoque.");
+    }
+  },
+
+  async createService(data: any) {
+    console.log(`[SoftLine DB] Creating service SKU: ${data.codigo}`);
+    try {
+      const lastProd = await prisma.produto.findFirst({
+        orderBy: {
+          CodPro: "desc",
+        },
+        select: {
+          CodPro: true,
+        },
+      });
+      const nextCodPro = lastProd ? lastProd.CodPro + 1 : 1;
+
+      const newServ = await prisma.produto.create({
+        data: {
+          CodPro: nextCodPro,
+          Produto: data.nome,
+          Referencia: data.codigo,
+          Preco1: new Decimal(data.preco || 0),
+          Estoque: new Decimal(data.estoque || 0),
+          Categoria: data.categoria || "Serviços",
+          Complemento: data.descricao || "",
+          Situacao: "ATV", // Active service
+          Servico: "S", // IMPORTANT: Marked as SERVICE
+          
+          Abreviado: data.abreviado || null,
+          Marca: data.marca || null,
+          Fabricante: data.fabricante || null,
+          CodigoBarras: data.codigoBarras || null,
+          Unidade: data.unidade || "UN",
+          Inativo: data.inativo ? "S" : "N",
+          
+          Preco2: data.preco2 !== null && data.preco2 !== undefined ? new Decimal(data.preco2) : null,
+          Preco3: data.preco3 !== null && data.preco3 !== undefined ? new Decimal(data.preco3) : null,
+          Preco4: data.preco4 !== null && data.preco4 !== undefined ? new Decimal(data.preco4) : null,
+          Custo: data.custo !== null && data.custo !== undefined ? new Decimal(data.custo) : null,
+          CustoInformado: data.custoInformado !== null && data.custoInformado !== undefined ? new Decimal(data.custoInformado) : null,
+          CustoTabela: data.custoTabela !== null && data.custoTabela !== undefined ? new Decimal(data.custoTabela) : null,
+          Medio: data.medio !== null && data.medio !== undefined ? new Decimal(data.medio) : null,
+          Ultimo: data.ultimo !== null && data.ultimo !== undefined ? new Decimal(data.ultimo) : null,
+          MarkUpTabela: data.markupTabela !== null && data.markupTabela !== undefined ? Number(data.markupTabela) : null,
+          DescontoMaximo: data.descontoMaximo !== null && data.descontoMaximo !== undefined ? Number(data.descontoMaximo) : null,
+          Comissao: data.comissao !== null && data.comissao !== undefined ? new Decimal(data.comissao) : null,
+          
+          Minimo: data.minimo !== null && data.minimo !== undefined ? new Decimal(data.minimo) : null,
+          EstoqueMaximo: data.estoqueMaximo !== null && data.estoqueMaximo !== undefined ? new Decimal(data.estoqueMaximo) : null,
+          Localizacao: data.localizacao || null,
+          Peso: data.peso !== null && data.peso !== undefined ? new Decimal(data.peso) : null,
+          PesoLiquido: data.pesoLiquido !== null && data.pesoLiquido !== undefined ? Number(data.pesoLiquido) : null,
+          Largura: data.largura !== null && data.largura !== undefined ? new Decimal(data.largura) : null,
+          Altura: data.altura !== null && data.altura !== undefined ? new Decimal(data.altura) : null,
+          Comprimento: data.comprimento !== null && data.comprimento !== undefined ? Number(data.comprimento) : null,
+          Area: data.area !== null && data.area !== undefined ? new Decimal(data.area) : null,
+          AreaM3: data.areaM3 !== null && data.areaM3 !== undefined ? Number(data.areaM3) : null,
+          
+          ClassificacaoFiscal: data.classificacaoFiscal || null,
+          CSOSN: data.csosn || null,
+          CFOPVenda: data.cfopVenda || null,
+          CFOPCompra: data.cfopCompra || null,
+          IPI: data.ipi !== null && data.ipi !== undefined ? new Decimal(data.ipi) : null,
+          ICMS: data.icms !== null && data.icms !== undefined ? new Decimal(data.icms) : null,
+          Frete: data.frete !== null && data.frete !== undefined ? new Decimal(data.frete) : null,
+          
+          Obs: data.obs || null,
+          Aplicacao: data.aplicacao || null,
+          Caracteristicas: data.caracteristicas || null,
+          BalancoAuditoria: data.balancoAuditoria !== null && data.balancoAuditoria !== undefined ? Number(data.balancoAuditoria) : null,
+          DiasGarantia: data.diasGarantia !== null && data.diasGarantia !== undefined ? Number(data.diasGarantia) : null,
+          ECommerce: data.eCommerce ? "S" : "N",
+          Data: new Date(),
+        },
+      });
+
+      return {
+        id: newServ.CodPro,
+        nome: newServ.Produto || "",
+        codigo: newServ.Referencia || "",
+        preco: newServ.Preco1 instanceof Decimal ? newServ.Preco1.toNumber() : Number(newServ.Preco1 ?? 0),
+        estoque: newServ.Estoque instanceof Decimal ? newServ.Estoque.toNumber() : Number(newServ.Estoque ?? 0),
+        categoria: newServ.Categoria || "",
+        descricao: newServ.Complemento || "",
+      };
+    } catch (err) {
+      console.error("[SoftLine DB] Live createService SQL error:", err);
+      throw new Error("Falha ao registrar serviço no catálogo unificado.");
+    }
+  },
+
+  async updateProduct(codPro: number, data: any) {
+    console.log(`[SoftLine DB] Updating product: ${codPro}`);
+    try {
+      const updateData: any = {};
+      if (data.nome !== undefined) updateData.Produto = data.nome || null;
+      if (data.codigo !== undefined) updateData.Referencia = data.codigo || null;
+      if (data.preco !== undefined) updateData.Preco1 = data.preco !== null ? new Decimal(data.preco) : null;
+      if (data.estoque !== undefined) updateData.Estoque = data.estoque !== null ? new Decimal(data.estoque) : null;
+      if (data.categoria !== undefined) updateData.Categoria = data.categoria || "Acessórios";
+      if (data.descricao !== undefined) updateData.Complemento = data.descricao || null;
+      
+      // Novos campos opcionais para atualizar
+      if (data.abreviado !== undefined) updateData.Abreviado = data.abreviado || null;
+      if (data.marca !== undefined) updateData.Marca = data.marca || null;
+      if (data.fabricante !== undefined) updateData.Fabricante = data.fabricante || null;
+      if (data.codigoBarras !== undefined) updateData.CodigoBarras = data.codigoBarras || null;
+      if (data.unidade !== undefined) updateData.Unidade = data.unidade || null;
+      if (data.inativo !== undefined) updateData.Inativo = data.inativo ? "S" : "N";
+      
+      if (data.preco2 !== undefined) updateData.Preco2 = data.preco2 !== null ? new Decimal(data.preco2) : null;
+      if (data.preco3 !== undefined) updateData.Preco3 = data.preco3 !== null ? new Decimal(data.preco3) : null;
+      if (data.preco4 !== undefined) updateData.Preco4 = data.preco4 !== null ? new Decimal(data.preco4) : null;
+      if (data.custo !== undefined) updateData.Custo = data.custo !== null ? new Decimal(data.custo) : null;
+      if (data.custoInformado !== undefined) updateData.CustoInformado = data.custoInformado !== null ? new Decimal(data.custoInformado) : null;
+      if (data.custoTabela !== undefined) updateData.CustoTabela = data.custoTabela !== null ? new Decimal(data.custoTabela) : null;
+      if (data.medio !== undefined) updateData.Medio = data.medio !== null ? new Decimal(data.medio) : null;
+      if (data.ultimo !== undefined) updateData.Ultimo = data.ultimo !== null ? new Decimal(data.ultimo) : null;
+      if (data.markupTabela !== undefined) updateData.MarkUpTabela = data.markupTabela !== null ? Number(data.markupTabela) : null;
+      if (data.descontoMaximo !== undefined) updateData.DescontoMaximo = data.descontoMaximo !== null ? Number(data.descontoMaximo) : null;
+      if (data.comissao !== undefined) updateData.Comissao = data.comissao !== null ? new Decimal(data.comissao) : null;
+      
+      if (data.minimo !== undefined) updateData.Minimo = data.minimo !== null ? new Decimal(data.minimo) : null;
+      if (data.estoqueMaximo !== undefined) updateData.EstoqueMaximo = data.estoqueMaximo !== null ? new Decimal(data.estoqueMaximo) : null;
+      if (data.localizacao !== undefined) updateData.Localizacao = data.localizacao || null;
+      if (data.peso !== undefined) updateData.Peso = data.peso !== null ? new Decimal(data.peso) : null;
+      if (data.pesoLiquido !== undefined) updateData.PesoLiquido = data.pesoLiquido !== null ? Number(data.pesoLiquido) : null;
+      if (data.largura !== undefined) updateData.Largura = data.largura !== null ? new Decimal(data.largura) : null;
+      if (data.altura !== undefined) updateData.Altura = data.altura !== null ? new Decimal(data.altura) : null;
+      if (data.comprimento !== undefined) updateData.Comprimento = data.comprimento !== null ? Number(data.comprimento) : null;
+      if (data.area !== undefined) updateData.Area = data.area !== null ? new Decimal(data.area) : null;
+      if (data.areaM3 !== undefined) updateData.AreaM3 = data.areaM3 !== null ? Number(data.areaM3) : null;
+      
+      if (data.classificacaoFiscal !== undefined) updateData.ClassificacaoFiscal = data.classificacaoFiscal || null;
+      if (data.csosn !== undefined) updateData.CSOSN = data.csosn || null;
+      if (data.cfopVenda !== undefined) updateData.CFOPVenda = data.cfopVenda || null;
+      if (data.cfopCompra !== undefined) updateData.CFOPCompra = data.cfopCompra || null;
+      if (data.ipi !== undefined) updateData.IPI = data.ipi !== null ? new Decimal(data.ipi) : null;
+      if (data.icms !== undefined) updateData.ICMS = data.icms !== null ? new Decimal(data.icms) : null;
+      if (data.frete !== undefined) updateData.Frete = data.frete !== null ? new Decimal(data.frete) : null;
+      
+      if (data.obs !== undefined) updateData.Obs = data.obs || null;
+      if (data.aplicacao !== undefined) updateData.Aplicacao = data.aplicacao || null;
+      if (data.caracteristicas !== undefined) updateData.Caracteristicas = data.caracteristicas || null;
+      if (data.balancoAuditoria !== undefined) updateData.BalancoAuditoria = data.balancoAuditoria !== null ? Number(data.balancoAuditoria) : null;
+      if (data.diasGarantia !== undefined) updateData.DiasGarantia = data.diasGarantia !== null ? Number(data.diasGarantia) : null;
+      if (data.eCommerce !== undefined) updateData.ECommerce = data.eCommerce ? "S" : "N";
+
+      const updatedProd = await prisma.produto.update({
+        where: { CodPro: codPro },
+        data: updateData,
+      });
+
+      return {
+        id: updatedProd.CodPro,
+        nome: updatedProd.Produto || "",
+        codigo: updatedProd.Referencia || "",
+        preco: updatedProd.Preco1 instanceof Decimal ? updatedProd.Preco1.toNumber() : Number(updatedProd.Preco1 ?? 0),
+        estoque: updatedProd.Estoque instanceof Decimal ? updatedProd.Estoque.toNumber() : Number(updatedProd.Estoque ?? 0),
+        categoria: updatedProd.Categoria || "",
+        descricao: updatedProd.Complemento || "",
+      };
+    } catch (err) {
+      console.error("[SoftLine DB] Live updateProduct SQL error:", err);
+      throw new Error("Falha ao atualizar produto no catálogo de estoque.");
+    }
+  },
+
+  async deleteProduct(codPro: number) {
+    console.log(`[SoftLine DB] Deleting product: ${codPro}`);
+    try {
+      await prisma.produto.delete({
+        where: { CodPro: codPro },
+      });
+      return { success: true };
+    } catch (err) {
+      console.error("[SoftLine DB] Live deleteProduct SQL error:", err);
+      throw new Error("Falha ao excluir produto no banco de dados.");
     }
   },
 
@@ -653,19 +1208,55 @@ export const dbService = {
   },
 
   // CLIENTES (tabela CLIENTEs)
-  async getClientes() {
-    console.log("[SoftLine DB] Listing all live CLIENTEs...");
+  async getClientes(params: {
+    search?: string;
+    statusFilter?: string;
+    page?: number;
+    limit?: number;
+  } = {}) {
+    const page = params.page || 1;
+    const limit = params.limit || 50;
+    const skip = (page - 1) * limit;
+
+    console.log(`[SoftLine DB] Listing paginated CLIENTEs (page: ${page}, limit: ${limit})...`);
+
+    const whereClause: any = {};
+
+    if (params.search) {
+      whereClause.OR = [
+        { Cliente: { contains: params.search } },
+        { Razao: { contains: params.search } },
+        { CGC: { contains: params.search } },
+        { CPF: { contains: params.search } },
+      ];
+    }
+
+    if (params.statusFilter && params.statusFilter !== "TODOS") {
+      whereClause.Situacao = params.statusFilter; // "A" para ativo, "I" ou outro para inativo
+    }
+
     try {
-      const list = await prisma.cLIENTEs.findMany({
+      const total = await prisma.cLIENTEs.count({ where: whereClause });
+
+      const items = await prisma.cLIENTEs.findMany({
+        where: whereClause,
         orderBy: {
           CodCli: "asc",
         },
-        take: 200,
+        skip,
+        take: limit,
       });
-      return list;
+
+      return {
+        items,
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+      };
     } catch (err) {
       console.error("[SoftLine DB] Live getClientes SQL error:", err);
-      return [];
+      return { items: [], total: 0, page: 1, limit: 50, pages: 0 };
     }
   },
 
@@ -879,6 +1470,240 @@ export const dbService = {
     } catch (err) {
       console.error("[SoftLine DB] Live deleteCliente SQL error:", err);
       throw new Error("Falha ao excluir cliente no banco de dados.");
+    }
+  },
+
+  async getFornecedores(params?: {
+    search?: string;
+    statusFilter?: string;
+    page?: number;
+    limit?: number;
+  }) {
+    const page = params?.page || 1;
+    const limit = params?.limit || 20;
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+
+    if (params?.search) {
+      const term = params.search.trim();
+      const whereConditions: any[] = [];
+
+      if (/^\d+$/.test(term)) {
+        whereConditions.push({ CodFor: parseInt(term) });
+      }
+
+      whereConditions.push(
+        { Fornec: { contains: term } },
+        { Razao: { contains: term } },
+        { CGC: { contains: term } },
+        { CPF: { contains: term } },
+        { Cidade: { contains: term } }
+      );
+
+      where.OR = whereConditions;
+    }
+
+    if (params?.statusFilter && params.statusFilter !== "TODOS") {
+      where.Situacao = params.statusFilter;
+    }
+
+    try {
+      const [items, total] = await Promise.all([
+        prisma.fornec.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: { CodFor: "desc" },
+          select: {
+            CodFor: true,
+            Fornec: true,
+            Razao: true,
+            Complemento: true,
+            Site: true,
+            Endereco: true,
+            Bairro: true,
+            Cidade: true,
+            Estado: true,
+            Cep: true,
+            Tel: true,
+            Tel2: true,
+            CPF: true,
+            CGC: true,
+            IE: true,
+            IM: true,
+            Situacao: true,
+            Tipo: true,
+            EMail: true,
+            DataCad: true,
+            Observacao: true,
+            Banco1: true,
+            Agencia1: true,
+            Conta1: true,
+            Banco2: true,
+            Agencia2: true,
+            Conta2: true,
+            Dia_Nasc: true,
+            Mes_Nasc: true,
+            Ano_Nasc: true,
+            RG: true,
+            Orgao: true,
+          },
+        }),
+        prisma.fornec.count({ where }),
+      ]);
+
+      return {
+        items,
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+      };
+    } catch (err) {
+      console.error("[SoftLine DB] Live getFornecedores SQL error:", err);
+      throw new Error("Falha ao obter fornecedores do banco de dados.");
+    }
+  },
+
+  async createFornecedor(data: any) {
+    console.log("[SoftLine DB] Live createFornecedor database operation triggered.");
+    try {
+      const lastFor = await prisma.fornec.findFirst({
+        orderBy: { CodFor: "desc" },
+        select: { CodFor: true },
+      });
+      const nextCod = (lastFor?.CodFor || 0) + 1;
+
+      const dbData: any = {
+        CodFor: nextCod,
+        Fornec: data.fornec || null,
+        Razao: data.razao || null,
+        Complemento: data.complemento || null,
+        Site: data.site || null,
+        Endereco: data.endereco || null,
+        Bairro: data.bairro || null,
+        Cidade: data.cidade || null,
+        Estado: data.estado || null,
+        Cep: data.cep || null,
+        Tel: data.tel || null,
+        Tel2: data.tel2 || null,
+        
+        CPF: data.cpf || null,
+        RG: data.rg || null,
+        Orgao: data.orgao || null,
+        CGC: data.cnpj || null,
+        IE: data.ie || null,
+        IM: data.im || null,
+        
+        Situacao: data.situacao || "A",
+        Tipo: data.tipo || "F",
+        EMail: data.email || null,
+        Observacao: data.observacao || null,
+        
+        Banco1: data.banco1 || null,
+        Agencia1: data.agencia1 || null,
+        Conta1: data.conta1 || null,
+        Banco2: data.banco2 || null,
+        Agencia2: data.agencia2 || null,
+        Conta2: data.conta2 || null,
+
+        DataCad: new Date(),
+      };
+
+      if (data.nasc) {
+        const parts = data.nasc.split("-");
+        if (parts.length === 3) {
+          dbData.Ano_Nasc = parseInt(parts[0]);
+          dbData.Mes_Nasc = parseInt(parts[1]);
+          dbData.Dia_Nasc = parseInt(parts[2]);
+        }
+      }
+
+      const newFor = await prisma.fornec.create({
+        data: dbData,
+      });
+
+      return newFor;
+    } catch (err) {
+      console.error("[SoftLine DB] Live createFornecedor SQL error:", err);
+      throw new Error("Falha ao cadastrar fornecedor no banco de dados.");
+    }
+  },
+
+  async updateFornecedor(codFor: number, data: any) {
+    console.log(`[SoftLine DB] Updating supplier: ${codFor}`);
+    try {
+      const updateData: any = {};
+      if (data.fornec !== undefined) updateData.Fornec = data.fornec || null;
+      if (data.razao !== undefined) updateData.Razao = data.razao || null;
+      if (data.complemento !== undefined) updateData.Complemento = data.complemento || null;
+      if (data.site !== undefined) updateData.Site = data.site || null;
+      if (data.endereco !== undefined) updateData.Endereco = data.endereco || null;
+      if (data.bairro !== undefined) updateData.Bairro = data.bairro || null;
+      if (data.cidade !== undefined) updateData.Cidade = data.cidade || null;
+      if (data.estado !== undefined) updateData.Estado = data.estado || null;
+      if (data.cep !== undefined) updateData.Cep = data.cep || null;
+      if (data.tel !== undefined) updateData.Tel = data.tel || null;
+      if (data.tel2 !== undefined) updateData.Tel2 = data.tel2 || null;
+
+      if (data.cpf !== undefined) updateData.CPF = data.cpf || null;
+      if (data.rg !== undefined) updateData.RG = data.rg || null;
+      if (data.orgao !== undefined) updateData.Orgao = data.orgao || null;
+      if (data.cnpj !== undefined) updateData.CGC = data.cnpj || null;
+      if (data.ie !== undefined) updateData.IE = data.ie || null;
+      if (data.im !== undefined) updateData.IM = data.im || null;
+
+      if (data.situacao !== undefined) updateData.Situacao = data.situacao || "A";
+      if (data.tipo !== undefined) updateData.Tipo = data.tipo || "F";
+      if (data.email !== undefined) updateData.EMail = data.email || null;
+      if (data.observacao !== undefined) updateData.Observacao = data.observacao || null;
+
+      if (data.banco1 !== undefined) updateData.Banco1 = data.banco1 || null;
+      if (data.agencia1 !== undefined) updateData.Agencia1 = data.agencia1 || null;
+      if (data.conta1 !== undefined) updateData.Conta1 = data.conta1 || null;
+      
+      if (data.banco2 !== undefined) updateData.Banco2 = data.banco2 || null;
+      if (data.agencia2 !== undefined) updateData.Agencia2 = data.agencia2 || null;
+      if (data.conta2 !== undefined) updateData.Conta2 = data.conta2 || null;
+
+      if (data.nasc !== undefined) {
+        if (data.nasc) {
+          const parts = data.nasc.split("-");
+          if (parts.length === 3) {
+            updateData.Ano_Nasc = parseInt(parts[0]);
+            updateData.Mes_Nasc = parseInt(parts[1]);
+            updateData.Dia_Nasc = parseInt(parts[2]);
+          }
+        } else {
+          updateData.Ano_Nasc = null;
+          updateData.Mes_Nasc = null;
+          updateData.Dia_Nasc = null;
+        }
+      }
+
+      const updatedFor = await prisma.fornec.update({
+        where: { CodFor: codFor },
+        data: updateData,
+      });
+
+      return updatedFor;
+    } catch (err) {
+      console.error("[SoftLine DB] Live updateFornecedor SQL error:", err);
+      throw new Error("Falha ao atualizar fornecedor no banco de dados.");
+    }
+  },
+
+  async deleteFornecedor(codFor: number) {
+    console.log(`[SoftLine DB] Deleting supplier: ${codFor}`);
+    try {
+      await prisma.fornec.delete({
+        where: { CodFor: codFor },
+      });
+      return { success: true };
+    } catch (err) {
+      console.error("[SoftLine DB] Live deleteFornecedor SQL error:", err);
+      throw new Error("Falha ao excluir fornecedor no banco de dados.");
     }
   },
 };

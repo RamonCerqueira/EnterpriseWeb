@@ -1,22 +1,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Package, Plus, Loader2 } from "lucide-react";
+import { ClipboardList, Plus, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-// Importações dos novos componentes específicos
-import { ProductMetrics } from "./components/ProductMetrics";
-import { ProductFilterBar } from "./components/ProductFilterBar";
-import { ProductListTable } from "./components/ProductListTable";
-import { ProductGrid } from "./components/ProductGrid";
-import { ProductFormDialog } from "./components/ProductFormDialog";
+// Importações dos novos componentes específicos de serviços
+import { ServiceMetrics } from "./components/ServiceMetrics";
+import { ServiceFilterBar } from "./components/ServiceFilterBar";
+import { ServiceListTable } from "./components/ServiceListTable";
+import { ServiceGrid } from "./components/ServiceGrid";
+import { ServiceFormDialog } from "./components/ServiceFormDialog";
 
-export default function ProductsPage() {
-  const [products, setProducts] = useState<any[]>([]);
+export default function ServicesPage() {
+  const [services, setServices] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("TODAS");
-  const [stockFilter, setStockFilter] = useState("TODOS");
+  const [statusFilter, setStatusFilter] = useState("TODOS");
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   
   // Estados para controle de Paginação
@@ -28,16 +28,16 @@ export default function ProductsPage() {
   
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+  const [selectedService, setSelectedService] = useState<any | null>(null);
 
   // Carrega as categorias disponíveis apenas uma vez no mount
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const res = await fetch("/api/produtos?limit=1000");
+        const res = await fetch("/api/servicos?limit=1000");
         if (res.ok) {
           const data = await res.json();
-          const cats = Array.from(new Set(data.items.map((p: any) => p.categoria || "Acessórios"))) as string[];
+          const cats = Array.from(new Set(data.items.map((s: any) => s.categoria || "Suporte Técnico"))) as string[];
           setCategoriesList(cats);
         }
       } catch (err) {
@@ -47,73 +47,73 @@ export default function ProductsPage() {
     loadCategories();
   }, []);
 
-  // Efeito reativo para recarregar produtos ao alterar filtros com Debounce de 300ms
+  // Efeito reativo para recarregar serviços ao alterar filtros com Debounce de 300ms
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      fetchProducts();
+      fetchServices();
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [search, categoryFilter, stockFilter, page, limit]);
+  }, [search, categoryFilter, statusFilter, page, limit]);
 
-  // Resetar para a primeira página caso filtre por categoria ou estoque
+  // Resetar para a primeira página caso filtre por categoria ou status
   useEffect(() => {
     setPage(1);
-  }, [categoryFilter, stockFilter, search]);
+  }, [categoryFilter, statusFilter, search]);
 
-  const fetchProducts = async () => {
+  const fetchServices = async () => {
     setIsLoading(true);
     try {
-      const url = new URL("/api/produtos", window.location.origin);
+      const url = new URL("/api/servicos", window.location.origin);
       if (search.trim()) url.searchParams.set("search", search.trim());
       if (categoryFilter !== "TODAS") url.searchParams.set("category", categoryFilter);
-      if (stockFilter !== "TODOS") url.searchParams.set("stockStatus", stockFilter);
+      if (statusFilter !== "TODOS") url.searchParams.set("statusFilter", statusFilter);
       url.searchParams.set("page", page.toString());
       url.searchParams.set("limit", limit.toString());
 
       const res = await fetch(url.toString());
       if (res.ok) {
         const data = await res.json();
-        setProducts(data.items || []);
+        setServices(data.items || []);
         setTotalItems(data.total || 0);
         setTotalPages(data.pages || 1);
       }
     } catch (err) {
-      console.error("Failed to fetch products", err);
+      console.error("Failed to fetch services", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleOpenAdd = () => {
-    setSelectedProduct(null);
+    setSelectedService(null);
     setIsDialogOpen(true);
   };
 
-  const handleOpenEdit = (p: any) => {
-    setSelectedProduct(p);
+  const handleOpenEdit = (s: any) => {
+    setSelectedService(s);
     setIsDialogOpen(true);
   };
 
   const handleDelete = async (id: number) => {
     if (
       !confirm(
-        "Tem certeza que deseja excluir fisicamente este produto do catálogo do banco de dados? Esta ação não pode ser desfeita."
+        "Tem certeza que deseja excluir fisicamente este serviço do catálogo do banco de dados? Esta ação não pode ser desfeita."
       )
     ) {
       return;
     }
 
     try {
-      const res = await fetch(`/api/produtos?id=${id}`, {
+      const res = await fetch(`/api/servicos?id=${id}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
-        fetchProducts();
+        fetchServices();
       } else {
         const data = await res.json();
-        alert(data.error || "Erro ao excluir produto.");
+        alert(data.error || "Erro ao excluir serviço.");
       }
     } catch (err) {
       console.error(err);
@@ -127,35 +127,35 @@ export default function ProductsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <Package className="h-6 w-6 text-emerald-400" /> Catálogo de Produtos
+            <ClipboardList className="h-6 w-6 text-emerald-400" /> Catálogo de Serviços
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Gerenciamento completo integrado à tabela SQL Server `Produto`. Suporte de precificação, tributário e volumetria.
+            Gerenciamento de serviços técnicos, contratos e consultorias da base unificada `Produto` (Servico = 'S').
           </p>
         </div>
 
-        {/* Add Product Button */}
+        {/* Add Service Button */}
         <Button
           onClick={handleOpenAdd}
           className="text-xs font-semibold h-9 bg-emerald-500 hover:bg-emerald-400 text-black flex items-center gap-1.5 shadow-[0_0_10px_rgba(16,185,129,0.15)] cursor-pointer"
         >
-          <Plus className="h-4 w-4" /> Novo Cadastro
+          <Plus className="h-4 w-4" /> Novo Serviço
         </Button>
       </div>
 
       {/* Row of Metrics */}
-      <ProductMetrics products={products} />
+      <ServiceMetrics services={services} />
 
       {/* Search and Table Grid Container */}
       <Card className="bg-[#121826]/75 border border-border/60 overflow-hidden">
         {/* Table Filter Bar Component */}
-        <ProductFilterBar
+        <ServiceFilterBar
           search={search}
           setSearch={setSearch}
           categoryFilter={categoryFilter}
           setCategoryFilter={setCategoryFilter}
-          stockFilter={stockFilter}
-          setStockFilter={setStockFilter}
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
           viewMode={viewMode}
           setViewMode={setViewMode}
           categoriesList={categoriesList}
@@ -166,21 +166,21 @@ export default function ProductsPage() {
           {isLoading ? (
             <div className="p-16 flex flex-col items-center justify-center gap-3">
               <Loader2 className="h-8 w-8 text-emerald-400 animate-spin" />
-              <span className="text-xs text-muted-foreground font-semibold">Consultando acervo no SQL Server...</span>
+              <span className="text-xs text-muted-foreground font-semibold">Consultando serviços no SQL Server...</span>
             </div>
-          ) : products.length === 0 ? (
+          ) : services.length === 0 ? (
             <div className="p-16 text-center text-xs text-muted-foreground font-semibold">
-              Nenhum produto correspondente aos filtros.
+              Nenhum serviço correspondente aos filtros.
             </div>
           ) : viewMode === "list" ? (
-            <ProductListTable
-              products={products}
+            <ServiceListTable
+              services={services}
               onEdit={handleOpenEdit}
               onDelete={handleDelete}
             />
           ) : (
-            <ProductGrid
-              products={products}
+            <ServiceGrid
+              services={services}
               onEdit={handleOpenEdit}
               onDelete={handleDelete}
             />
@@ -191,7 +191,7 @@ export default function ProductsPage() {
         {totalItems > 0 && (
           <div className="p-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30 text-xs font-semibold">
             <div className="text-muted-foreground text-center sm:text-left">
-              Exibindo <span className="text-slate-200 font-bold">{products.length}</span> de <span className="text-slate-200 font-bold">{totalItems}</span> registros
+              Exibindo <span className="text-slate-200 font-bold">{services.length}</span> de <span className="text-slate-200 font-bold">{totalItems}</span> registros
             </div>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto justify-end">
@@ -241,11 +241,11 @@ export default function ProductsPage() {
       </Card>
 
       {/* Multi-Tab Create/Edit Form Modal */}
-      <ProductFormDialog
+      <ServiceFormDialog
         isOpen={isDialogOpen}
         onOpenChange={setIsDialogOpen}
-        product={selectedProduct}
-        onSuccess={fetchProducts}
+        service={selectedService}
+        onSuccess={fetchServices}
       />
     </div>
   );

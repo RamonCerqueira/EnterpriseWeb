@@ -109,6 +109,12 @@ export default function Sidebar({ session }: SidebarProps) {
       op: "Op5", // Produtos
     },
     {
+      name: "Serviços",
+      icon: ClipboardList,
+      href: "/dashboard/servicos", // Mapped to Services screen
+      op: "Op5", // Mapped to Products / Services permission
+    },
+    {
       name: "Estoque",
       icon: Boxes,
       href: "/dashboard/estoque",

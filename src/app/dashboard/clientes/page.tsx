@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Building2, Plus, Search, Grid, List, Loader2,
-  AlertCircle, ShieldAlert, Award, RefreshCw
+  AlertCircle, ShieldAlert, RefreshCw
 } from "lucide-react";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,13 @@ export default function ClientesPage() {
   const [clients, setClients] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
+  
+  // Estados para controle de Paginação
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(20);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<any | null>(null);
@@ -24,18 +31,34 @@ export default function ClientesPage() {
   const [clientToDelete, setClientToDelete] = useState<number | null>(null);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
-  // Load clients on mount
+  // Efeito reativo para recarregar clientes ao alterar busca ou página com Debounce de 300ms
   useEffect(() => {
-    fetchClients();
-  }, []);
+    const delayDebounceFn = setTimeout(() => {
+      fetchClients();
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search, page, limit]);
+
+  // Resetar para a primeira página caso filtre por termo de busca
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   const fetchClients = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/clientes");
+      const url = new URL("/api/clientes", window.location.origin);
+      if (search.trim()) url.searchParams.set("search", search.trim());
+      url.searchParams.set("page", page.toString());
+      url.searchParams.set("limit", limit.toString());
+
+      const res = await fetch(url.toString());
       if (res.ok) {
         const data = await res.json();
-        setClients(data);
+        setClients(data.items || []);
+        setTotalItems(data.total || 0);
+        setTotalPages(data.pages || 1);
       }
     } catch (err) {
       console.error("Failed to fetch clients", err);
@@ -81,24 +104,6 @@ export default function ClientesPage() {
       setIsDeleteLoading(false);
     }
   };
-
-  // Filter clients dynamically by code, name, or document
-  const filteredClients = clients.filter((c) => {
-    const term = search.toLowerCase();
-    const codStr = String(c.CodCli);
-    const nameStr = (c.Cliente || "").toLowerCase();
-    const docStr = (c.CGC || c.CPF || "").toLowerCase();
-    const reasonStr = (c.Razao || "").toLowerCase();
-    const cityStr = (c.Cidade || "").toLowerCase();
-
-    return (
-      codStr.includes(term) ||
-      nameStr.includes(term) ||
-      docStr.includes(term) ||
-      reasonStr.includes(term) ||
-      cityStr.includes(term)
-    );
-  });
 
   return (
     <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-100">
@@ -192,7 +197,7 @@ export default function ClientesPage() {
             <Loader2 className="h-8 w-8 text-emerald-400 animate-spin" />
             <span className="text-xs text-muted-foreground font-semibold">Consultando clientes no banco SQL Server...</span>
           </div>
-        ) : filteredClients.length === 0 ? (
+        ) : clients.length === 0 ? (
           <div className="p-16 text-center text-xs text-muted-foreground font-semibold flex flex-col items-center justify-center gap-2">
             <AlertCircle className="h-7 w-7 text-amber-500/80" />
             <span>Nenhum registro de cliente encontrado. Crie um novo acima!</span>
@@ -200,7 +205,7 @@ export default function ClientesPage() {
         ) : viewMode === "card" ? (
           /* Cards view: Responsive Grid with exactly 4 cards per row on large displays (xl:grid-cols-4) */
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 p-5 bg-[#0A0D16]/20">
-            {filteredClients.map((client) => (
+            {clients.map((client) => (
               <ClientCard
                 key={client.CodCli}
                 client={client}
@@ -213,10 +218,62 @@ export default function ClientesPage() {
           /* List view: Standard Table List component */
           <div className="p-1.5">
             <ClientList
-              clients={filteredClients}
+              clients={clients}
               onEdit={handleEdit}
               onDelete={handleDeleteTrigger}
             />
+          </div>
+        )}
+
+        {/* Pagination Bar */}
+        {totalItems > 0 && (
+          <div className="p-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30 text-xs font-semibold">
+            <div className="text-muted-foreground text-center sm:text-left">
+              Exibindo <span className="text-slate-200 font-bold">{clients.length}</span> de <span className="text-slate-200 font-bold">{totalItems}</span> registros
+            </div>
+            
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto justify-end">
+              <div className="flex items-center gap-1.5">
+                <span className="text-muted-foreground">Linhas:</span>
+                <select
+                  value={limit}
+                  onChange={(e) => {
+                    setLimit(parseInt(e.target.value));
+                    setPage(1);
+                  }}
+                  className="h-7 px-2 rounded bg-[#0F1420] border border-border/60 text-slate-300 focus:outline-none focus:border-emerald-500 cursor-pointer font-bold"
+                >
+                  <option value={10}>10 por página</option>
+                  <option value={20}>20 por página</option>
+                  <option value={50}>50 por página</option>
+                  <option value={100}>100 por página</option>
+                </select>
+              </div>
+
+              <div className="flex items-center gap-1.5">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={page === 1}
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  className="h-7 px-2 border border-border/60 hover:bg-[#1C2436] hover:text-emerald-400 text-muted-foreground disabled:opacity-40"
+                >
+                  Anterior
+                </Button>
+                <div className="h-7 px-3 flex items-center justify-center rounded bg-[#1F293D] border border-border/40 text-emerald-400 font-bold min-w-7">
+                  {page} / {totalPages}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                  className="h-7 px-2 border border-border/60 hover:bg-[#1C2436] hover:text-emerald-400 text-muted-foreground disabled:opacity-40"
+                >
+                  Próximo
+                </Button>
+              </div>
+            </div>
           </div>
         )}
       </Card>
