@@ -1,0 +1,53 @@
+<svg
+  width="512"
+  height="512"
+  viewBox="0 0 100 100"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#2563eb" />
+      <stop offset="100%" stopColor="#1e3a8a" />
+    </linearGradient>
+    <linearGradient id="greenGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stopColor="#10b981" />
+      <stop offset="100%" stopColor="#047857" />
+    </linearGradient>
+    <linearGradient id="greenGradientLight" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stopColor="#34d399" />
+      <stop offset="100%" stopColor="#059669" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Blue Arc (Left & Bottom) -->
+  <path
+    d="M 50 5 C 10 5, 5 45, 20 75 C 35 95, 75 95, 90 75 C 75 85, 40 85, 25 60 C 15 40, 25 15, 50 5 Z"
+    fill="url(#blueGradient)"
+  />
+  
+  <!-- Outer Blue Arc (Top Right to Right) -->
+  <path
+    d="M 90 75 C 95 60, 95 30, 80 15 C 90 30, 95 50, 90 75 Z"
+    fill="url(#blueGradient)"
+    opacity="0.8"
+  />
+
+  <!-- Green Stripe 1 (Bottom) -->
+  <path
+    d="M 30 70 C 50 85, 80 65, 88 45 C 70 65, 45 72, 30 70 Z"
+    fill="url(#greenGradient)"
+  />
+  
+  <!-- Green Stripe 2 (Middle) -->
+  <path
+    d="M 22 55 C 45 75, 85 50, 93 25 C 70 50, 42 58, 22 55 Z"
+    fill="url(#greenGradientLight)"
+  />
+
+  <!-- Green Stripe 3 (Top) -->
+  <path
+    d="M 25 35 C 45 55, 80 30, 85 10 C 65 30, 42 40, 25 35 Z"
+    fill="url(#greenGradient)"
+  />
+</svg>
