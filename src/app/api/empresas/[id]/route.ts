@@ -4,7 +4,7 @@ import { getSession } from "@/lib/auth";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -12,7 +12,8 @@ export async function GET(
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const codEmp = parseInt(params.id);
+    const { id } = await params;
+    const codEmp = parseInt(id);
     if (isNaN(codEmp)) {
       return NextResponse.json({ error: "Código da empresa inválido." }, { status: 400 });
     }
@@ -24,7 +25,7 @@ export async function GET(
 
     return NextResponse.json(emp);
   } catch (error: any) {
-    console.error(`[API Empresas ID] GET error for ${params.id}:`, error);
+    console.error(`[API Empresas ID] GET error for params:`, error);
     return NextResponse.json(
       { error: "Erro interno ao buscar detalhes do cadastro." },
       { status: 500 }
@@ -34,7 +35,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -42,7 +43,8 @@ export async function PUT(
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const codEmp = parseInt(params.id);
+    const { id } = await params;
+    const codEmp = parseInt(id);
     if (isNaN(codEmp)) {
       return NextResponse.json({ error: "Código da empresa inválido." }, { status: 400 });
     }
@@ -52,7 +54,7 @@ export async function PUT(
 
     return NextResponse.json(result);
   } catch (error: any) {
-    console.error(`[API Empresas ID] PUT error for ${params.id}:`, error);
+    console.error(`[API Empresas ID] PUT error for params:`, error);
     return NextResponse.json(
       { error: error.message || "Erro de transação ao gravar alterações cadastrais." },
       { status: 500 }
