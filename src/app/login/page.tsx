@@ -1,12 +1,184 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, User, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Logo } from "@/components/ui/logo";
+
+// Three.js Interactive Wave Background Component
+function ThreeBackground() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    let renderer: any = null;
+    let animationFrameId: number;
+
+    const initThree = () => {
+      const THREE = (window as any).THREE;
+      if (!THREE || !containerRef.current) return;
+
+      // 1. Scene & Perspective Camera
+      const scene = new THREE.Scene();
+      const width = containerRef.current.clientWidth;
+      const height = containerRef.current.clientHeight;
+      const camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
+      camera.position.z = 210;
+      camera.position.y = 85;
+      camera.lookAt(0, 0, 0);
+
+      // 2. WebGL Renderer with High-Performance Settings
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      containerRef.current.appendChild(renderer.domElement);
+
+      // 3. Grid of Particles (Wave Landscape)
+      const numParticlesX = 85;
+      const numParticlesY = 85;
+      const separation = 8.5;
+      const count = numParticlesX * numParticlesY;
+      const positions = new Float32Array(count * 3);
+
+      let index = 0;
+      for (let ix = 0; ix < numParticlesX; ix++) {
+        for (let iy = 0; iy < numParticlesY; iy++) {
+          positions[index] = ix * separation - (numParticlesX * separation) / 2; // x
+          positions[index + 1] = 0; // y (wave dynamic height)
+          positions[index + 2] = iy * separation - (numParticlesY * separation) / 2; // z
+          index += 3;
+        }
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+
+      // 4. Create custom glowing round particle texture dynamically
+      const canvas = document.createElement("canvas");
+      canvas.width = 16;
+      canvas.height = 16;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        const grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
+        grad.addColorStop(0, "rgba(255, 255, 255, 1)");
+        grad.addColorStop(0.2, "rgba(34, 211, 238, 0.85)"); // cyan-400
+        grad.addColorStop(0.6, "rgba(16, 185, 129, 0.25)"); // emerald-500
+        grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 16, 16);
+      }
+      const texture = new THREE.CanvasTexture(canvas);
+
+      // 5. Material
+      const material = new THREE.PointsMaterial({
+        size: 3.8,
+        map: texture,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        sizeAttenuation: true,
+      });
+
+      const particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+
+      // 6. Interactive Mouse Movement Tracking (Cinematic Camera Sway)
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetX = 0;
+      let targetY = 0;
+
+      const handleMouseMove = (e: MouseEvent) => {
+        mouseX = (e.clientX - window.innerWidth / 2) * 0.12;
+        mouseY = (e.clientY - window.innerHeight / 2) * 0.12;
+      };
+
+      window.addEventListener("mousemove", handleMouseMove);
+
+      // 7. Math Ripple Wave Loop
+      let timer = 0;
+      const animate = () => {
+        if (!isMounted) return;
+
+        animationFrameId = requestAnimationFrame(animate);
+
+        timer += 0.035;
+
+        // Smoothly interpolate camera position according to mouse position
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
+
+        camera.position.x = targetX + Math.sin(timer * 0.08) * 35;
+        camera.position.y = 85 - targetY + Math.cos(timer * 0.12) * 20;
+        camera.lookAt(0, 0, 0);
+
+        // Ripple particle coordinates mathematically using sine/cosine combinations
+        const positionsArray = geometry.attributes.position.array as Float32Array;
+        let posIndex = 0;
+        for (let ix = 0; ix < numParticlesX; ix++) {
+          for (let iy = 0; iy < numParticlesY; iy++) {
+            positionsArray[posIndex + 1] =
+              Math.sin(ix * 0.18 + timer) * 14 +
+              Math.cos(iy * 0.18 + timer) * 14;
+            posIndex += 3;
+          }
+        }
+        geometry.attributes.position.needsUpdate = true;
+
+        renderer.render(scene, camera);
+      };
+
+      animate();
+
+      // 8. Dynamic Resize Handler
+      const handleResize = () => {
+        if (!containerRef.current || !renderer) return;
+        const w = containerRef.current.clientWidth;
+        const h = containerRef.current.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("resize", handleResize);
+      };
+    };
+
+    // Load Three.js dynamically via high-speed CDN if not already loaded globally
+    if (!(window as any).THREE) {
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+      script.async = true;
+      script.onload = () => {
+        if (isMounted) initThree();
+      };
+      document.head.appendChild(script);
+    } else {
+      initThree();
+    }
+
+    return () => {
+      isMounted = false;
+      cancelAnimationFrame(animationFrameId);
+      if (renderer && renderer.domElement && containerRef.current) {
+        try {
+          containerRef.current.removeChild(renderer.domElement);
+        } catch (e) {
+          // Silent cleanup catch
+        }
+      }
+    };
+  }, []);
+
+  return <div ref={containerRef} className="absolute inset-0 z-0 w-full h-full opacity-55 pointer-events-none" />;
+}
 
 export default function LoginPage() {
   const router = useRouter();
@@ -50,19 +222,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-foreground flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Glow backgrounds */}
-      <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[350px] h-[350px] bg-emerald-500/5 rounded-full blur-[80px] pointer-events-none"></div>
+    <div className="min-h-screen bg-[#070B14] text-foreground flex items-center justify-center p-4 relative overflow-hidden">
+      
+      {/* Dynamic 3D Wave Constellation Background */}
+      <ThreeBackground />
+
+      {/* Radial soft colored background glow underlay */}
+      <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[450px] h-[450px] bg-sky-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="w-full max-w-md z-10">
         {/* SoftLine Logo */}
         <div className="flex justify-center mb-8">
-          <Logo showText width={48} height={48} className="scale-110" />
+          <Logo showText width={72} height={72} />
         </div>
 
-        <Card className="border border-border/80 bg-[#121826]/75 backdrop-blur-md shadow-2xl relative">
+        <Card className="border border-border/60 bg-[#0E1322]/80 backdrop-blur-lg shadow-2xl relative">
           <CardHeader className="space-y-1.5 pb-6">
-            <CardTitle className="text-xl font-bold text-center text-slate-100">
+            <CardTitle className="text-xl font-extrabold text-center text-slate-100">
               Acesso ao Sistema
             </CardTitle>
             <CardDescription className="text-center text-xs text-muted-foreground">
@@ -81,7 +257,7 @@ export default function LoginPage() {
 
               {/* Username Input */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                <label className="text-[10px] font-extrabold text-slate-300 uppercase tracking-wider block">
                   Usuário
                 </label>
                 <div className="relative">
@@ -94,7 +270,7 @@ export default function LoginPage() {
                     value={usuario}
                     onChange={(e) => setUsuario(e.target.value)}
                     disabled={isLoading}
-                    className="pl-9 h-10 border-border bg-[#0E1320] text-sm"
+                    className="pl-9 h-10 border-border bg-[#05080E]/90 text-sm font-semibold focus:border-cyan-500/70"
                     autoComplete="username"
                   />
                 </div>
@@ -103,7 +279,7 @@ export default function LoginPage() {
               {/* Password Input */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[10px] font-extrabold text-slate-300 uppercase tracking-wider block">
                     Senha
                   </label>
                 </div>
@@ -117,7 +293,7 @@ export default function LoginPage() {
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                     disabled={isLoading}
-                    className="pl-9 h-10 border-border bg-[#0E1320] text-sm"
+                    className="pl-9 h-10 border-border bg-[#05080E]/90 text-sm font-semibold focus:border-cyan-500/70"
                     autoComplete="current-password"
                   />
                 </div>
@@ -128,7 +304,7 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-10 text-sm font-semibold gap-2 transition-all cursor-pointer"
+                className="w-full h-10 text-sm font-extrabold gap-2 transition-all cursor-pointer bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-black shadow-[0_0_15px_rgba(6,182,212,0.15)]"
               >
                 {isLoading ? (
                   <>

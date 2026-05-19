@@ -24,7 +24,7 @@ try {
     if (trimmed.startsWith('model ')) {
       const parts = trimmed.split(/\s+/);
       const modelName = parts[1];
-      if (modelName && (modelName.toLowerCase() === 'senha' || modelName.toLowerCase() === 'indicado')) {
+      if (modelName) {
         currentModel = modelName;
         output += `=== MODEL: ${modelName} (Line ${i + 1}) ===\n`;
       }

@@ -1706,6 +1706,1096 @@ export const dbService = {
       throw new Error("Falha ao excluir fornecedor no banco de dados.");
     }
   },
+
+  // ESTOQUE OPERACIONAL
+  async getEstoqueProdutos(params: {
+    search?: string;
+    onlyCritical?: boolean;
+    page?: number;
+    limit?: number;
+  } = {}) {
+    const page = params.page || 1;
+    const limit = params.limit || 20;
+    const skip = (page - 1) * limit;
+
+    console.log(`[SoftLine DB] getEstoqueProdutos: page=${page}, limit=${limit}, search=${params.search}`);
+
+    try {
+      // 1. Base query for non-service, active products
+      const whereClause: any = {
+        AND: [
+          {
+            OR: [
+              { Servico: { not: "S" } },
+              { Servico: null }
+            ]
+          }
+        ]
+      };
+
+      if (params.search) {
+        whereClause.AND.push({
+          OR: [
+            { Produto: { contains: params.search } },
+            { Referencia: { contains: params.search } },
+            { Marca: { contains: params.search } },
+            { Fabricante: { contains: params.search } }
+          ]
+        });
+      }
+
+      // We fetch all matching products first to perform the reservoir mapping
+      // To optimize database footprint, we pagination-query the products
+      const totalProducts = await prisma.produto.count({ where: whereClause });
+
+      const productsList = await prisma.produto.findMany({
+        where: whereClause,
+        orderBy: { CodPro: "asc" },
+        skip,
+        take: limit,
+        select: {
+          CodPro: true,
+          Produto: true,
+          Referencia: true,
+          Estoque: true,
+          Minimo: true,
+          EstoqueMaximo: true,
+          Custo: true,
+          Preco1: true,
+          Unidade: true,
+        }
+      });
+
+      const codPros = productsList.map(p => p.CodPro);
+
+      // 2. Fetch Active Pending/Open Sales to map reservations
+      const pendingSales = await prisma.venda.findMany({
+        where: {
+          Status: { in: ["Aberto", "Pendente", "Orçamento"] }
+        },
+        select: { Numero: true }
+      });
+      const pendingSaleNumbers = pendingSales.map(s => s.Numero);
+
+      // Sum sold quantities in Venda1 for pending sales
+      const salesReservations = await prisma.venda1.groupBy({
+        by: ["Codpro"],
+        where: {
+          Codpro: { in: codPros },
+          Numero: { in: pendingSaleNumbers }
+        },
+        _sum: { Qtd: true }
+      });
+
+      // 3. Fetch Requisitions (Requisi1) reservations (Pendente > 0 and Retirado != 'S')
+      const reqReservations = await prisma.requisi1.groupBy({
+        by: ["Codpro"],
+        where: {
+          Codpro: { in: codPros },
+          Retirado: { not: "S" },
+          Pendente: { gt: 0 }
+        },
+        _sum: { Pendente: true }
+      });
+
+      // 4. Merge all reservation matrices and map final list
+      const salesResMap = new Map(salesReservations.map(r => [r.Codpro, r._sum.Qtd || 0]));
+      const reqResMap = new Map(reqReservations.map(r => [r.Codpro, r._sum.Pendente || 0]));
+
+      let items = productsList.map((p) => {
+        const estoqueFisico = p.Estoque instanceof Decimal ? p.Estoque.toNumber() : Number(p.Estoque ?? 0);
+        const resVendas = salesResMap.get(p.CodPro) || 0;
+        const resRequisicoes = reqResMap.get(p.CodPro) || 0;
+        const totalReservado = resVendas + resRequisicoes;
+        const disponivel = estoqueFisico - totalReservado;
+        const estoqueMinimo = p.Minimo instanceof Decimal ? p.Minimo.toNumber() : Number(p.Minimo ?? 0);
+        const precoCusto = p.Custo instanceof Decimal ? p.Custo.toNumber() : Number(p.Custo ?? 0);
+        const precoVenda = p.Preco1 instanceof Decimal ? p.Preco1.toNumber() : Number(p.Preco1 ?? 0);
+
+        return {
+          id: p.CodPro,
+          nome: p.Produto || "Produto sem nome",
+          codigo: p.Referencia || `PRO-${p.CodPro}`,
+          unidade: p.Unidade || "UN",
+          custo: precoCusto,
+          preco: precoVenda,
+          estoqueFisico,
+          resVendas,
+          resRequisicoes,
+          totalReservado,
+          disponivel,
+          minimo: estoqueMinimo,
+          maximo: p.EstoqueMaximo instanceof Decimal ? p.EstoqueMaximo.toNumber() : Number(p.EstoqueMaximo ?? 0),
+          isCritico: disponivel <= estoqueMinimo,
+        };
+      });
+
+      // If user selected "only critical", we apply filter
+      if (params.onlyCritical) {
+        items = items.filter(item => item.isCritico);
+      }
+
+      // Calculate stock stats for top headers based on entire table (simplified/unpaginated approximations)
+      const allActiveProducts = await prisma.produto.findMany({
+        where: {
+          AND: [
+            { OR: [{ Servico: { not: "S" } }, { Servico: null }] }
+          ]
+        },
+        select: {
+          Estoque: true,
+          Custo: true,
+          Minimo: true,
+        }
+      });
+
+      let totalItems = 0;
+      let totalValue = 0;
+      let lowStockCount = 0;
+
+      allActiveProducts.forEach((p) => {
+        const est = p.Estoque instanceof Decimal ? p.Estoque.toNumber() : Number(p.Estoque ?? 0);
+        const cost = p.Custo instanceof Decimal ? p.Custo.toNumber() : Number(p.Custo ?? 0);
+        const min = p.Minimo instanceof Decimal ? p.Minimo.toNumber() : Number(p.Minimo ?? 0);
+
+        totalItems += est;
+        totalValue += est * cost;
+        if (est <= min) {
+          lowStockCount++;
+        }
+      });
+
+      return {
+        items,
+        total: totalProducts,
+        page,
+        limit,
+        pages: Math.ceil(totalProducts / limit),
+        stats: {
+          totalItems,
+          totalValue,
+          lowStockCount,
+          totalSKUs: totalProducts,
+        }
+      };
+    } catch (err) {
+      console.error("[SoftLine DB] getEstoqueProdutos SQL error:", err);
+      return {
+        items: [],
+        total: 0,
+        page: 1,
+        limit: 20,
+        pages: 0,
+        stats: { totalItems: 0, totalValue: 0, lowStockCount: 0, totalSKUs: 0 }
+      };
+    }
+  },
+
+  async getMovimentacoesEstoque(limit = 20) {
+    console.log(`[SoftLine DB] getMovimentacoesEstoque: limit=${limit}`);
+    try {
+      // 1. Fetch latest Purchases (Inputs)
+      const compras = await prisma.compra1.findMany({
+        orderBy: { Lanc: "desc" },
+        take: limit,
+        select: {
+          Lanc: true,
+          NF: true,
+          Pedido: true,
+          Qtd: true,
+          Codpro: true,
+          Total: true,
+        }
+      });
+
+      // 2. Fetch latest Sales (Outputs)
+      const vendas = await prisma.venda1.findMany({
+        orderBy: { Lanc: "desc" },
+        take: limit,
+        select: {
+          Lanc: true,
+          Numero: true,
+          Qtd: true,
+          Codpro: true,
+          Total: true,
+          DataLanc: true,
+          HoraLanc: true,
+        }
+      });
+
+      // 3. Fetch product details in batch to map names
+      const codPros = Array.from(new Set([
+        ...compras.map(c => c.Codpro).filter(Boolean),
+        ...vendas.map(v => v.Codpro).filter(Boolean)
+      ])) as number[];
+
+      const products = await prisma.produto.findMany({
+        where: { CodPro: { in: codPros } },
+        select: { CodPro: true, Produto: true }
+      });
+      const prodMap = new Map(products.map(p => [p.CodPro, p.Produto]));
+
+      // 4. Map and unify inputs (Compras)
+      const inputs = compras.map((c) => {
+        const qty = c.Qtd instanceof Decimal ? c.Qtd.toNumber() : Number(c.Qtd ?? 0);
+        return {
+          id: `input-${c.Lanc}`,
+          type: "Entrada" as const,
+          item: prodMap.get(c.Codpro ?? 0) || `Produto SKU #${c.Codpro}`,
+          qty,
+          ref: c.NF ? `NF-${c.NF}` : c.Pedido ? `PED-${c.Pedido}` : "ENTRADA",
+          user: "Almoxarifado",
+          date: new Date().toLocaleDateString("pt-BR") + " --:--", // compras doesn't store time directly
+          timestamp: c.Lanc, // sorting surrogate
+        };
+      });
+
+      // 5. Map and unify outputs (Vendas)
+      const outputs = vendas.map((v) => {
+        const qty = Number(v.Qtd ?? 0);
+        const formattedDate = v.DataLanc
+          ? v.DataLanc.toLocaleDateString("pt-BR") + (v.HoraLanc ? ` ${v.HoraLanc}` : "")
+          : new Date().toLocaleDateString("pt-BR") + " --:--";
+
+        return {
+          id: `output-${v.Lanc}`,
+          type: "Saída" as const,
+          item: prodMap.get(v.Codpro ?? 0) || `Produto SKU #${v.Codpro}`,
+          qty,
+          ref: `VEN-${v.Numero}`,
+          user: "Vendas",
+          date: formattedDate,
+          timestamp: v.Lanc, // sorting surrogate
+        };
+      });
+
+      // Merge and sort chronologically by autoincrement ID surrogate
+      const merged = [...inputs, ...outputs]
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, limit);
+
+      return merged;
+    } catch (err) {
+      console.error("[SoftLine DB] getMovimentacoesEstoque error:", err);
+      return [];
+    }
+  },
+
+  async realizarAjusteEstoque(codPro: number, novoEstoque: number) {
+    console.log(`[SoftLine DB] Manual stock adjustment: codPro=${codPro}, novoEstoque=${novoEstoque}`);
+    try {
+      const updated = await prisma.produto.update({
+        where: { CodPro: codPro },
+        data: {
+          Estoque: new Decimal(novoEstoque)
+        }
+      });
+      return {
+        success: true,
+        codPro: updated.CodPro,
+        novoEstoque: updated.Estoque instanceof Decimal ? updated.Estoque.toNumber() : Number(updated.Estoque ?? 0)
+      };
+    } catch (err) {
+      console.error("[SoftLine DB] realizarAjusteEstoque error:", err);
+      throw new Error("Erro ao realizar ajuste manual de estoque no banco de dados.");
+    }
+  },
+
+  // VENDAS (COMERCIAL INTEGRADO AO ESTOQUE)
+  async getVendas(params: {
+    search?: string;
+    page?: number;
+    limit?: number;
+  } = {}) {
+    const page = params.page || 1;
+    const limit = params.limit || 20;
+    const skip = (page - 1) * limit;
+
+    console.log(`[SoftLine DB] getVendas: page=${page}, limit=${limit}, search=${params.search}`);
+
+    try {
+      const where: any = {};
+      if (params.search) {
+        const parsedNum = parseInt(params.search);
+        if (!isNaN(parsedNum)) {
+          where.OR = [
+            { Numero: parsedNum },
+            { Cliente: { contains: params.search } }
+          ];
+        } else {
+          where.Cliente = { contains: params.search };
+        }
+      }
+
+      // Fetch dynamic stats from entire table
+      const allSales = await prisma.venda.findMany({
+        select: { Total: true }
+      });
+      const totalOrders = allSales.length;
+      const totalBilling = allSales.reduce((sum, s) => sum + (s.Total ?? 0), 0);
+      const averageTicket = totalOrders > 0 ? totalBilling / totalOrders : 0;
+
+      const [items, total] = await Promise.all([
+        prisma.venda.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: { Numero: "desc" },
+          select: {
+            Numero: true,
+            Cliente: true,
+            Total: true,
+            Status: true,
+            Data: true,
+            CodRep: true,
+            Faturado: true,
+          }
+        }),
+        prisma.venda.count({ where })
+      ]);
+
+      // Count items in each sale
+      const saleNumbers = items.map(i => i.Numero);
+      const itemsCount = await prisma.venda1.groupBy({
+        by: ["Numero"],
+        where: { Numero: { in: saleNumbers } },
+        _sum: { Qtd: true }
+      });
+      const itemsCountMap = new Map(itemsCount.map(c => [c.Numero, c._sum.Qtd || 0]));
+
+      const mappedItems = items.map((s) => {
+        // Find sales representative name
+        const repName = s.CodRep === 999 ? "Master Owner" : "Vendedor";
+        
+        return {
+          id: s.Numero,
+          invoice: `VEN-${s.Numero}`,
+          client: s.Cliente || "Consumidor Final",
+          itemsCount: itemsCountMap.get(s.Numero) || 0,
+          value: s.Total || 0,
+          method: "Pix",
+          rep: repName,
+          date: s.Data ? s.Data.toLocaleDateString("pt-BR") : "--/--/----",
+          status: s.Status || "Finalizado",
+        };
+      });
+
+      return {
+        items: mappedItems,
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+        stats: {
+          totalBilling,
+          totalOrders,
+          averageTicket
+        }
+      };
+    } catch (err) {
+      console.error("[SoftLine DB] getVendas SQL error:", err);
+      return {
+        items: [],
+        total: 0,
+        page: 1,
+        limit: 20,
+        pages: 0,
+        stats: { totalBilling: 0, totalOrders: 0, averageTicket: 0 }
+      };
+    }
+  },
+
+  async createVenda(data: {
+    codCli?: number;
+    clienteName: string;
+    status: string; // "Pendente" | "Finalizado"
+    codRep?: number;
+    items: Array<{ codPro: number; qty: number; preco: number }>;
+  }) {
+    console.log(`[SoftLine DB] createVenda: cliente=${data.clienteName}, status=${data.status}, itemsCount=${data.items.length}`);
+    try {
+      return await prisma.$transaction(async (tx) => {
+        // 1. Calculate next sequential code for Venda.Numero
+        const lastSale = await tx.venda.findFirst({
+          orderBy: { Numero: "desc" },
+          select: { Numero: true }
+        });
+        const nextNumero = lastSale ? lastSale.Numero + 1 : 1;
+
+        // Calculate total sale price
+        const totalValue = data.items.reduce((sum, item) => sum + (item.preco * item.qty), 0);
+
+        // 2. Create header
+        const header = await tx.venda.create({
+          data: {
+            Numero: nextNumero,
+            Codcli: data.codCli || null,
+            Cliente: data.clienteName || "Consumidor Final",
+            Total: totalValue,
+            Status: data.status,
+            CodRep: data.codRep || 999, // default master
+            Data: new Date(),
+            Faturado: data.status === "Finalizado" ? "S" : "N",
+            Baixado: data.status === "Finalizado" ? "S" : "N",
+          }
+        });
+
+        // 3. Create items list and perform physical inventory deduction if Finalizado
+        let idx = 1;
+        for (const item of data.items) {
+          const itemVal = item.preco * item.qty;
+
+          await tx.venda1.create({
+            data: {
+              Numero: nextNumero,
+              Item: idx++,
+              Codpro: item.codPro,
+              Qtd: item.qty,
+              Preco: item.preco,
+              Total: itemVal,
+            }
+          });
+
+          if (data.status === "Finalizado") {
+            const currentProd = await tx.produto.findUnique({
+              where: { CodPro: item.codPro },
+              select: { Estoque: true }
+            });
+            const currentEst = currentProd?.Estoque instanceof Decimal ? currentProd.Estoque.toNumber() : Number(currentProd?.Estoque ?? 0);
+            const nextEst = currentEst - item.qty;
+
+            await tx.produto.update({
+              where: { CodPro: item.codPro },
+              data: {
+                Estoque: new Decimal(nextEst)
+              }
+            });
+          }
+        }
+
+        return {
+          success: true,
+          numero: nextNumero,
+          total: totalValue
+        };
+      });
+    } catch (err) {
+      console.error("[SoftLine DB] createVenda transaction error:", err);
+      throw new Error("Erro de integridade ao gravar nova venda no banco de dados.");
+    }
+  },
+
+  // COMPRAS (SUPRIMENTOS INTEGRADOS AO ESTOQUE)
+  async getCompras(params: {
+    search?: string;
+    page?: number;
+    limit?: number;
+  } = {}) {
+    const page = params.page || 1;
+    const limit = params.limit || 20;
+    const skip = (page - 1) * limit;
+
+    console.log(`[SoftLine DB] getCompras: page=${page}, limit=${limit}, search=${params.search}`);
+
+    try {
+      const where: any = {};
+      if (params.search) {
+        const parsedNum = parseInt(params.search);
+        if (!isNaN(parsedNum)) {
+          where.OR = [
+            { Pedido: parsedNum },
+            { NF: { contains: params.search } }
+          ];
+        } else {
+          where.NF = { contains: params.search };
+        }
+      }
+
+      // Fetch dynamic stats from entire table
+      const allPurchases = await prisma.compra.findMany({
+        select: { Total: true }
+      });
+      const totalOrders = allPurchases.length;
+      const totalInvestment = allPurchases.reduce((sum, c) => sum + Number(c.Total ?? 0), 0);
+      const averagePurchase = totalOrders > 0 ? totalInvestment / totalOrders : 0;
+
+      const [items, total] = await Promise.all([
+        prisma.compra.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: { Pedido: "desc" },
+          select: {
+            Pedido: true,
+            Codfor: true,
+            Total: true,
+            Status: true,
+            Data: true,
+            NF: true,
+          }
+        }),
+        prisma.compra.count({ where })
+      ]);
+
+      // Fetch supplier details to map names
+      const supplierCodes = items.map(c => c.Codfor).filter(Boolean) as number[];
+      const suppliers = await prisma.fornec.findMany({
+        where: { CodFor: { in: supplierCodes } },
+        select: { CodFor: true, Fornec: true }
+      });
+      const supplierMap = new Map(suppliers.map(s => [s.CodFor, s.Fornec]));
+
+      // Count items in each purchase
+      const purchaseIds = items.map(i => i.Pedido);
+      const itemsCount = await prisma.compra1.groupBy({
+        by: ["Pedido"],
+        where: { Pedido: { in: purchaseIds } },
+        _sum: { Qtd: true }
+      });
+      const itemsCountMap = new Map(itemsCount.map(c => [c.Pedido, c._sum.Qtd ? Number(c._sum.Qtd) : 0]));
+
+      const mappedItems = items.map((c) => {
+        const fornecedorName = supplierMap.get(c.Codfor ?? 0) || "Fornecedor Geral";
+        const val = c.Total instanceof Decimal ? c.Total.toNumber() : Number(c.Total ?? 0);
+        
+        return {
+          id: c.Pedido,
+          invoice: c.NF ? `NF-${c.NF}` : `PED-${c.Pedido}`,
+          supplier: fornecedorName,
+          itemsCount: itemsCountMap.get(c.Pedido) || 0,
+          value: val,
+          method: "Boleto Faturado",
+          date: c.Data ? c.Data.toLocaleDateString("pt-BR") : "--/--/----",
+          status: c.Status || "Recebido",
+        };
+      });
+
+      return {
+        items: mappedItems,
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+        stats: {
+          totalInvestment,
+          totalOrders,
+          averagePurchase
+        }
+      };
+    } catch (err) {
+      console.error("[SoftLine DB] getCompras SQL error:", err);
+      return {
+        items: [],
+        total: 0,
+        page: 1,
+        limit: 20,
+        pages: 0,
+        stats: { totalInvestment: 0, totalOrders: 0, averagePurchase: 0 }
+      };
+    }
+  },
+
+  async createCompra(data: {
+    codFor?: number;
+    nf?: string;
+    status: string;
+    items: Array<{ codPro: number; qty: number; cost: number }>;
+  }) {
+    console.log(`[SoftLine DB] createCompra: supplier=${data.codFor}, nf=${data.nf}, itemsCount=${data.items.length}`);
+    try {
+      return await prisma.$transaction(async (tx) => {
+        // 1. Calculate next sequential code for Compra.Pedido
+        const lastPurchase = await tx.compra.findFirst({
+          orderBy: { Pedido: "desc" },
+          select: { Pedido: true }
+        });
+        const nextPedido = lastPurchase ? lastPurchase.Pedido + 1 : 1;
+
+        // Calculate total purchase cost
+        const totalValue = data.items.reduce((sum, item) => sum + (item.cost * item.qty), 0);
+
+        // 2. Create header
+        const header = await tx.compra.create({
+          data: {
+            Pedido: nextPedido,
+            Codfor: data.codFor || null,
+            Total: new Decimal(totalValue),
+            Status: data.status || "Recebido",
+            NF: data.nf || null,
+            Data: new Date(),
+          }
+        });
+
+        // 3. Create items list, revalue product purchase cost and physically add inventory
+        let idx = 1;
+        for (const item of data.items) {
+          const itemVal = item.cost * item.qty;
+
+          await tx.compra1.create({
+            data: {
+              Pedido: nextPedido,
+              Item: idx++,
+              Codpro: item.codPro,
+              Qtd: new Decimal(item.qty),
+              Custo: item.cost,
+              Total: new Decimal(itemVal),
+              NF: data.nf || null,
+            }
+          });
+
+          // Fetch physical stock
+          const currentProd = await tx.produto.findUnique({
+            where: { CodPro: item.codPro },
+            select: { Estoque: true }
+          });
+          const currentEst = currentProd?.Estoque instanceof Decimal ? currentProd.Estoque.toNumber() : Number(currentProd?.Estoque ?? 0);
+          const nextEst = currentEst + item.qty;
+
+          await tx.produto.update({
+            where: { CodPro: item.codPro },
+            data: {
+              Estoque: new Decimal(nextEst),
+              Custo: new Decimal(item.cost), // update system product unit cost
+            }
+          });
+        }
+
+        return {
+          success: true,
+          pedido: nextPedido,
+          total: totalValue
+        };
+      });
+    } catch (err) {
+      console.error("[SoftLine DB] createCompra transaction error:", err);
+      throw new Error("Erro de integridade ao gravar lançamento de compra no banco de dados.");
+    }
+  },
+
+  async getEmpresas() {
+    console.log("[SoftLine DB] getEmpresas database operation triggered.");
+    try {
+      const list = await prisma.empresa.findMany({
+        select: {
+          CodEmp: true,
+          Empresa: true,
+          Razao: true,
+          CGC: true,
+        },
+        orderBy: { CodEmp: "asc" }
+      });
+      return list.map(item => ({
+        id: item.CodEmp,
+        nome: item.Empresa || "Sem Nome",
+        razao: item.Razao || "",
+        cnpj: item.CGC || "",
+      }));
+    } catch (err) {
+      console.error("[SoftLine DB] getEmpresas error:", err);
+      throw new Error("Falha ao obter lista de empresas.");
+    }
+  },
+
+  async getEmpresaById(codEmp: number) {
+    console.log(`[SoftLine DB] getEmpresaById operation triggered for ID: ${codEmp}`);
+    try {
+      const emp = await prisma.empresa.findFirst({
+        where: { CodEmp: codEmp }
+      });
+      if (!emp) return null;
+
+      // Convert Bytes fields Logo and Logo2 to base64 strings for image previews
+      const logoBase64 = emp.Logo ? `data:image/png;base64,${Buffer.from(emp.Logo).toString("base64")}` : null;
+      const logo2Base64 = emp.Logo2 ? `data:image/png;base64,${Buffer.from(emp.Logo2).toString("base64")}` : null;
+
+      return {
+        ...emp,
+        Logo: logoBase64,
+        Logo2: logo2Base64,
+      };
+    } catch (err) {
+      console.error(`[SoftLine DB] getEmpresaById error for ID ${codEmp}:`, err);
+      throw new Error("Falha ao carregar cadastro detalhado da empresa.");
+    }
+  },
+
+  async updateEmpresa(codEmp: number, data: any) {
+    console.log(`[SoftLine DB] updateEmpresa operation triggered for ID: ${codEmp}`);
+    try {
+      // Process Logos (base64 -> Buffer)
+      let logoBuffer: Buffer | undefined;
+      let logo2Buffer: Buffer | undefined;
+
+      if (data.Logo && data.Logo.startsWith("data:image")) {
+        const base64Data = data.Logo.replace(/^data:image\/\w+;base64,/, "");
+        logoBuffer = Buffer.from(base64Data, "base64");
+      }
+      if (data.Logo2 && data.Logo2.startsWith("data:image")) {
+        const base64Data = data.Logo2.replace(/^data:image\/\w+;base64,/, "");
+        logo2Buffer = Buffer.from(base64Data, "base64");
+      }
+
+      // Build safe object for update
+      const updateData: any = {};
+      
+      const stringFields = [
+        "Empresa", "Razao", "Endereco", "Bairro", "Cidade", "Estado", "CEP",
+        "Tel", "Tel2", "Tipo", "CGC", "IE", "IM", "CPF", "RG", "Observacao",
+        "Cabecalho", "ProgramaNF", "Juceb", "Contato", "Contador", "CRC",
+        "CodigoBarras", "Serie_ECF", "ProgramaNF2", "Servico", "Garantia",
+        "EMail", "Site", "CodSerNFe", "Certificado", "NFe", "CertificadoRazao",
+        "Critica_Estoque", "Numero", "Complemento", "CRT", "CNAE", "Industria",
+        "ServidorPop", "EMailPop", "SenhaPop", "TextoPop", "Grupo", "PAFCGC",
+        "Atacadista", "CriticaEstoqueAprovacao", "NCriticaEstoqueReserva",
+        "Importador", "Atividade", "Apuracao", "ServidorWeb"
+      ];
+
+      const floatFields = [
+        "Pis", "Cofins", "FaixaSN", "PisI", "CofinsI", "FaixaSNServico"
+      ];
+
+      const intFields = [
+        "NF", "CodBan", "Fiscal", "NF2", "CodBanEcf", "LoteServico", "Rps",
+        "Contigencia", "VendaAVista", "VendaAPrazo", "CCe", "DiaQuitacao",
+        "CodHis", "DiasAtraso", "CodCon", "CodHisSimplesNacional"
+      ];
+
+      const decimalFields = [
+        "IssDestacavel", "ICMSAutomatico", "RegimeEspecial"
+      ];
+
+      // Assign string fields
+      stringFields.forEach(f => {
+        if (data[f] !== undefined) updateData[f] = data[f];
+      });
+
+      // Assign float fields
+      floatFields.forEach(f => {
+        if (data[f] !== undefined) updateData[f] = data[f] !== null ? parseFloat(data[f]) : null;
+      });
+
+      // Assign int fields
+      intFields.forEach(f => {
+        if (data[f] !== undefined) updateData[f] = data[f] !== null ? parseInt(data[f]) : null;
+      });
+
+      // Assign decimal fields
+      decimalFields.forEach(f => {
+        if (data[f] !== undefined) updateData[f] = data[f] !== null ? new Decimal(data[f]) : null;
+      });
+
+      // Assign logo buffers if available
+      if (logoBuffer !== undefined) {
+        updateData.Logo = logoBuffer;
+      }
+      if (logo2Buffer !== undefined) {
+        updateData.Logo2 = logo2Buffer;
+      }
+
+      const updated = await prisma.empresa.update({
+        where: { CodEmp: codEmp },
+        data: updateData
+      });
+
+      return { success: true, id: updated.CodEmp };
+    } catch (err) {
+      console.error(`[SoftLine DB] updateEmpresa error for ID ${codEmp}:`, err);
+      throw new Error("Falha ao gravar atualizações do cadastro de empresa.");
+    }
+  },
+
+  // ==========================================
+  // PROPOSTAS COMERCIAIS & SERVIÇOS (Tabelas Servico e Servico1)
+  // ==========================================
+  async getPropostas() {
+    try {
+      // Carrega cabeçalhos de propostas do banco SQL Server
+      const propostas = await prisma.servico.findMany({
+        where: {
+          Tipo: "Proposta",
+        },
+        orderBy: {
+          Pedido: "desc",
+        },
+      });
+
+      // Mapeia para um formato amigável no front
+      return propostas.map(p => ({
+        id: p.Pedido,
+        pedido: p.Pedido,
+        clienteId: p.Codcli,
+        clienteNome: p.Cliente1 || "Consumidor Final",
+        data: p.Data ? p.Data.toISOString().split("T")[0] : "",
+        validade: p.Validade ? p.Validade.toISOString().split("T")[0] : "",
+        valorProdutos: Number(p.Produtos || 0),
+        valorServicos: Number(p.Servico || 0),
+        valorTotal: p.Total || 0,
+        status: p.Status || "Pendente",
+        tipo: p.Tipo || "Proposta",
+        naturezaOperacao: p.TipoServico || "",
+        observacao: p.Observacao || "",
+        condicaoPagamento: p.Condicao || "",
+      }));
+    } catch (err) {
+      console.error("[SoftLine DB] getPropostas error:", err);
+      throw new Error("Erro ao carregar a lista de propostas comerciais.");
+    }
+  },
+
+  async getPropostaById(pedidoId: number) {
+    try {
+      const p = await prisma.servico.findUnique({
+        where: { Pedido: pedidoId },
+      });
+
+      if (!p) return null;
+
+      // Buscar os itens da proposta na tabela Servico1
+      const itens = await prisma.servico1.findMany({
+        where: { Pedido: pedidoId },
+        orderBy: { Item: "asc" },
+      });
+
+      // Mapear os itens e enriquecer com dados do produto cadastrado
+      const itensEnriquecidos = await Promise.all(
+        itens.map(async (item) => {
+          let produtoNome = "Item Desconhecido";
+          let produtoReferencia = "";
+          let isServico = false;
+
+          if (item.Codpro) {
+            const prod = await prisma.produto.findUnique({
+              where: { CodPro: item.Codpro },
+            });
+            if (prod) {
+              produtoNome = prod.Produto || "Produto";
+              produtoReferencia = prod.Referencia || "";
+              isServico = prod.Servico === "S";
+            }
+          }
+
+          return {
+            lanc: item.Lanc,
+            qtd: Number(item.Qtd || 0),
+            codpro: item.Codpro,
+            precoUnitario: item.Vendareal || 0,
+            precoTabela: item.PrecoTabela || 0,
+            total: Number(item.Total || 0),
+            cfop: item.CFOP || "",
+            itemIndex: item.Item || 0,
+            nome: produtoNome,
+            referencia: produtoReferencia,
+            isServico,
+          };
+        })
+      );
+
+      return {
+        id: p.Pedido,
+        pedido: p.Pedido,
+        clienteId: p.Codcli,
+        clienteNome: p.Cliente1 || "",
+        data: p.Data ? p.Data.toISOString().split("T")[0] : "",
+        validade: p.Validade ? p.Validade.toISOString().split("T")[0] : "",
+        valorProdutos: Number(p.Produtos || 0),
+        valorServicos: Number(p.Servico || 0),
+        valorTotal: p.Total || 0,
+        subtotal: Number(p.Subtotal || 0),
+        status: p.Status || "Pendente",
+        tipo: p.Tipo || "Proposta",
+        naturezaOperacao: p.TipoServico || "",
+        observacao: p.Observacao || "",
+        condicaoPagamento: p.Condicao || "",
+        tipoPreco: p.TipoPreco || "1",
+        codEmp: p.CodEmp || 1,
+        usuario: p.Usuario || "",
+        itens: itensEnriquecidos,
+      };
+    } catch (err) {
+      console.error(`[SoftLine DB] getPropostaById error for ID ${pedidoId}:`, err);
+      throw new Error("Erro ao consultar detalhes da proposta.");
+    }
+  },
+
+  async createProposta(data: any) {
+    try {
+      // Encontrar o próximo número sequencial de pedido
+      const maxAgg = await prisma.servico.aggregate({
+        _max: {
+          Pedido: true,
+        },
+      });
+      const nextPedidoId = (maxAgg._max.Pedido || 9000) + 1;
+
+      console.log(`[SoftLine DB] Creating proposal transationally. Next Pedido ID: ${nextPedidoId}`);
+
+      // Executar em transação
+      await prisma.$transaction(async (tx) => {
+        // Criar o cabeçalho do Servico
+        await tx.servico.create({
+          data: {
+            Pedido: nextPedidoId,
+            Codcli: data.clienteId ? Number(data.clienteId) : null,
+            Cliente1: data.clienteNome || "Consumidor Final",
+            Data: data.data ? new Date(data.data) : new Date(),
+            Validade: data.validade ? new Date(data.validade) : null,
+            Produtos: data.valorProdutos ? new Decimal(data.valorProdutos) : new Decimal(0),
+            Servico: data.valorServicos ? new Decimal(data.valorServicos) : new Decimal(0),
+            Subtotal: data.subtotal ? new Decimal(data.subtotal) : new Decimal(0),
+            Total: data.valorTotal || 0,
+            Tipo: "Proposta",
+            Status: data.status || "Pendente",
+            TipoServico: data.naturezaOperacao || "VENDA",
+            Observacao: data.observacao || "",
+            Condicao: data.condicaoPagamento || "BOLETO",
+            TipoPreco: data.tipoPreco || "1",
+            CodEmp: data.codEmp ? Number(data.codEmp) : 1,
+            Usuario: data.usuario || "softline",
+            CodUsu: data.codUsu ? Number(data.codUsu) : 999,
+          },
+        });
+
+        // Gravar os itens em Servico1
+        if (data.itens && Array.isArray(data.itens)) {
+          for (let i = 0; i < data.itens.length; i++) {
+            const item = data.itens[i];
+            await tx.servico1.create({
+              data: {
+                Pedido: nextPedidoId,
+                Qtd: item.qtd ? new Decimal(item.qtd) : new Decimal(1),
+                Codpro: item.codpro ? Number(item.codpro) : null,
+                Vendareal: item.precoUnitario || 0,
+                Total: item.total ? new Decimal(item.total) : new Decimal(0),
+                CFOP: item.cfop || "5.102",
+                Item: i + 1,
+                Marca: " ",
+                CodUsu: data.codUsu ? Number(data.codUsu) : 999,
+                Data: data.data ? new Date(data.data) : new Date(),
+              },
+            });
+          }
+        }
+      });
+
+      return { success: true, pedido: nextPedidoId };
+    } catch (err) {
+      console.error("[SoftLine DB] createProposta transational error:", err);
+      throw new Error("Falha ao gravar proposta no banco de dados.");
+    }
+  },
+
+  async updateProposta(pedidoId: number, data: any) {
+    try {
+      console.log(`[SoftLine DB] Updating proposal transationally for Pedido ID: ${pedidoId}`);
+
+      await prisma.$transaction(async (tx) => {
+        // Atualizar o cabeçalho
+        await tx.servico.update({
+          where: { Pedido: pedidoId },
+          data: {
+            Codcli: data.clienteId ? Number(data.clienteId) : null,
+            Cliente1: data.clienteNome || "Consumidor Final",
+            Data: data.data ? new Date(data.data) : new Date(),
+            Validade: data.validade ? new Date(data.validade) : null,
+            Produtos: data.valorProdutos ? new Decimal(data.valorProdutos) : new Decimal(0),
+            Servico: data.valorServicos ? new Decimal(data.valorServicos) : new Decimal(0),
+            Subtotal: data.subtotal ? new Decimal(data.subtotal) : new Decimal(0),
+            Total: data.valorTotal || 0,
+            Status: data.status || "Pendente",
+            TipoServico: data.naturezaOperacao || "VENDA",
+            Observacao: data.observacao || "",
+            Condicao: data.condicaoPagamento || "BOLETO",
+            TipoPreco: data.tipoPreco || "1",
+            CodEmp: data.codEmp ? Number(data.codEmp) : 1,
+            Usuario: data.usuario || "softline",
+          },
+        });
+
+        // Remover os itens antigos
+        await tx.servico1.deleteMany({
+          where: { Pedido: pedidoId },
+        });
+
+        // Gravar os novos itens
+        if (data.itens && Array.isArray(data.itens)) {
+          for (let i = 0; i < data.itens.length; i++) {
+            const item = data.itens[i];
+            await tx.servico1.create({
+              data: {
+                Pedido: pedidoId,
+                Qtd: item.qtd ? new Decimal(item.qtd) : new Decimal(1),
+                Codpro: item.codpro ? Number(item.codpro) : null,
+                Vendareal: item.precoUnitario || 0,
+                Total: item.total ? new Decimal(item.total) : new Decimal(0),
+                CFOP: item.cfop || "5.102",
+                Item: i + 1,
+                Marca: " ",
+                CodUsu: data.codUsu ? Number(data.codUsu) : 999,
+                Data: data.data ? new Date(data.data) : new Date(),
+              },
+            });
+          }
+        }
+      });
+
+      return { success: true, pedido: pedidoId };
+    } catch (err) {
+      console.error(`[SoftLine DB] updateProposta error for ID ${pedidoId}:`, err);
+      throw new Error("Falha ao salvar alterações da proposta.");
+    }
+  },
+
+  async approveProposta(pedidoId: number) {
+    try {
+      console.log(`[SoftLine DB] Approving and converting proposal. Pedido ID: ${pedidoId}`);
+
+      await prisma.$transaction(async (tx) => {
+        // 1. Atualizar o Tipo para "Pedido" e o Status para "Aprovada"
+        await tx.servico.update({
+          where: { Pedido: pedidoId },
+          data: {
+            Tipo: "Pedido",
+            Status: "Aprovada",
+          },
+        });
+
+        // 2. Obter os itens da proposta
+        const itens = await tx.servico1.findMany({
+          where: { Pedido: pedidoId },
+        });
+
+        // 3. Efetuar a baixa do estoque físico para os produtos associados
+        for (const item of itens) {
+          if (item.Codpro) {
+            const prod = await tx.produto.findUnique({
+              where: { CodPro: item.Codpro },
+            });
+
+            // Apenas desconta o estoque se NÃO for um serviço (Servico !== 'S')
+            if (prod && prod.Servico !== "S") {
+              const currentEstoque = Number(prod.Estoque || 0);
+              const qtdParaBaixar = Number(item.Qtd || 0);
+              const newEstoque = currentEstoque - qtdParaBaixar;
+
+              console.log(`[SoftLine DB] Inventory reduction: Product ${prod.CodPro} (${prod.Produto}). Old stock: ${currentEstoque}, Qty: ${qtdParaBaixar}, New: ${newEstoque}`);
+
+              await tx.produto.update({
+                where: { CodPro: prod.CodPro },
+                data: {
+                  Estoque: new Decimal(newEstoque),
+                },
+              });
+            }
+          }
+        }
+      });
+
+      return { success: true, pedido: pedidoId };
+    } catch (err) {
+      console.error(`[SoftLine DB] approveProposta error for ID ${pedidoId}:`, err);
+      throw new Error("Erro ao converter e faturar a proposta comercial.");
+    }
+  },
 };
 
 export type DbService = typeof dbService;

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -27,7 +27,13 @@ import {
   Info,
   Hammer,
   Contact,
+  Sun,
+  Moon,
+  Laptop,
+  Search,
+  Check,
 } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import { SessionData } from "@/lib/auth";
 import { Logo } from "@/components/ui/logo";
@@ -39,17 +45,78 @@ interface SidebarProps {
 export default function Sidebar({ session }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
 
   // Sidebar collapse states
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  // States for Interactive Company Selector
+  interface Company {
+    id: number;
+    nome: string;
+    razao: string;
+    cnpj: string;
+  }
+
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [activeCompany, setActiveCompany] = useState<Company | null>(null);
+  const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
+  const [companySearch, setCompanySearch] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("sidebar-collapsed");
     if (saved !== null) {
       setIsCollapsed(saved === "true");
     }
+
+    // Load active company from localStorage
+    const savedCompany = localStorage.getItem("active-company");
+    if (savedCompany) {
+      try {
+        setActiveCompany(JSON.parse(savedCompany));
+      } catch (e) {
+        console.error("Failed to parse active-company", e);
+      }
+    }
+
     setMounted(true);
+
+    // Fetch all active companies from backend
+    const fetchCompanies = async () => {
+      try {
+        const res = await fetch("/api/empresas");
+        if (res.ok) {
+          const data = await res.json();
+          setCompanies(data);
+          
+          // Default to first company if none selected yet
+          if (!savedCompany && data.length > 0) {
+            const firstCompany = data[0];
+            setActiveCompany(firstCompany);
+            localStorage.setItem("active-company", JSON.stringify(firstCompany));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch companies in Sidebar:", err);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
+
+  // Click outside listener for company dropdown
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsCompanyDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const toggleSidebar = () => {
@@ -57,6 +124,21 @@ export default function Sidebar({ session }: SidebarProps) {
     setIsCollapsed(newState);
     localStorage.setItem("sidebar-collapsed", String(newState));
   };
+
+  const handleCompanySelect = (company: Company) => {
+    setActiveCompany(company);
+    localStorage.setItem("active-company", JSON.stringify(company));
+    setIsCompanyDropdownOpen(false);
+    setCompanySearch("");
+    
+    // Dispatch custom event for system-wide sync
+    window.dispatchEvent(new CustomEvent("activeCompanyChanged", { detail: company }));
+  };
+
+  const filteredCompanies = companies.filter(c =>
+    c.nome.toLowerCase().includes(companySearch.toLowerCase()) ||
+    c.cnpj.toLowerCase().includes(companySearch.toLowerCase())
+  );
 
   // Helper to check permission safely
   const hasPermission = (opKey: string) => {
@@ -199,7 +281,7 @@ export default function Sidebar({ session }: SidebarProps) {
       <div className="p-4 flex flex-col gap-4 border-b border-border/40 shrink-0">
         <div className="flex items-center justify-between gap-1">
           <Link href="/dashboard" className="hover:opacity-90 transition-opacity">
-            <Logo width={28} height={28} showText={!isCollapsed} />
+            <Logo width={38} height={38} showText={!isCollapsed} />
           </Link>
           
           <button
@@ -220,19 +302,98 @@ export default function Sidebar({ session }: SidebarProps) {
           <div 
             onClick={toggleSidebar}
             className="bg-background/60 hover:bg-background border border-border/80 rounded-lg h-9 flex items-center justify-center cursor-pointer transition-all duration-200"
-            title="SoftLine Sistemas"
+            title={activeCompany ? activeCompany.nome : "SoftLine Sistemas"}
           >
             <Network className="h-4 w-4 text-emerald-400 shrink-0" />
           </div>
         ) : (
-          <div className="bg-background/60 hover:bg-background border border-border/80 rounded-lg p-2.5 flex items-center justify-between cursor-pointer group transition-all duration-200">
-            <div className="flex flex-col text-left">
-              <span className="text-[10px] text-muted-foreground">Empresa Atual</span>
-              <span className="text-xs font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors">
-                SoftLine Sistemas
-              </span>
+          <div className="relative" ref={dropdownRef}>
+            <div 
+              onClick={() => setIsCompanyDropdownOpen(!isCompanyDropdownOpen)}
+              className={cn(
+                "bg-background/60 hover:bg-background border border-border/80 rounded-lg p-2.5 flex items-center justify-between cursor-pointer group transition-all duration-200 select-none",
+                isCompanyDropdownOpen && "border-emerald-500/80 bg-background/80 ring-1 ring-emerald-500/30"
+              )}
+            >
+              <div className="flex flex-col text-left min-w-0 pr-2">
+                <span className="text-[10px] text-muted-foreground">Empresa Atual</span>
+                <span className="text-xs font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors truncate max-w-[150px]">
+                  {activeCompany ? activeCompany.nome : "SoftLine Sistemas"}
+                </span>
+              </div>
+              <ChevronDown className={cn(
+                "h-4 w-4 text-muted-foreground group-hover:text-slate-200 transition-all shrink-0",
+                isCompanyDropdownOpen && "transform rotate-180 text-emerald-400"
+              )} />
             </div>
-            <ChevronDown className="h-4 w-4 text-muted-foreground group-hover:text-slate-200 transition-colors shrink-0" />
+
+            {/* Premium Dropdown list */}
+            {isCompanyDropdownOpen && (
+              <div className="absolute left-0 right-0 mt-1.5 bg-[#0F1420]/95 backdrop-blur-md border border-border/85 rounded-xl shadow-2xl z-50 overflow-hidden animate-scale-in text-left">
+                {/* Search bar inside dropdown */}
+                <div className="p-2 border-b border-border/40 relative">
+                  <input
+                    type="text"
+                    placeholder="Buscar filial..."
+                    value={companySearch}
+                    onChange={(e) => setCompanySearch(e.target.value)}
+                    className="w-full h-8 pl-8 pr-3 rounded-lg bg-[#05080E]/75 border border-border/60 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500/80 transition-all"
+                  />
+                  <Search className="h-3.5 w-3.5 text-muted-foreground absolute left-4.5 top-1/2 -translate-y-1/2" />
+                </div>
+
+                {/* List items */}
+                <div className="max-h-52 overflow-y-auto custom-scrollbar p-1.5 space-y-0.5">
+                  {filteredCompanies.length === 0 ? (
+                    <div className="p-4 text-center text-xs text-muted-foreground font-semibold">
+                      Nenhuma filial encontrada
+                    </div>
+                  ) : (
+                    filteredCompanies.map((c) => {
+                      const isSelected = activeCompany?.id === c.id;
+                      return (
+                        <div
+                          key={c.id}
+                          onClick={() => handleCompanySelect(c)}
+                          className={cn(
+                            "flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all duration-150 group",
+                            isSelected
+                              ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                              : "hover:bg-slate-900/60 text-slate-300 hover:text-slate-100 border border-transparent"
+                          )}
+                        >
+                          <div className="flex flex-col min-w-0 pr-2">
+                            <span className="text-xs font-bold truncate group-hover:text-emerald-400 transition-colors">
+                              {c.nome}
+                            </span>
+                            {c.cnpj && (
+                              <span className="text-[9px] text-muted-foreground mt-0.5 truncate">
+                                CNPJ: {c.cnpj}
+                              </span>
+                            )}
+                          </div>
+                          {isSelected && (
+                            <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                          )}
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+
+                {/* Footer stats */}
+                <div className="p-2 border-t border-border/20 bg-[#0A0D16]/50 flex items-center justify-between text-[9px] text-muted-foreground font-bold px-3 uppercase tracking-wider">
+                  <span>Filiais: {companies.length}</span>
+                  <Link 
+                    href="/dashboard/configuracoes" 
+                    onClick={() => setIsCompanyDropdownOpen(false)}
+                    className="text-emerald-500 hover:text-emerald-400 flex items-center gap-0.5"
+                  >
+                    Gerenciar <ChevronRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -411,6 +572,58 @@ export default function Sidebar({ session }: SidebarProps) {
                 <span className="bg-emerald-500 text-black text-[8px] px-1 rounded font-extrabold uppercase">Novo</span>
               </div>
               Desfrute do novo dashboard com assistente de IA.
+            </div>
+          </div>
+        )}
+
+        {/* Theme Switcher Segment Control */}
+        {!isCollapsed ? (
+          <div className="space-y-1.5 pt-1.5 border-t border-border/20 mt-1">
+            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-wider block text-left">
+              Tema do Sistema
+            </span>
+            <div className="grid grid-cols-3 bg-[#05080E]/75 p-0.5 rounded-lg border border-border/60">
+              {[
+                { id: "light", label: "Claro", icon: Sun },
+                { id: "dark", label: "Escuro", icon: Moon },
+                { id: "system", label: "Auto", icon: Laptop },
+              ].map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setTheme(t.id as any)}
+                  className={cn(
+                    "flex items-center justify-center gap-1 py-1 rounded text-[9px] font-bold transition-all cursor-pointer border-none outline-none",
+                    theme === t.id
+                      ? "bg-emerald-500 text-black font-extrabold"
+                      : "text-muted-foreground hover:text-slate-200 hover:bg-slate-900/35"
+                  )}
+                >
+                  <t.icon className="h-3 w-3 shrink-0" />
+                  <span>{t.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="relative group/tooltip">
+            <button
+              onClick={() => {
+                const nextTheme = theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
+                setTheme(nextTheme);
+              }}
+              className="h-8 w-8 rounded-lg bg-[#0F1420] border border-border/80 flex items-center justify-center hover:bg-secondary/40 transition-colors cursor-pointer outline-none"
+              title="Alternar Tema"
+            >
+              {theme === "light" ? (
+                <Sun className="h-4 w-4 text-amber-400" />
+              ) : theme === "dark" ? (
+                <Moon className="h-4 w-4 text-emerald-400" />
+              ) : (
+                <Laptop className="h-4 w-4 text-cyan-400" />
+              )}
+            </button>
+            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-900 border border-border text-slate-100 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
+              Tema: {theme === "light" ? "Claro" : theme === "dark" ? "Escuro" : "Automático"}
             </div>
           </div>
         )}
