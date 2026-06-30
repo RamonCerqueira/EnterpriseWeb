@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
+  Database,
   Star,
   Users,
   FileText,
@@ -257,6 +258,12 @@ export default function Sidebar({ session }: SidebarProps) {
       name: "Permissões",
       icon: ShieldAlert,
       href: "/dashboard/permissoes",
+      op: "Op91", // Admin role
+    },
+    {
+      name: "Cadastros",
+      icon: Database,
+      href: "/dashboard/cadastros",
       op: "Op91", // Admin role
     },
     {
