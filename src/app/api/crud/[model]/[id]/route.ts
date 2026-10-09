@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import modelsMetadata from "@/lib/models-metadata.json";
+import { CrudValidationError, decodeCrudImage, serializeCrudRecord, validateBankNumber } from "@/lib/crud-values";
 
 interface MetadataField {
   name: string;
@@ -76,7 +77,7 @@ export async function GET(
       return NextResponse.json({ error: "Registro não encontrado." }, { status: 404 });
     }
 
-    return NextResponse.json(item);
+    return NextResponse.json(serializeCrudRecord(item, model));
   } catch (error: any) {
     console.error("[CRUD API GET ID Error]:", error);
     return NextResponse.json({ error: error.message || "Erro ao obter registro." }, { status: 500 });
@@ -128,6 +129,8 @@ export async function PUT(
       }
 
       const val = body[field.name];
+      // A partial form must preserve all fields that were not submitted.
+      if (val === undefined) continue;
 
       if (val === undefined || val === null || val === "") {
         if (field.isNullable) {
@@ -139,6 +142,8 @@ export async function PUT(
       if (field.type === "Int") {
         const parsed = parseInt(val, 10);
         data[field.name] = isNaN(parsed) ? 0 : parsed;
+      } else if (model === "Banco" && field.name === "NossoNumero") {
+        data[field.name] = validateBankNumber(val);
       } else if (field.type === "Float" || field.type === "Decimal") {
         const parsed = parseFloat(val);
         data[field.name] = isNaN(parsed) ? 0.0 : parsed;
@@ -146,6 +151,8 @@ export async function PUT(
         data[field.name] = val === true || val === "true" || val === 1 || val === "1";
       } else if (field.type === "DateTime") {
         data[field.name] = new Date(val);
+      } else if (field.type === "Bytes") {
+        data[field.name] = decodeCrudImage(val);
       } else {
         data[field.name] = String(val);
       }
@@ -158,10 +165,10 @@ export async function PUT(
       data
     });
 
-    return NextResponse.json({ success: true, item: updatedItem });
+    return NextResponse.json({ success: true, item: serializeCrudRecord(updatedItem, model) });
   } catch (error: any) {
     console.error("[CRUD API PUT ID Error]:", error);
-    return NextResponse.json({ error: error.message || "Erro ao atualizar registro." }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Erro ao atualizar registro." }, { status: error instanceof CrudValidationError ? 400 : 500 });
   }
 }
 
