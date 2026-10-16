@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   LayoutDashboard,
   Database,
@@ -33,6 +33,11 @@ import {
   Laptop,
   Search,
   Check,
+  CreditCard,
+  Calculator,
+  Landmark,
+  BookMarked,
+  Building2,
 } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
@@ -46,6 +51,7 @@ interface SidebarProps {
 export default function Sidebar({ session }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { theme, setTheme } = useTheme();
 
   // Sidebar collapse states
@@ -198,31 +204,31 @@ export default function Sidebar({ session }: SidebarProps) {
 
   const cadastroGroups = [
     {
-      name: "Cadastro",
+      name: "",
       items: [
-        { name: "Clientes", href: "/dashboard/clientes", op: "Op3" },
-        { name: "Fornecedores", href: "/dashboard/fornecedores", op: "Op4" },
-        { name: "Contatos", href: "/dashboard/contatos", op: "Op3" },
-        { name: "Colaboradores", href: "/dashboard/usuarios", op: "Op8" },
+        { name: "Clientes", href: "/dashboard/clientes", op: "Op3", icon: Users },
+        { name: "Fornecedores", href: "/dashboard/fornecedores", op: "Op4", icon: Truck },
+        { name: "Contatos", href: "/dashboard/contatos", op: "Op3", icon: Contact },
+        { name: "Colaboradores", href: "/dashboard/usuarios?view=colaboradores", op: "Op8", icon: Users },
       ],
     },
     {
       name: "Módulo Financeiro",
       items: [
-        { name: "Tabela", href: "/dashboard/produtos", op: "Op5" },
-        { name: "Forma de Pagamento", href: "/dashboard/cadastros?model=Forma", op: "Op19" },
-        { name: "Tipo Contábil", href: "/dashboard/cadastros?model=Tipo", op: "Op20" },
-        { name: "Conta Bancária", href: "/dashboard/cadastros?model=Banco", op: "Op15" },
-        { name: "Referências", href: "/dashboard/cadastros?model=Ref_Ban", op: "Op15" },
+        { name: "Tabela", href: "/dashboard/produtos", op: "Op5", icon: Package },
+        { name: "Forma de Pagamento", href: "/dashboard/cadastros?model=Forma", op: "Op19", icon: CreditCard },
+        { name: "Tipo Contábil", href: "/dashboard/cadastros?model=Tipo", op: "Op20", icon: Calculator },
+        { name: "Conta Bancária", href: "/dashboard/cadastros?model=Banco", op: "Op15", icon: Landmark },
+        { name: "Referências", href: "/dashboard/cadastros?model=Ref_Ban", op: "Op15", icon: BookMarked },
       ],
     },
     {
       name: "Configurações",
       items: [
-        { name: "Usuários", href: "/dashboard/usuarios", op: "Op8" },
-        { name: "Permissões", href: "/dashboard/permissoes", op: "Op91" },
-        { name: "Empresa", href: "/dashboard/configuracoes", op: "Op28" },
-        { name: "Integrações", href: "/dashboard/integracoes", op: "Op70" },
+        { name: "Usuários", href: "/dashboard/usuarios?view=usuarios", op: "Op8", icon: Users },
+        { name: "Permissões", href: "/dashboard/permissoes", op: "Op91", icon: ShieldAlert },
+        { name: "Empresa", href: "/dashboard/configuracoes", op: "Op28", icon: Building2 },
+        { name: "Integrações", href: "/dashboard/integracoes", op: "Op70", icon: Network },
       ],
     },
   ];
@@ -308,7 +314,7 @@ export default function Sidebar({ session }: SidebarProps) {
     },
   ];
 
-  const menuModules = cadastroGroups.flatMap(group => group.items.map(item => ({ ...item, section: group.name, icon: Database })));
+  const menuModules = cadastroGroups.flatMap(group => group.items.map(item => ({ ...item, section: group.name })));
   void hiddenMenuModules;
 
   const hiddenMenuConfig = [
@@ -483,8 +489,8 @@ export default function Sidebar({ session }: SidebarProps) {
 
       {/* Navigation Body */}
       <div className="flex-1 px-3 py-4 space-y-6">
-        {/* Dashboard and favorites are outside the requested registration navigation. */}
-        <div className="hidden space-y-1">
+        {/* Core navigation */}
+        <div className="space-y-1">
           <div className="relative group">
             <Link
               href="/dashboard"
@@ -509,7 +515,7 @@ export default function Sidebar({ session }: SidebarProps) {
             )}
           </div>
           
-          <div className="relative group">
+          <div className="relative group hidden">
             <Link
               href="/dashboard/favoritos"
               className={cn(
@@ -552,11 +558,11 @@ export default function Sidebar({ session }: SidebarProps) {
               if (!visible) return null;
 
               const [itemPath, itemSearch] = item.href.split("?");
-              const active = pathname === itemPath && (!itemSearch || new URLSearchParams(itemSearch).get("model") === new URLSearchParams(window.location.search).get("model"));
+              const active = pathname === itemPath && searchParams.toString() === (itemSearch ?? "");
 
               return (
                 <div key={item.name} className="relative group">
-                  {(index === 0 || menuModules[index - 1].section !== item.section) && !isCollapsed && (
+                  {item.section && (index === 0 || menuModules[index - 1].section !== item.section) && !isCollapsed && (
                     <h2 className="px-3 pb-1 pt-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground first:pt-0">{item.section}</h2>
                   )}
                   <Link
