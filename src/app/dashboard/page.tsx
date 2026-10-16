@@ -365,12 +365,12 @@ export default async function DashboardPage() {
             <h3 className="text-base font-bold text-slate-100 tracking-wide pl-1 select-none">
               Acesso Rápido
             </h3>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
               {quickAccess.map((item, i) => (
                 <Link
                   key={i}
                   href={item.href}
-                  className="flex flex-col items-center justify-center p-6 rounded-2xl border border-slate-800/80 bg-[#131825]/45 hover:bg-[#161d2d]/60 hover:border-emerald-500/35 hover:shadow-[0_0_15px_rgba(16,185,129,0.05)] transition-all duration-300 group cursor-pointer text-center relative overflow-hidden min-h-[140px] shadow-lg"
+                  className="flex flex-col items-center justify-center p-4 rounded-2xl border border-slate-800/80 bg-[#131825]/45 hover:bg-[#161d2d]/60 hover:border-emerald-500/35 hover:shadow-[0_0_15px_rgba(16,185,129,0.05)] transition-all duration-300 group cursor-pointer text-center relative overflow-hidden min-h-[130px] shadow-lg"
                 >
                   {/* Subtle hover overlay */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/3 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

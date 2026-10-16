@@ -62,6 +62,7 @@ export default function Sidebar({ session }: SidebarProps) {
 
   const [companies, setCompanies] = useState<Company[]>([]);
   const [activeCompany, setActiveCompany] = useState<Company | null>(null);
+  const [activeCompanyLogo, setActiveCompanyLogo] = useState<string | null>(null);
   const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState(false);
   const [companySearch, setCompanySearch] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -106,6 +107,41 @@ export default function Sidebar({ session }: SidebarProps) {
 
     fetchCompanies();
   }, []);
+
+  // The selected company owns the brand shown in the navigation. The existing
+  // SoftLine mark remains visible while no logo has been registered.
+  useEffect(() => {
+    if (!activeCompany?.id) {
+      setActiveCompanyLogo(null);
+      return;
+    }
+
+    setActiveCompanyLogo(null);
+    let cancelled = false;
+    const loadCompanyLogo = async () => {
+      try {
+        const res = await fetch(`/api/empresas/${activeCompany.id}`);
+        if (!res.ok || cancelled) return;
+
+        const company = await res.json();
+        if (!cancelled) setActiveCompanyLogo(company.Logo || null);
+      } catch (err) {
+        if (!cancelled) {
+          setActiveCompanyLogo(null);
+          console.error("Failed to load active company logo:", err);
+        }
+      }
+    };
+
+    loadCompanyLogo();
+
+    const handleBrandChange = () => loadCompanyLogo();
+    window.addEventListener("companyBrandChanged", handleBrandChange);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("companyBrandChanged", handleBrandChange);
+    };
+  }, [activeCompany?.id]);
 
   // Click outside listener for company dropdown
   useEffect(() => {
@@ -160,7 +196,38 @@ export default function Sidebar({ session }: SidebarProps) {
     }
   };
 
-  const menuModules = [
+  const cadastroGroups = [
+    {
+      name: "Cadastro",
+      items: [
+        { name: "Clientes", href: "/dashboard/clientes", op: "Op3" },
+        { name: "Fornecedores", href: "/dashboard/fornecedores", op: "Op4" },
+        { name: "Contatos", href: "/dashboard/contatos", op: "Op3" },
+        { name: "Colaboradores", href: "/dashboard/usuarios", op: "Op8" },
+      ],
+    },
+    {
+      name: "Módulo Financeiro",
+      items: [
+        { name: "Tabela", href: "/dashboard/produtos", op: "Op5" },
+        { name: "Forma de Pagamento", href: "/dashboard/cadastros?model=Forma", op: "Op19" },
+        { name: "Tipo Contábil", href: "/dashboard/cadastros?model=Tipo", op: "Op20" },
+        { name: "Conta Bancária", href: "/dashboard/cadastros?model=Banco", op: "Op15" },
+        { name: "Referências", href: "/dashboard/cadastros?model=Ref_Ban", op: "Op15" },
+      ],
+    },
+    {
+      name: "Configurações",
+      items: [
+        { name: "Usuários", href: "/dashboard/usuarios", op: "Op8" },
+        { name: "Permissões", href: "/dashboard/permissoes", op: "Op91" },
+        { name: "Empresa", href: "/dashboard/configuracoes", op: "Op28" },
+        { name: "Integrações", href: "/dashboard/integracoes", op: "Op70" },
+      ],
+    },
+  ];
+
+  const hiddenMenuModules = [
     {
       name: "Clientes",
       icon: Users,
@@ -241,7 +308,10 @@ export default function Sidebar({ session }: SidebarProps) {
     },
   ];
 
-  const menuConfig = [
+  const menuModules = cadastroGroups.flatMap(group => group.items.map(item => ({ ...item, section: group.name, icon: Database })));
+  void hiddenMenuModules;
+
+  const hiddenMenuConfig = [
     {
       name: "Configurações",
       icon: Settings,
@@ -288,7 +358,13 @@ export default function Sidebar({ session }: SidebarProps) {
       <div className="p-4 flex flex-col gap-4 border-b border-border/40 shrink-0">
         <div className="flex items-center justify-between gap-1">
           <Link href="/dashboard" className="hover:opacity-90 transition-opacity">
-            <Logo width={38} height={38} showText={!isCollapsed} />
+            <Logo
+              width={38}
+              height={38}
+              showText={!isCollapsed}
+              logoSrc={activeCompanyLogo}
+              companyName={activeCompany?.nome}
+            />
           </Link>
           
           <button
@@ -407,8 +483,8 @@ export default function Sidebar({ session }: SidebarProps) {
 
       {/* Navigation Body */}
       <div className="flex-1 px-3 py-4 space-y-6">
-        {/* Core Nav */}
-        <div className="space-y-1">
+        {/* Dashboard and favorites are outside the requested registration navigation. */}
+        <div className="hidden space-y-1">
           <div className="relative group">
             <Link
               href="/dashboard"
@@ -461,24 +537,28 @@ export default function Sidebar({ session }: SidebarProps) {
           </div>
         </div>
 
-        {/* Modules section */}
+        {/* Cadastros section */}
         <div className="space-y-1.5">
           {!isCollapsed ? (
             <h2 className="px-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-left">
-              Módulos
+              Cadastros
             </h2>
           ) : (
             <div className="border-t border-border/40 my-2 mx-1" />
           )}
           <div className="space-y-0.5">
-            {menuModules.map((item) => {
+            {menuModules.map((item, index) => {
               const visible = hasPermission(item.op);
               if (!visible) return null;
 
-              const active = pathname === item.href;
+              const [itemPath, itemSearch] = item.href.split("?");
+              const active = pathname === itemPath && (!itemSearch || new URLSearchParams(itemSearch).get("model") === new URLSearchParams(window.location.search).get("model"));
 
               return (
                 <div key={item.name} className="relative group">
+                  {(index === 0 || menuModules[index - 1].section !== item.section) && !isCollapsed && (
+                    <h2 className="px-3 pb-1 pt-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground first:pt-0">{item.section}</h2>
+                  )}
                   <Link
                     href={item.href}
                     className={cn(
@@ -506,8 +586,8 @@ export default function Sidebar({ session }: SidebarProps) {
           </div>
         </div>
 
-        {/* Configurations Section */}
-        <div className="space-y-1.5">
+        {/* Legacy configuration links are intentionally hidden. */}
+        <div className="hidden space-y-1.5">
           {!isCollapsed ? (
             <h2 className="px-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-left">
               Configurações
@@ -516,7 +596,7 @@ export default function Sidebar({ session }: SidebarProps) {
             <div className="border-t border-border/40 my-2 mx-1" />
           )}
           <div className="space-y-0.5">
-            {menuConfig.map((item) => {
+            {hiddenMenuConfig.map((item) => {
               const visible = hasPermission(item.op);
               if (!visible) return null;
 

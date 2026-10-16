@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
       usuario: user.usuario,
       role: user.role,
       permissions: user.permissions,
+      foto: user.foto,
     });
 
     console.log(`[SoftLine API] Session created for '${user.usuario}' (${user.nome})`);

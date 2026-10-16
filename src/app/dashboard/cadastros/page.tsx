@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { ChevronLeft, ChevronRight, Database, Loader2, Plus, RefreshCw, Save, Search } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { ChevronLeft, ChevronRight, Loader2, Plus, RefreshCw, Save, Search } from "lucide-react";
 import { cadastrosConfig } from "@/lib/cadastros-config";
 
 type RecordData = Record<string, unknown>;
 type FormData = Record<string, string>;
-const names = Object.keys(cadastrosConfig).sort((a, b) => cadastrosConfig[a].label.localeCompare(cadastrosConfig[b].label, "pt-BR"));
 const inputStyle = "w-full rounded-lg border border-slate-700 bg-slate-950/50 px-3 py-2 text-sm outline-none focus:border-emerald-500 disabled:opacity-70";
 
 function imageSource(value: unknown): string {
@@ -15,6 +15,10 @@ function imageSource(value: unknown): string {
   const object = value as Record<string, unknown>;
   const bytes = Array.isArray(object.data) ? object.data : Object.values(object);
   return `data:image/*;base64,${btoa(bytes.map(byte => String.fromCharCode(Number(byte))).join(""))}`;
+}
+
+function isCheckedCheckbox(value: string | undefined): boolean {
+  return ["S", "X", "1", "TRUE"].includes(value?.trim().toUpperCase() ?? "N");
 }
 
 function CadastroEditor({ model }: { model: string }) {
@@ -173,7 +177,7 @@ function CadastroEditor({ model }: { model: string }) {
               <input disabled value={String(selected?.[config.id] ?? "")} placeholder={editing ? "Gerado ao gravar" : ""} className={`${inputStyle} mt-1`} />
             </label>
             {config.fields.map(field => field.kind === "checkbox" ? (
-              <label key={field.name} className="flex items-center gap-2 text-sm"><input type="checkbox" className={`h-4 w-4 ${deleteOnSave ? "accent-red-500" : "accent-emerald-500"}`} checked={["S", "1", "true"].includes(form[field.name] ?? "N")} onChange={event => changeField(field.name, event.target.checked ? "S" : "N")} />{field.label}</label>
+              <label key={field.name} className="flex items-center gap-2 text-sm"><input type="checkbox" className={`h-4 w-4 ${deleteOnSave ? "accent-red-500" : "accent-emerald-500"}`} checked={isCheckedCheckbox(form[field.name])} onChange={event => changeField(field.name, event.target.checked ? "S" : "N")} />{field.label}</label>
             ) : field.kind === "image" ? (
               <div key={field.name} className="space-y-2">
                 <label htmlFor="bank-logo" className="block text-xs font-semibold">{field.label}</label>
@@ -206,15 +210,16 @@ function CadastroEditor({ model }: { model: string }) {
 }
 
 export default function CadastrosCRUDPage() {
+  const searchParams = useSearchParams();
   const [model, setModel] = useState("Forma");
+
+  useEffect(() => {
+    const requestedModel = searchParams.get("model");
+    if (requestedModel && cadastrosConfig[requestedModel]) setModel(requestedModel);
+  }, [searchParams]);
+
   return (
-    <div className="flex flex-col gap-6 text-slate-100 lg:flex-row">
-      <aside className="shrink-0 overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 lg:w-52">
-        <h2 className="flex items-center gap-2 border-b border-slate-800 p-4 text-sm font-bold"><Database size={17} className="text-emerald-400" /> Cadastros ({names.length})</h2>
-        <nav aria-label="Cadastros" className="flex flex-wrap lg:flex-col">
-          {names.map(name => <button key={name} type="button" aria-current={model === name ? "page" : undefined} onClick={() => setModel(name)} className={`px-4 py-3 text-left text-sm ${model === name ? "bg-emerald-500/10 font-semibold text-emerald-400" : "text-slate-300 hover:bg-slate-800/50"}`}>{cadastrosConfig[name].label}</button>)}
-        </nav>
-      </aside>
+    <div className="flex flex-col gap-6 text-slate-100">
       <CadastroEditor key={model} model={model} />
     </div>
   );

@@ -131,6 +131,7 @@ export default function ConfiguracoesPage() {
 
       if (res.ok) {
         setSaveStatus({ success: true, message: "Cadastro da empresa atualizado com sucesso no banco!" });
+        window.dispatchEvent(new CustomEvent("companyBrandChanged", { detail: { id: selectedCompanyId } }));
         // Refresh company list
         fetchCompanies();
       } else {

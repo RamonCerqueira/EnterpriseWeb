@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { dbService } from "@/lib/db-service";
 import { getSession } from "@/lib/auth";
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session) {
@@ -18,7 +18,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       );
     }
 
-    const codCli = parseInt(params.id);
+    const codCli = parseInt((await params).id);
     if (isNaN(codCli)) {
       return NextResponse.json({ error: "ID inválido." }, { status: 400 });
     }
@@ -32,7 +32,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session) {
@@ -48,7 +48,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       );
     }
 
-    const codCli = parseInt(params.id);
+    const codCli = parseInt((await params).id);
     if (isNaN(codCli)) {
       return NextResponse.json({ error: "ID inválido." }, { status: 400 });
     }

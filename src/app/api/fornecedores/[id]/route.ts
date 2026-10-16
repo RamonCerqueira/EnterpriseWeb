@@ -3,9 +3,9 @@ import { dbService } from "@/lib/db-service";
 import { getSession } from "@/lib/auth";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function PUT(req: NextRequest, { params }: RouteParams) {
@@ -15,7 +15,7 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const id = parseInt(params.id);
+    const id = parseInt((await params).id);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Código do fornecedor inválido." }, { status: 400 });
     }
@@ -36,7 +36,7 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
     }
 
-    const id = parseInt(params.id);
+    const id = parseInt((await params).id);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Código do fornecedor inválido." }, { status: 400 });
     }

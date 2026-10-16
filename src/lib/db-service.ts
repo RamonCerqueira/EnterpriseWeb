@@ -97,6 +97,7 @@ export const dbService = {
         usuario: user.Usuario || "",
         role: calculatedRole,
         permissions,
+        foto: user.Caminho || null,
       };
     } catch (err) {
       console.error("[SoftLine DB] Live authenticateUser SQL error:", err);

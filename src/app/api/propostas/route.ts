@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const data = {
       ...body,
-      usuario: session.username || "softline",
-      codUsu: session.userId || 999,
+      usuario: session.usuario || "softline",
+      codUsu: session.id || 999,
     };
 
     const res = await dbService.createProposta(data);

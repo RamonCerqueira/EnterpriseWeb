@@ -6,6 +6,7 @@ export interface SessionData {
   usuario: string;
   role: string;
   permissions: Record<string, boolean>;
+  foto?: string | null;
 }
 
 const SESSION_COOKIE_NAME = "softline_session";

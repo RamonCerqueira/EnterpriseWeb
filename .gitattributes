@@ -1,0 +1,2 @@
+# Keep repository source files on LF across operating systems.
+* text=auto eol=lf

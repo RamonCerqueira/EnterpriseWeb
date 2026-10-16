@@ -8,18 +8,40 @@ interface LogoProps extends React.SVGProps<SVGSVGElement> {
   height?: number;
   className?: string;
   showText?: boolean;
+  logoSrc?: string | null;
+  companyName?: string | null;
 }
 
-export function Logo({ width = 58, height = 58, className = "", showText = false, ...props }: LogoProps) {
+export function Logo({
+  width = 58,
+  height = 58,
+  className = "",
+  showText = false,
+  logoSrc,
+  companyName,
+  ...props
+}: LogoProps) {
   return (
     <div className={cn("flex items-center gap-3.5 select-none", className)}>
+      {logoSrc && (
+        <img
+          src={logoSrc}
+          alt={`Logotipo de ${companyName || "sua empresa"}`}
+          width={width}
+          height={height}
+          className="shrink-0 rounded-md object-contain transition-all duration-300 hover:scale-105 active:scale-95"
+        />
+      )}
       <svg
         width={width}
         height={height}
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="shrink-0 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+        className={cn(
+          "shrink-0 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer",
+          logoSrc && "hidden"
+        )}
         {...props}
       >
         <style>{`
@@ -135,16 +157,24 @@ export function Logo({ width = 58, height = 58, className = "", showText = false
             "font-extrabold tracking-tight flex items-center font-sans",
             width > 45 ? "text-[28px]" : "text-[19px]"
           )}>
-            <span className="text-slate-100">Soft</span>
-            <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent font-black ml-0.5">
-              Line
-            </span>
+            {logoSrc ? (
+              <span className="max-w-[155px] truncate bg-gradient-to-r from-cyan-300 to-emerald-400 bg-clip-text text-transparent font-black">
+                {companyName || "Sua empresa"}
+              </span>
+            ) : (
+              <>
+                <span className="text-slate-100">Soft</span>
+                <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent font-black ml-0.5">
+                  Line
+                </span>
+              </>
+            )}
           </div>
           <div className={cn(
             "font-black text-slate-400 uppercase",
             width > 45 ? "text-[12px] tracking-[0.35em]" : "text-[9px] tracking-[0.32em]"
           )}>
-            Sistemas
+            {logoSrc ? "Empresa" : "Sistemas"}
           </div>
         </div>
       )}
