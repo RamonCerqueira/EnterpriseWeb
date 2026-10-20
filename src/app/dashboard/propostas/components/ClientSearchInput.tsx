@@ -21,7 +21,7 @@ export default function ClientSearchInput({
   const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  
+
   const [selectedClient, setSelectedClient] = useState<any | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editForm, setEditForm] = useState<any>({});
@@ -110,12 +110,12 @@ export default function ClientSearchInput({
       }
 
       const { cliente } = await res.json();
-      
+
       // Atualiza o cliente selecionado local
       setSelectedClient(cliente);
       setSearch(cliente.Cliente || cliente.Razao);
       onSelectClient(cliente);
-      
+
       setIsEditModalOpen(false);
     } catch (err) {
       console.error(err);
@@ -129,9 +129,9 @@ export default function ClientSearchInput({
     <div className="relative flex flex-col gap-3 w-full">
       <div className="flex flex-col gap-1.5">
         <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
-          <User className="h-3 w-3 text-emerald-400" /> Cliente / Comprador
+          <User className="h-3 w-3 text-emerald-700" /> Cliente / Comprador
         </label>
-        
+
         <div className="relative">
           <Input
             type="text"
@@ -145,7 +145,7 @@ export default function ClientSearchInput({
               }
             }}
             onFocus={() => setShowDropdown(true)}
-            className="w-full h-9 pl-3 pr-9 text-xs font-semibold bg-[#0F1420] border-border/80 focus-visible:ring-emerald-500/25"
+            className="w-full h-9 pl-3 pr-9 text-xs font-semibold bg-[#FFFFFF] border-border/80 focus-visible:ring-emerald-500/25"
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
             {loading ? (
@@ -157,17 +157,17 @@ export default function ClientSearchInput({
         </div>
 
         {showDropdown && clients.length > 0 && (
-          <div className="absolute top-[60px] left-0 right-0 z-50 max-h-56 overflow-y-auto bg-slate-950 border border-border/60 rounded-xl shadow-2xl divide-y divide-border/20">
+          <div className="absolute top-[60px] left-0 right-0 z-50 max-h-56 overflow-y-auto bg-white border border-border/60 rounded-xl shadow-2xl divide-y divide-border/20">
             {clients.map((cli) => (
               <button
                 key={cli.CodCli}
                 type="button"
                 onClick={() => handleSelect(cli)}
-                className="w-full p-3 text-xs hover:bg-[#064e3b]/15 cursor-pointer text-left flex flex-col gap-1 transition-colors text-slate-200"
+                className="w-full p-3 text-xs hover:bg-[#D1FAE5]/15 cursor-pointer text-left flex flex-col gap-1 transition-colors text-slate-800"
               >
                 <div className="flex justify-between items-center gap-2">
-                  <span className="font-bold text-slate-100">{cli.Cliente || cli.Razao}</span>
-                  <Badge className="bg-emerald-950/40 text-emerald-400 border border-emerald-500/10 font-bold">ID #{cli.CodCli}</Badge>
+                  <span className="font-bold text-slate-800">{cli.Cliente || cli.Razao}</span>
+                  <Badge className="bg-emerald-50 text-emerald-700 border border-emerald-500/10 font-bold">ID #{cli.CodCli}</Badge>
                 </div>
                 <span className="text-[9px] text-muted-foreground font-mono">CNPJ/CPF: {cli.CGC || cli.CPF || "Não Informado"}</span>
               </button>
@@ -178,10 +178,10 @@ export default function ClientSearchInput({
 
       {/* Detalhes do Cliente Selecionado */}
       {selectedClient && (
-        <div className="bg-[#0A0D18]/60 border border-emerald-500/20 p-3 rounded-lg flex flex-col gap-2 relative">
+        <div className="bg-[#F8FAFC]/60 border border-emerald-500/20 p-3 rounded-lg flex flex-col gap-2 relative">
           <div className="flex items-start justify-between">
             <div className="flex flex-col">
-              <span className="text-xs font-bold text-emerald-400">{selectedClient.Cliente || selectedClient.Razao}</span>
+              <span className="text-xs font-bold text-emerald-700">{selectedClient.Cliente || selectedClient.Razao}</span>
               <span className="text-[10px] text-muted-foreground">{selectedClient.Razao || selectedClient.Cliente}</span>
             </div>
             <Button
@@ -189,13 +189,13 @@ export default function ClientSearchInput({
               onClick={openEditModal}
               variant="ghost"
               size="sm"
-              className="h-6 text-[10px] bg-secondary/30 hover:bg-secondary/60 text-slate-300 gap-1 px-2 border-none"
+              className="h-6 text-[10px] bg-secondary/30 hover:bg-secondary/60 text-slate-600 gap-1 px-2 border-none"
             >
               <Edit className="h-3 w-3" /> Corrigir Cadastro
             </Button>
           </div>
-          
-          <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-300 mt-1">
+
+          <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-600 mt-1">
             <div className="flex items-center gap-1.5">
               <FileText className="h-3 w-3 text-muted-foreground" />
               <span className="font-mono">{selectedClient.CGC || selectedClient.CPF || "Documento não informado"}</span>
@@ -225,11 +225,11 @@ export default function ClientSearchInput({
       {/* Modal de Edição de Cliente */}
       {isEditModalOpen && (
         <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-2xl bg-slate-900 border border-border shadow-2xl rounded-xl overflow-hidden flex flex-col">
-            <div className="p-4 border-b border-border/40 bg-slate-950 flex items-center justify-between">
+          <div className="w-full max-w-2xl bg-slate-50 border border-border shadow-2xl rounded-xl overflow-hidden flex flex-col">
+            <div className="p-4 border-b border-border/40 bg-white flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                  <Edit className="h-4 w-4 text-emerald-400" /> Correção de Cadastro
+                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                  <Edit className="h-4 w-4 text-emerald-700" /> Correção de Cadastro
                 </h3>
                 <p className="text-[10px] text-muted-foreground">Altere os dados fiscais e de contato do cliente selecionado.</p>
               </div>
@@ -238,112 +238,112 @@ export default function ClientSearchInput({
                 onClick={() => setIsEditModalOpen(false)}
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 text-slate-400 hover:text-slate-200 border-none rounded-full"
+                className="h-8 w-8 p-0 text-slate-600 hover:text-slate-800 border-none rounded-full"
               >
                 <X className="h-4 w-4" />
               </Button>
             </div>
-            
-            <div className="p-5 overflow-y-auto max-h-[70vh] space-y-4 text-slate-200">
+
+            <div className="p-5 overflow-y-auto max-h-[70vh] space-y-4 text-slate-800">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5 col-span-2 sm:col-span-1">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">Nome Fantasia / Cliente</label>
-                  <Input 
-                    value={editForm.cliente} 
+                  <Input
+                    value={editForm.cliente}
                     onChange={e => setEditForm({...editForm, cliente: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5 col-span-2 sm:col-span-1">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">Razão Social</label>
-                  <Input 
-                    value={editForm.razao} 
+                  <Input
+                    value={editForm.razao}
                     onChange={e => setEditForm({...editForm, razao: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">CNPJ</label>
-                  <Input 
-                    value={editForm.cnpj} 
+                  <Input
+                    value={editForm.cnpj}
                     onChange={e => setEditForm({...editForm, cnpj: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs font-mono" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs font-mono"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">CPF</label>
-                  <Input 
-                    value={editForm.cpf} 
+                  <Input
+                    value={editForm.cpf}
                     onChange={e => setEditForm({...editForm, cpf: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs font-mono" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs font-mono"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">Telefone</label>
-                  <Input 
-                    value={editForm.tel} 
+                  <Input
+                    value={editForm.tel}
                     onChange={e => setEditForm({...editForm, tel: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">E-mail</label>
-                  <Input 
-                    value={editForm.email} 
+                  <Input
+                    value={editForm.email}
                     onChange={e => setEditForm({...editForm, email: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5 col-span-2">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">Endereço (Rua, Número)</label>
-                  <Input 
-                    value={editForm.endereco} 
+                  <Input
+                    value={editForm.endereco}
                     onChange={e => setEditForm({...editForm, endereco: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">Bairro</label>
-                  <Input 
-                    value={editForm.bairro} 
+                  <Input
+                    value={editForm.bairro}
                     onChange={e => setEditForm({...editForm, bairro: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">Cidade</label>
-                  <Input 
-                    value={editForm.cidade} 
+                  <Input
+                    value={editForm.cidade}
                     onChange={e => setEditForm({...editForm, cidade: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">Estado (UF)</label>
-                  <Input 
-                    value={editForm.estado} 
+                  <Input
+                    value={editForm.estado}
                     maxLength={2}
                     onChange={e => setEditForm({...editForm, estado: e.target.value.toUpperCase()})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs uppercase" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs uppercase"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase">CEP</label>
-                  <Input 
-                    value={editForm.cep} 
+                  <Input
+                    value={editForm.cep}
                     onChange={e => setEditForm({...editForm, cep: e.target.value})}
-                    className="h-9 bg-[#0F1420] border-border/80 text-xs font-mono" 
+                    className="h-9 bg-[#FFFFFF] border-border/80 text-xs font-mono"
                   />
                 </div>
               </div>
             </div>
-            
-            <div className="p-4 border-t border-border/40 bg-slate-950 flex items-center justify-end gap-3">
+
+            <div className="p-4 border-t border-border/40 bg-white flex items-center justify-end gap-3">
               <Button
                 type="button"
                 onClick={() => setIsEditModalOpen(false)}
                 variant="outline"
-                className="text-xs h-8 border-border hover:bg-secondary/40 text-slate-300"
+                className="text-xs h-8 border-border hover:bg-secondary/40 text-slate-600"
               >
                 Cancelar
               </Button>

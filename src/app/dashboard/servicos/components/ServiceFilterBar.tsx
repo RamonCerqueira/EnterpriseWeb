@@ -29,9 +29,9 @@ export function ServiceFilterBar({
   categoriesList,
 }: ServiceFilterBarProps) {
   return (
-    <div className="p-5 border-b border-border/40 flex flex-col xl:flex-row items-center justify-between gap-4 bg-[#0E131F]/30">
+    <div className="p-5 border-b border-border/40 flex flex-col xl:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/30">
       <div>
-        <CardTitle className="text-sm font-bold text-slate-200">Serviços Contratuais & Avulsos</CardTitle>
+        <CardTitle className="text-sm font-bold text-slate-800">Serviços Contratuais & Avulsos</CardTitle>
         <p className="text-[10px] text-muted-foreground">Listagem e filtros do catálogo de serviços técnicos e consultorias.</p>
       </div>
 
@@ -46,7 +46,7 @@ export function ServiceFilterBar({
             placeholder="Nome, código SKU..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+            className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
           />
         </div>
 
@@ -54,7 +54,7 @@ export function ServiceFilterBar({
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-          className="h-8.5 px-3 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer w-full sm:w-auto"
+          className="h-8.5 px-3 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-600 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer w-full sm:w-auto"
         >
           <option value="TODAS">Categorias: Todas</option>
           {categoriesList.map((cat, i) => (
@@ -66,7 +66,7 @@ export function ServiceFilterBar({
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="h-8.5 px-3 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer w-full sm:w-auto"
+          className="h-8.5 px-3 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-600 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer w-full sm:w-auto"
         >
           <option value="TODOS">Status: Todos</option>
           <option value="ATIVOS">Apenas Ativos</option>
@@ -74,12 +74,12 @@ export function ServiceFilterBar({
         </select>
 
         {/* View mode buttons */}
-        <div className="flex items-center gap-1.5 bg-[#0F1420] p-1 rounded-lg border border-border/60">
+        <div className="flex items-center gap-1.5 bg-[#FFFFFF] p-1 rounded-lg border border-border/60">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setViewMode("list")}
-            className={`h-6.5 w-7.5 p-0 hover:bg-[#1C2436] ${viewMode === "list" ? "bg-[#1F293D] text-emerald-400" : "text-muted-foreground"}`}
+            className={`h-6.5 w-7.5 p-0 hover:bg-[#F1F5F9] ${viewMode === "list" ? "bg-[#E2E8F0] text-emerald-700" : "text-muted-foreground"}`}
           >
             <List className="h-3.5 w-3.5" />
           </Button>
@@ -87,7 +87,7 @@ export function ServiceFilterBar({
             variant="ghost"
             size="sm"
             onClick={() => setViewMode("grid")}
-            className={`h-6.5 w-7.5 p-0 hover:bg-[#1C2436] ${viewMode === "grid" ? "bg-[#1F293D] text-emerald-400" : "text-muted-foreground"}`}
+            className={`h-6.5 w-7.5 p-0 hover:bg-[#F1F5F9] ${viewMode === "grid" ? "bg-[#E2E8F0] text-emerald-700" : "text-muted-foreground"}`}
           >
             <Grid className="h-3.5 w-3.5" />
           </Button>

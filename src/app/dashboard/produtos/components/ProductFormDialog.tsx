@@ -239,8 +239,8 @@ export function ProductFormDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="border-b border-border/40 pb-4 text-left">
-          <DialogTitle className="text-base font-extrabold text-slate-100 flex items-center gap-2">
-            <Package className="h-5 w-5 text-emerald-400" />
+          <DialogTitle className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+            <Package className="h-5 w-5 text-emerald-700" />
             {isEditing ? "Modificar Cadastro de Produto" : "Novo Cadastro de Produto"}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
@@ -250,14 +250,14 @@ export function ProductFormDialog({
 
         {/* Warning Error block */}
         {formError && (
-          <div className="bg-rose-950/45 border border-rose-500/35 text-rose-400 p-3 rounded-lg text-xs font-semibold flex items-center gap-2">
+          <div className="bg-rose-50 border border-rose-500/35 text-rose-700 p-3 rounded-lg text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="h-4.5 w-4.5 shrink-0" />
             <span>{formError}</span>
           </div>
         )}
 
         {/* Tab Header Selectors */}
-        <div className="flex border-b border-slate-800/80 gap-1 mt-2">
+        <div className="flex border-b border-slate-200/80 gap-1 mt-2">
           {[
             { id: "gerais", label: "Dados Gerais", icon: Tag },
             { id: "comercial", label: "Preços & Custos", icon: DollarSign },
@@ -271,8 +271,8 @@ export function ProductFormDialog({
               onClick={() => setActiveTab(tab.id as ActiveTab)}
               className={`flex items-center gap-1.5 px-3 py-2 border-b-2 text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? "border-emerald-500 text-emerald-400 bg-emerald-500/5"
-                  : "border-transparent text-muted-foreground hover:text-slate-200"
+                  ? "border-emerald-500 text-emerald-700 bg-emerald-500/5"
+                  : "border-transparent text-muted-foreground hover:text-slate-800"
               }`}
             >
               <tab.icon className="h-3.5 w-3.5" />
@@ -288,83 +288,83 @@ export function ProductFormDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Código Comercial (SKU/Ref)*</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Código Comercial (SKU/Ref)*</label>
                   <Input
                     placeholder="Ex: PROD-1020"
                     value={formData.codigo}
                     onChange={(e) => setFormData({ ...formData, codigo: e.target.value.toUpperCase() })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     required
                   />
                 </div>
 
                 <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Nome do Produto (Produto)*</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Nome do Produto (Produto)*</label>
                   <Input
                     placeholder="Ex: Cabo HDMI Blindado 3m"
                     value={formData.nome}
                     onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-bold text-slate-200"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-bold text-slate-800"
                     required
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Descrição Abreviada</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Descrição Abreviada</label>
                   <Input
                     placeholder="Ex: CABO HDMI 3M"
                     value={formData.abreviado}
                     onChange={(e) => setFormData({ ...formData, abreviado: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-medium"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Código de Barras (GTIN/EAN)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Código de Barras (GTIN/EAN)</label>
                   <Input
                     placeholder="7890000000000"
                     value={formData.codigoBarras}
                     onChange={(e) => setFormData({ ...formData, codigoBarras: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-medium"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Unidade de Medida</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Unidade de Medida</label>
                   <Input
                     placeholder="UN, PC, KG, M"
                     value={formData.unidade}
                     onChange={(e) => setFormData({ ...formData, unidade: e.target.value.toUpperCase() })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Marca</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Marca</label>
                   <Input
                     placeholder="Ex: Sony, Intel..."
                     value={formData.marca}
                     onChange={(e) => setFormData({ ...formData, marca: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-medium"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Fabricante</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Fabricante</label>
                   <Input
                     placeholder="Ex: Foxconn, Samsung..."
                     value={formData.fabricante}
                     onChange={(e) => setFormData({ ...formData, fabricante: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-medium"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Categoria do ERP</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Categoria do ERP</label>
                   <select
                     value={formData.categoria}
                     onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
-                    className="w-full h-9.5 rounded-md border border-input bg-[#0F1420] text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer font-semibold px-3"
+                    className="w-full h-9.5 rounded-md border border-input bg-[#FFFFFF] text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer font-semibold px-3"
                   >
                     <option value="Acessórios">Acessórios</option>
                     <option value="Equipamentos">Equipamentos</option>
@@ -375,15 +375,15 @@ export function ProductFormDialog({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 bg-[#0F1420] p-3 rounded-lg border border-slate-800">
+              <div className="flex items-center gap-2 bg-[#FFFFFF] p-3 rounded-lg border border-slate-200">
                 <input
                   type="checkbox"
                   id="chk-inativo"
                   checked={formData.inativo}
                   onChange={(e) => setFormData({ ...formData, inativo: e.target.checked })}
-                  className="h-4 w-4 text-emerald-500 focus:ring-0 focus:ring-offset-0 rounded bg-slate-900 border-slate-800 cursor-pointer"
+                  className="h-4 w-4 text-emerald-700 focus:ring-0 focus:ring-offset-0 rounded bg-slate-50 border-slate-200 cursor-pointer"
                 />
-                <label htmlFor="chk-inativo" className="text-xs text-slate-300 font-bold select-none cursor-pointer">
+                <label htmlFor="chk-inativo" className="text-xs text-slate-600 font-bold select-none cursor-pointer">
                   Produto Inativo (Inviabiliza vendas e movimentações no estoque)
                 </label>
               </div>
@@ -395,7 +395,7 @@ export function ProductFormDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Preço de Custo (Custo)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Preço de Custo (Custo)</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -403,13 +403,13 @@ export function ProductFormDialog({
                       step="0.001"
                       value={formData.custo}
                       onChange={(e) => setFormData({ ...formData, custo: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Custo Informado</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Custo Informado</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -417,13 +417,13 @@ export function ProductFormDialog({
                       step="0.001"
                       value={formData.custoInformado}
                       onChange={(e) => setFormData({ ...formData, custoInformado: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Custo Tabela</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Custo Tabela</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -431,13 +431,13 @@ export function ProductFormDialog({
                       step="0.001"
                       value={formData.custoTabela}
                       onChange={(e) => setFormData({ ...formData, custoTabela: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Custo Médio</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Custo Médio</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -445,28 +445,28 @@ export function ProductFormDialog({
                       step="0.001"
                       value={formData.medio}
                       onChange={(e) => setFormData({ ...formData, medio: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">Preço de Venda 1 (Principal)*</label>
+                  <label className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Preço de Venda 1 (Principal)*</label>
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-500/70 text-xs font-bold font-mono">R$</span>
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-700 text-xs font-bold font-mono">R$</span>
                     <Input
                       type="number"
                       step="0.001"
                       value={formData.preco}
                       onChange={(e) => setFormData({ ...formData, preco: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold border-emerald-500/25 focus-visible:ring-emerald-500"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold border-emerald-500/25 focus-visible:ring-emerald-500"
                       required
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Preço de Venda 2 (Atacado)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Preço de Venda 2 (Atacado)</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -474,13 +474,13 @@ export function ProductFormDialog({
                       step="0.001"
                       value={formData.preco2}
                       onChange={(e) => setFormData({ ...formData, preco2: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Preço de Venda 3 (Promo)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Preço de Venda 3 (Promo)</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -488,13 +488,13 @@ export function ProductFormDialog({
                       step="0.001"
                       value={formData.preco3}
                       onChange={(e) => setFormData({ ...formData, preco3: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Preço de Venda 4 (Revenda)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Preço de Venda 4 (Revenda)</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -502,13 +502,13 @@ export function ProductFormDialog({
                       step="0.001"
                       value={formData.preco4}
                       onChange={(e) => setFormData({ ...formData, preco4: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Última Compra (Preço)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Última Compra (Preço)</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -516,42 +516,42 @@ export function ProductFormDialog({
                       step="0.001"
                       value={formData.ultimo}
                       onChange={(e) => setFormData({ ...formData, ultimo: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                       disabled
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Markup de Tabela (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Markup de Tabela (%)</label>
                   <Input
                     type="number"
                     step="0.1"
                     value={formData.markupTabela}
                     onChange={(e) => setFormData({ ...formData, markupTabela: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Desconto Máximo Perm. (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Desconto Máximo Perm. (%)</label>
                   <Input
                     type="number"
                     step="0.1"
                     value={formData.descontoMaximo}
                     onChange={(e) => setFormData({ ...formData, descontoMaximo: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Alíquota de Comissão (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Alíquota de Comissão (%)</label>
                   <Input
                     type="number"
                     step="0.01"
                     value={formData.comissao}
                     onChange={(e) => setFormData({ ...formData, comissao: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
               </div>
@@ -563,123 +563,123 @@ export function ProductFormDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">Estoque Inicial / Atual*</label>
+                  <label className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Estoque Inicial / Atual*</label>
                   <Input
                     type="number"
                     step="0.001"
                     value={formData.estoque}
                     onChange={(e) => setFormData({ ...formData, estoque: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     required
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Estoque Mínimo</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Estoque Mínimo</label>
                   <Input
                     type="number"
                     step="0.001"
                     value={formData.minimo}
                     onChange={(e) => setFormData({ ...formData, minimo: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Estoque Máximo</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Estoque Máximo</label>
                   <Input
                     type="number"
                     step="0.001"
                     value={formData.estoqueMaximo}
                     onChange={(e) => setFormData({ ...formData, estoqueMaximo: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Localização Almoxarifado</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Localização Almoxarifado</label>
                   <Input
                     placeholder="Ex: Corredor A, Prateleira 3"
                     value={formData.localizacao}
                     onChange={(e) => setFormData({ ...formData, localizacao: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Peso Bruto (KG)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Peso Bruto (KG)</label>
                   <Input
                     type="number"
                     step="0.001"
                     value={formData.peso}
                     onChange={(e) => setFormData({ ...formData, peso: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Peso Líquido (KG)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Peso Líquido (KG)</label>
                   <Input
                     type="number"
                     step="0.001"
                     value={formData.pesoLiquido}
                     onChange={(e) => setFormData({ ...formData, pesoLiquido: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Comprimento (cm)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Comprimento (cm)</label>
                   <Input
                     type="number"
                     step="0.1"
                     value={formData.comprimento}
                     onChange={(e) => setFormData({ ...formData, comprimento: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Largura (cm)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Largura (cm)</label>
                   <Input
                     type="number"
                     step="0.1"
                     value={formData.largura}
                     onChange={(e) => setFormData({ ...formData, largura: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Altura (cm)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Altura (cm)</label>
                   <Input
                     type="number"
                     step="0.1"
                     value={formData.altura}
                     onChange={(e) => setFormData({ ...formData, altura: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Área M2</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Área M2</label>
                   <Input
                     type="number"
                     step="0.001"
                     value={formData.area}
                     onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Volume M3</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Volume M3</label>
                   <Input
                     type="number"
                     step="0.000001"
                     value={formData.areaM3}
                     onChange={(e) => setFormData({ ...formData, areaM3: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
               </div>
@@ -691,75 +691,75 @@ export function ProductFormDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">NCM (Classificação Fiscal)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">NCM (Classificação Fiscal)</label>
                   <Input
                     placeholder="Ex: 8544.42.00"
                     value={formData.classificacaoFiscal}
                     onChange={(e) => setFormData({ ...formData, classificacaoFiscal: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">CSOSN / CST ICMS</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">CSOSN / CST ICMS</label>
                   <Input
                     placeholder="Ex: 101, 102, 500"
                     value={formData.csosn}
                     onChange={(e) => setFormData({ ...formData, csosn: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">CFOP de Venda</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">CFOP de Venda</label>
                   <Input
                     placeholder="Ex: 5102"
                     value={formData.cfopVenda}
                     onChange={(e) => setFormData({ ...formData, cfopVenda: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">CFOP de Compra</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">CFOP de Compra</label>
                   <Input
                     placeholder="Ex: 1102"
                     value={formData.cfopCompra}
                     onChange={(e) => setFormData({ ...formData, cfopCompra: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Alíquota IPI (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Alíquota IPI (%)</label>
                   <Input
                     type="number"
                     step="0.01"
                     value={formData.ipi}
                     onChange={(e) => setFormData({ ...formData, ipi: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Alíquota ICMS (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Alíquota ICMS (%)</label>
                   <Input
                     type="number"
                     step="0.01"
                     value={formData.icms}
                     onChange={(e) => setFormData({ ...formData, icms: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Alíquota Frete (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Alíquota Frete (%)</label>
                   <Input
                     type="number"
                     step="0.01"
                     value={formData.frete}
                     onChange={(e) => setFormData({ ...formData, frete: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
               </div>
@@ -771,35 +771,35 @@ export function ProductFormDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Dias de Garantia</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Dias de Garantia</label>
                   <Input
                     type="number"
                     value={formData.diasGarantia}
                     onChange={(e) => setFormData({ ...formData, diasGarantia: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Balanço Auditoria</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Balanço Auditoria</label>
                   <Input
                     type="number"
                     step="0.01"
                     value={formData.balancoAuditoria}
                     onChange={(e) => setFormData({ ...formData, balancoAuditoria: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
-                <div className="flex items-center gap-2 bg-[#0F1420] px-3 h-9.5 rounded-lg border border-slate-800 mt-5">
+                <div className="flex items-center gap-2 bg-[#FFFFFF] px-3 h-9.5 rounded-lg border border-slate-200 mt-5">
                   <input
                     type="checkbox"
                     id="chk-ecommerce"
                     checked={formData.eCommerce}
                     onChange={(e) => setFormData({ ...formData, eCommerce: e.target.checked })}
-                    className="h-4 w-4 text-emerald-500 focus:ring-0 focus:ring-offset-0 rounded bg-slate-900 border-slate-800 cursor-pointer"
+                    className="h-4 w-4 text-emerald-700 focus:ring-0 focus:ring-offset-0 rounded bg-slate-50 border-slate-200 cursor-pointer"
                   />
-                  <label htmlFor="chk-ecommerce" className="text-xs text-slate-300 font-bold select-none cursor-pointer">
+                  <label htmlFor="chk-ecommerce" className="text-xs text-slate-600 font-bold select-none cursor-pointer">
                     Exibir no E-Commerce
                   </label>
                 </div>
@@ -807,35 +807,35 @@ export function ProductFormDialog({
 
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Observações de Cadastro</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Observações de Cadastro</label>
                   <textarea
                     placeholder="Observações administrativas internas..."
                     value={formData.obs}
                     onChange={(e) => setFormData({ ...formData, obs: e.target.value })}
                     rows={2}
-                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#0F1420] focus:outline-none focus:ring-1 focus:ring-ring text-slate-200 font-medium"
+                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#FFFFFF] focus:outline-none focus:ring-1 focus:ring-ring text-slate-800 font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Características Técnicas</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Características Técnicas</label>
                   <textarea
                     placeholder="Detalhes de componentes, materiais ou certificações..."
                     value={formData.caracteristicas}
                     onChange={(e) => setFormData({ ...formData, caracteristicas: e.target.value })}
                     rows={3}
-                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#0F1420] focus:outline-none focus:ring-1 focus:ring-ring text-slate-200 font-medium"
+                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#FFFFFF] focus:outline-none focus:ring-1 focus:ring-ring text-slate-800 font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Aplicação do Produto</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Aplicação do Produto</label>
                   <textarea
                     placeholder="Como e onde aplicar o produto, cenários de uso recomendados..."
                     value={formData.aplicacao}
                     onChange={(e) => setFormData({ ...formData, aplicacao: e.target.value })}
                     rows={3}
-                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#0F1420] focus:outline-none focus:ring-1 focus:ring-ring text-slate-200 font-medium"
+                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#FFFFFF] focus:outline-none focus:ring-1 focus:ring-ring text-slate-800 font-medium"
                   />
                 </div>
               </div>
@@ -843,7 +843,7 @@ export function ProductFormDialog({
           )}
 
           {/* Action Actions */}
-          <DialogFooter className="border-t border-slate-800/80 pt-4 gap-2">
+          <DialogFooter className="border-t border-slate-200/80 pt-4 gap-2">
             <DialogClose asChild>
               <Button type="button" variant="outline" size="sm" className="text-xs font-semibold cursor-pointer">
                 Cancelar

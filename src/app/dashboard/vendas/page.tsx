@@ -72,12 +72,12 @@ export default function VendasPage() {
   }, [debouncedSearch, page]);
 
   return (
-    <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-100 relative">
+    <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-800 relative">
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <Percent className="h-6 w-6 text-emerald-400" /> Registro de Vendas
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <Percent className="h-6 w-6 text-emerald-700" /> Registro de Vendas
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Visualize as transações comerciais liquidadas, controle reservas dinâmicas e lance novos faturamentos de caixa.
@@ -95,52 +95,52 @@ export default function VendasPage() {
 
       {/* Row 1: Summary Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-emerald-950/45 text-emerald-400 flex items-center justify-center border border-emerald-500/10">
+            <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-500/10">
               <DollarSign className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Faturamento Acumulado</span>
           </div>
-          <h3 className="text-xl font-black text-slate-100">
+          <h3 className="text-xl font-black text-slate-800">
             {stats.totalBilling.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </h3>
-          <span className="text-[9px] text-emerald-400 font-semibold mt-1 block">Faturamento bruto em tempo real</span>
+          <span className="text-[9px] text-emerald-700 font-semibold mt-1 block">Faturamento bruto em tempo real</span>
         </Card>
 
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-blue-950/45 text-blue-400 flex items-center justify-center border border-blue-500/10">
+            <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-500/10">
               <ShoppingBag className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Volume de Vendas</span>
           </div>
-          <h3 className="text-xl font-black text-slate-100">
+          <h3 className="text-xl font-black text-slate-800">
             {stats.totalOrders} <span className="text-xs font-semibold text-muted-foreground">pedidos</span>
           </h3>
-          <span className="text-[9px] text-blue-400 font-semibold mt-1 block">Transações físicas no banco</span>
+          <span className="text-[9px] text-blue-700 font-semibold mt-1 block">Transações físicas no banco</span>
         </Card>
 
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-amber-950/45 text-amber-400 flex items-center justify-center border border-amber-500/10">
+            <div className="h-7 w-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-500/10">
               <TrendingUp className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Tíquete Médio</span>
           </div>
-          <h3 className="text-xl font-black text-slate-100">
+          <h3 className="text-xl font-black text-slate-800">
             {stats.averageTicket.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </h3>
-          <span className="text-[9px] text-amber-400 font-semibold mt-1 block">Sinal de excelente conversão</span>
+          <span className="text-[9px] text-amber-700 font-semibold mt-1 block">Sinal de excelente conversão</span>
         </Card>
       </div>
 
       {/* Main card grid table */}
-      <Card className="bg-[#0E1322]/80 border border-border/60 overflow-hidden shadow-xl backdrop-blur-md">
+      <Card className="bg-[#FFFFFF]/80 border border-border/60 overflow-hidden shadow-xl backdrop-blur-md">
         {/* Table Header Filter */}
-        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0A0D18]/45">
+        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/45">
           <div>
-            <CardTitle className="text-sm font-bold text-slate-200">Histórico de Pedidos de Venda</CardTitle>
+            <CardTitle className="text-sm font-bold text-slate-800">Histórico de Pedidos de Venda</CardTitle>
             <p className="text-[10px] text-muted-foreground">Listagem de faturamento físico e reservas comerciais registradas.</p>
           </div>
 
@@ -154,7 +154,7 @@ export default function VendasPage() {
               placeholder="Filtrar por cliente ou código fatura..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#05080E]/90 border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#F8FAFC]/90 border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
             />
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function VendasPage() {
         <div className="overflow-x-auto">
           {isLoading ? (
             <div className="p-20 text-center flex flex-col items-center justify-center gap-2">
-              <RefreshCw className="h-7 w-7 text-emerald-400 animate-spin" />
+              <RefreshCw className="h-7 w-7 text-emerald-700 animate-spin" />
               <span className="text-xs text-muted-foreground font-semibold">Consultando faturamentos no SQL Server...</span>
             </div>
           ) : sales.length === 0 ? (
@@ -173,41 +173,41 @@ export default function VendasPage() {
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-border/50 bg-[#0E1322]/55">
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider pl-6">Código Fatura</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">Cliente / Comprador</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Itens</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">Valor Líquido</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Status</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">Vendedor</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider pr-6 text-right">Data Emissão</th>
+                <tr className="border-b border-border/50 bg-[#FFFFFF]/55">
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider pl-6">Código Fatura</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider">Cliente / Comprador</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Itens</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider">Valor Líquido</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Status</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider">Vendedor</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider pr-6 text-right">Data Emissão</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/10">
                 {sales.map((s) => (
-                  <tr key={s.id} className="hover:bg-slate-900/40 transition-colors text-xs">
+                  <tr key={s.id} className="hover:bg-slate-50/40 transition-colors text-xs">
                     <td className="p-3.5 pl-6">
-                      <span className="font-mono font-bold text-emerald-400 bg-emerald-950/20 px-2 py-0.5 rounded border border-emerald-500/10">
+                      <span className="font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-500/10">
                         {s.invoice}
                       </span>
                     </td>
-                    <td className="p-3.5 text-slate-200 font-semibold">{s.client}</td>
-                    <td className="p-3.5 text-slate-300 text-center font-bold">{s.itemsCount} un</td>
-                    <td className="p-3.5 font-black text-slate-100">
+                    <td className="p-3.5 text-slate-800 font-semibold">{s.client}</td>
+                    <td className="p-3.5 text-slate-600 text-center font-bold">{s.itemsCount} un</td>
+                    <td className="p-3.5 font-black text-slate-800">
                       {s.value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </td>
                     <td className="p-3.5 text-center">
                       {s.status === "Finalizado" ? (
-                        <Badge className="bg-emerald-950/50 text-emerald-400 border border-emerald-500/20 font-black uppercase text-[9px] tracking-wider px-2 py-0.5">
+                        <Badge className="bg-emerald-50 text-emerald-700 border border-emerald-500/20 font-black uppercase text-[9px] tracking-wider px-2 py-0.5">
                           Finalizado
                         </Badge>
                       ) : (
-                        <Badge className="bg-amber-950/50 text-amber-400 border border-amber-500/20 font-black uppercase text-[9px] tracking-wider px-2 py-0.5 animate-pulse-slow">
+                        <Badge className="bg-amber-50 text-amber-700 border border-amber-500/20 font-black uppercase text-[9px] tracking-wider px-2 py-0.5 animate-pulse-slow">
                           Pendente
                         </Badge>
                       )}
                     </td>
-                    <td className="p-3.5 text-slate-200 font-semibold">{s.rep}</td>
+                    <td className="p-3.5 text-slate-800 font-semibold">{s.rep}</td>
                     <td className="p-3.5 text-muted-foreground pr-6 text-right font-medium">{s.date}</td>
                   </tr>
                 ))}
@@ -218,9 +218,9 @@ export default function VendasPage() {
 
         {/* Table Pagination Footer */}
         {!isLoading && totalPages > 1 && (
-          <div className="p-4 border-t border-border/40 flex items-center justify-between bg-[#0A0D18]/30">
+          <div className="p-4 border-t border-border/40 flex items-center justify-between bg-[#F8FAFC]/30">
             <span className="text-[10px] text-muted-foreground font-semibold">
-              Página <strong className="text-slate-300">{page}</strong> de <strong className="text-slate-300">{totalPages}</strong>
+              Página <strong className="text-slate-600">{page}</strong> de <strong className="text-slate-600">{totalPages}</strong>
             </span>
 
             <div className="flex items-center gap-1">

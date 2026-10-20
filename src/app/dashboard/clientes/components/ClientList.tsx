@@ -22,15 +22,15 @@ export default function ClientList({ clients, onEdit, onDelete }: ClientListProp
   const getStatusDetails = (sit?: string) => {
     switch (sit) {
       case "A":
-        return { label: "Excelente / Ativo", color: "text-emerald-400 bg-emerald-950/20 border-emerald-500/20" };
+        return { label: "Excelente / Ativo", color: "text-emerald-700 bg-emerald-50 border-emerald-500/20" };
       case "B":
-        return { label: "Regular", color: "text-blue-400 bg-blue-950/20 border-blue-500/20" };
+        return { label: "Regular", color: "text-blue-700 bg-blue-50 border-blue-500/20" };
       case "C":
-        return { label: "Restrito", color: "text-amber-400 bg-amber-950/20 border-amber-500/20" };
+        return { label: "Restrito", color: "text-amber-700 bg-amber-50 border-amber-500/20" };
       case "D":
-        return { label: "Inativo", color: "text-rose-400 bg-rose-950/20 border-rose-500/20" };
+        return { label: "Inativo", color: "text-rose-700 bg-rose-50 border-rose-500/20" };
       default:
-        return { label: "Regular", color: "text-blue-400 bg-blue-950/20 border-blue-500/20" };
+        return { label: "Regular", color: "text-blue-700 bg-blue-50 border-blue-500/20" };
     }
   };
 
@@ -38,7 +38,7 @@ export default function ClientList({ clients, onEdit, onDelete }: ClientListProp
     <div className="overflow-x-auto select-none w-full scrollbar-thin">
       <table className="w-full text-left border-collapse">
         <thead>
-          <tr className="border-b border-border bg-[#0E131F]/60">
+          <tr className="border-b border-border bg-[#F8FAFC]/60">
             <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider pl-6 w-[120px]">Código</th>
             <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Nome Fantasia</th>
             <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Razão Social / Completo</th>
@@ -53,34 +53,34 @@ export default function ClientList({ clients, onEdit, onDelete }: ClientListProp
           {clients.map((c) => {
             const status = getStatusDetails(c.Situacao);
             return (
-              <tr key={c.CodCli} className="hover:bg-secondary/10 transition-colors text-[11px] font-semibold text-slate-200">
+              <tr key={c.CodCli} className="hover:bg-secondary/10 transition-colors text-[11px] font-semibold text-slate-800">
                 {/* ID */}
-                <td className="p-3.5 pl-6 font-mono text-emerald-400">
+                <td className="p-3.5 pl-6 font-mono text-emerald-700">
                   #{c.CodCli}
                 </td>
                 {/* Nome Fantasia */}
                 <td className="p-3.5">
                   <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-md bg-emerald-950/40 text-emerald-400 border border-emerald-500/10 flex items-center justify-center font-bold text-[9px] uppercase">
+                    <div className="h-6 w-6 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-500/10 flex items-center justify-center font-bold text-[9px] uppercase">
                       {(c.Cliente || "D").substring(0, 2)}
                     </div>
                     <span className="font-extrabold truncate max-w-[150px]">{c.Cliente || "DIVERSOS"}</span>
                   </div>
                 </td>
                 {/* Razão Social */}
-                <td className="p-3.5 text-slate-300 font-medium truncate max-w-[180px]" title={c.Razao || ""}>
+                <td className="p-3.5 text-slate-600 font-medium truncate max-w-[180px]" title={c.Razao || ""}>
                   {c.Razao || "Diversos"}
                 </td>
                 {/* Document */}
-                <td className="p-3.5 font-mono text-slate-400 text-[10px]">
+                <td className="p-3.5 font-mono text-slate-600 text-[10px]">
                   {formatDocumento(c.CGC, c.CPF)}
                 </td>
                 {/* Telefone */}
-                <td className="p-3.5 text-slate-300 font-medium">
+                <td className="p-3.5 text-slate-600 font-medium">
                   {c.Tel || "-"}
                 </td>
                 {/* Cidade / UF */}
-                <td className="p-3.5 text-slate-300 font-medium">
+                <td className="p-3.5 text-slate-600 font-medium">
                   {c.Cidade || "ITAPETININGA"} - {c.Estado || "SP"}
                 </td>
                 {/* Situação */}
@@ -96,7 +96,7 @@ export default function ClientList({ clients, onEdit, onDelete }: ClientListProp
                       variant="ghost" 
                       size="sm" 
                       onClick={() => onEdit(c)}
-                      className="h-7 w-7 p-0 hover:text-emerald-400 hover:bg-slate-800 rounded-md cursor-pointer"
+                      className="h-7 w-7 p-0 hover:text-emerald-700 hover:bg-slate-100 rounded-md cursor-pointer"
                     >
                       <Edit className="h-3.5 w-3.5" />
                     </Button>
@@ -104,7 +104,7 @@ export default function ClientList({ clients, onEdit, onDelete }: ClientListProp
                       variant="ghost" 
                       size="sm" 
                       onClick={() => onDelete(c.CodCli)}
-                      className="h-7 w-7 p-0 hover:text-rose-400 hover:bg-slate-800 rounded-md cursor-pointer"
+                      className="h-7 w-7 p-0 hover:text-rose-700 hover:bg-slate-100 rounded-md cursor-pointer"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>

@@ -77,18 +77,18 @@ export default function AiAssistant({ session }: AiAssistantProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#121826]/40 border border-border/80 rounded-xl overflow-hidden shadow-sm flex-1">
+    <div className="flex flex-col h-full bg-[#FFFFFF]/40 border border-border/80 rounded-xl overflow-hidden shadow-sm flex-1">
       {/* Header */}
-      <div className="p-3 bg-[#0F1420] border-b border-border/60 flex items-center justify-between">
+      <div className="p-3 bg-[#FFFFFF] border-b border-border/60 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+          <div className="h-6 w-6 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-700">
             <BrainCircuit className="h-4 w-4" />
           </div>
-          <span className="text-xs font-semibold text-slate-100 flex items-center gap-1.5">
+          <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
             Assistente IA <span className="text-[8px] font-bold bg-indigo-500 text-white px-1.5 py-0.5 rounded-full uppercase scale-90">Beta</span>
           </span>
         </div>
-        <Sparkles className="h-3.5 w-3.5 text-indigo-400 animate-pulse" />
+        <Sparkles className="h-3.5 w-3.5 text-indigo-700 animate-pulse" />
       </div>
 
       {/* Messages Area */}
@@ -102,20 +102,20 @@ export default function AiAssistant({ session }: AiAssistantProps) {
             className={cn(
               "flex gap-2 max-w-[85%] text-xs rounded-lg p-2.5 leading-relaxed transition-all",
               msg.sender === "ai"
-                ? "bg-[#0F1420]/80 text-slate-200 mr-auto border border-border/35"
-                : "bg-emerald-950/20 text-emerald-400 border border-emerald-500/25 ml-auto"
+                ? "bg-[#FFFFFF]/80 text-slate-800 mr-auto border border-border/35"
+                : "bg-emerald-50 text-emerald-700 border border-emerald-500/25 ml-auto"
             )}
           >
             {msg.sender === "ai" && (
-              <BrainCircuit className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
+              <BrainCircuit className="h-4 w-4 text-indigo-700 shrink-0 mt-0.5" />
             )}
             <div className="whitespace-pre-line font-medium">{msg.text}</div>
           </div>
         ))}
 
         {isTyping && (
-          <div className="flex gap-2 max-w-[80%] bg-[#0F1420]/80 text-slate-400 border border-border/35 text-xs rounded-lg p-2.5 mr-auto">
-            <BrainCircuit className="h-4 w-4 text-indigo-400 animate-spin shrink-0" />
+          <div className="flex gap-2 max-w-[80%] bg-[#FFFFFF]/80 text-slate-600 border border-border/35 text-xs rounded-lg p-2.5 mr-auto">
+            <BrainCircuit className="h-4 w-4 text-indigo-700 animate-spin shrink-0" />
             <span className="animate-pulse">Analisando dados do ERP...</span>
           </div>
         )}
@@ -128,7 +128,7 @@ export default function AiAssistant({ session }: AiAssistantProps) {
             <button
               key={i}
               onClick={() => handleSend(item.value)}
-              className="text-left text-[10px] text-slate-300 bg-[#0F1420] hover:bg-[#1C253B] border border-border/60 hover:border-emerald-500/40 rounded-lg p-2 transition-all cursor-pointer truncate"
+              className="text-left text-[10px] text-slate-600 bg-[#FFFFFF] hover:bg-[#F1F5F9] border border-border/60 hover:border-emerald-500/40 rounded-lg p-2 transition-all cursor-pointer truncate"
             >
               🚀 {item.label}
             </button>
@@ -137,7 +137,7 @@ export default function AiAssistant({ session }: AiAssistantProps) {
       )}
 
       {/* Input Form */}
-      <div className="p-2.5 bg-[#0F1420] border-t border-border/60">
+      <div className="p-2.5 bg-[#FFFFFF] border-t border-border/60">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -150,7 +150,7 @@ export default function AiAssistant({ session }: AiAssistantProps) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Pergunte algo..."
-            className="w-full h-8 pl-3 pr-10 rounded-lg bg-[#0B0F19] border border-border/80 text-[11px] text-slate-200 placeholder:text-muted-foreground/60 focus:outline-none focus:border-indigo-500 transition-all font-medium"
+            className="w-full h-8 pl-3 pr-10 rounded-lg bg-[#F8FAFC] border border-border/80 text-[11px] text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-indigo-500 transition-all font-medium"
           />
           <button
             type="submit"

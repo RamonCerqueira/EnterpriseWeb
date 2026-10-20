@@ -473,21 +473,21 @@ export default function PropostasPage() {
   );
 
   return (
-    <div className="space-y-6 select-none animate-fade-in pb-12 pr-2 text-slate-100">
+    <div className="space-y-6 select-none animate-fade-in pb-12 pr-2 text-slate-800">
       {/* Toast Notification */}
       {notification && (
         <div
           className={`fixed top-4 right-4 z-50 p-4 rounded-xl border flex items-center gap-3 shadow-2xl transition-all duration-300 animate-slide-in ${notification.type === "success"
-              ? "bg-[#064e3b]/95 border-emerald-500 text-emerald-200"
+              ? "bg-emerald-50 border-emerald-500 text-emerald-800"
               : notification.type === "error"
-                ? "bg-[#7f1d1d]/95 border-red-500 text-red-200"
-                : "bg-[#1e3a8a]/95 border-blue-500 text-blue-200"
+                ? "bg-red-50 border-red-500 text-red-800"
+                : "bg-blue-50 border-blue-500 text-blue-800"
             }`}
         >
           {notification.type === "success" ? (
-            <CheckCircle className="h-5 w-5 text-emerald-400 shrink-0" />
+            <CheckCircle className="h-5 w-5 text-emerald-700 shrink-0" />
           ) : (
-            <AlertTriangle className="h-5 w-5 text-red-400 shrink-0" />
+            <AlertTriangle className="h-5 w-5 text-red-700 shrink-0" />
           )}
           <span className="text-xs font-bold">{notification.message}</span>
         </div>
@@ -498,8 +498,8 @@ export default function PropostasPage() {
           {/* Header section */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-                <FileText className="h-6 w-6 text-emerald-400" /> Prospecção & Propostas
+              <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+                <FileText className="h-6 w-6 text-emerald-700" /> Prospecção & Propostas
               </h2>
               <p className="text-xs text-muted-foreground mt-0.5">
                 Elabore, gerencie e acompanhe a listagem de propostas comerciais e orçamentos ativos no banco de dados.
@@ -516,64 +516,64 @@ export default function PropostasPage() {
 
           {/* Metrics section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="p-4 bg-[#121826]/75 border border-border/60 shadow-xl">
+            <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60 shadow-xl">
               <div className="flex items-center gap-2 mb-2">
-                <div className="h-7 w-7 rounded-lg bg-emerald-950/45 text-emerald-400 flex items-center justify-center border border-emerald-500/10">
+                <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-500/10">
                   <CheckCircle className="h-4 w-4" />
                 </div>
                 <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Ganhos / Aprovados</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-100">{formatCurrency(aprovadasVal)}</h3>
-              <span className="text-[9px] text-emerald-400 font-semibold mt-1 block">
+              <h3 className="text-lg font-bold text-slate-800">{formatCurrency(aprovadasVal)}</h3>
+              <span className="text-[9px] text-emerald-700 font-semibold mt-1 block">
                 {aprovadasCount} proposta(s) fechada(s)
               </span>
             </Card>
 
-            <Card className="p-4 bg-[#121826]/75 border border-border/60 shadow-xl">
+            <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60 shadow-xl">
               <div className="flex items-center gap-2 mb-2">
-                <div className="h-7 w-7 rounded-lg bg-blue-950/45 text-blue-400 flex items-center justify-center border border-blue-500/10">
+                <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-500/10">
                   <Clock className="h-4 w-4" />
                 </div>
                 <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Em Negociação</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-100">{formatCurrency(analiseVal)}</h3>
-              <span className="text-[9px] text-blue-400 font-semibold mt-1 block">
+              <h3 className="text-lg font-bold text-slate-800">{formatCurrency(analiseVal)}</h3>
+              <span className="text-[9px] text-blue-700 font-semibold mt-1 block">
                 {analiseCount} proposta(s) aguardando retorno
               </span>
             </Card>
 
-            <Card className="p-4 bg-[#121826]/75 border border-border/60 shadow-xl">
+            <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60 shadow-xl">
               <div className="flex items-center gap-2 mb-2">
-                <div className="h-7 w-7 rounded-lg bg-rose-950/45 text-rose-400 flex items-center justify-center border border-rose-500/10">
+                <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center border border-rose-500/10">
                   <AlertTriangle className="h-4 w-4" />
                 </div>
                 <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Perdidos / Recusados</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-100">{formatCurrency(0)}</h3>
-              <span className="text-[9px] text-rose-400 font-semibold mt-1 block">
+              <h3 className="text-lg font-bold text-slate-800">{formatCurrency(0)}</h3>
+              <span className="text-[9px] text-rose-700 font-semibold mt-1 block">
                 Nenhuma recusa recente
               </span>
             </Card>
 
-            <Card className="p-4 bg-[#121826]/75 border border-border/60 shadow-xl">
+            <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60 shadow-xl">
               <div className="flex items-center gap-2 mb-2">
-                <div className="h-7 w-7 rounded-lg bg-slate-900 border border-border text-slate-400 flex items-center justify-center">
+                <div className="h-7 w-7 rounded-lg bg-slate-50 border border-border text-slate-600 flex items-center justify-center">
                   <FileSpreadsheet className="h-4 w-4" />
                 </div>
                 <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Total Prospectado</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-100">{formatCurrency(totalProspectado)}</h3>
-              <span className="text-[9px] text-slate-300 font-semibold mt-1 block">
+              <h3 className="text-lg font-bold text-slate-800">{formatCurrency(totalProspectado)}</h3>
+              <span className="text-[9px] text-slate-600 font-semibold mt-1 block">
                 {propostas.length} propostas totais
               </span>
             </Card>
           </div>
 
           {/* Proposals List Card */}
-          <Card className="bg-[#121826]/75 border border-border/60 overflow-hidden shadow-xl">
-            <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30">
+          <Card className="bg-[#FFFFFF]/75 border border-border/60 overflow-hidden shadow-xl">
+            <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/30">
               <div>
-                <CardTitle className="text-sm font-bold text-slate-200">Painel de Orçamentos Comerciais</CardTitle>
+                <CardTitle className="text-sm font-bold text-slate-800">Painel de Orçamentos Comerciais</CardTitle>
                 <p className="text-[10px] text-muted-foreground">Todos os orçamentos do tipo Proposta gravados no SQL Server.</p>
               </div>
 
@@ -587,14 +587,14 @@ export default function PropostasPage() {
                   placeholder="Filtrar por nº proposta ou cliente..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+                  className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
                 />
               </div>
             </div>
 
             {loading ? (
               <div className="p-16 flex flex-col items-center justify-center gap-3">
-                <Loader2 className="h-8 w-8 text-emerald-400 animate-spin" />
+                <Loader2 className="h-8 w-8 text-emerald-700 animate-spin" />
                 <span className="text-xs font-semibold text-muted-foreground">Carregando propostas do SQL Server...</span>
               </div>
             ) : filteredProps.length === 0 ? (
@@ -605,7 +605,7 @@ export default function PropostasPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-border bg-[#0E131F]/50">
+                    <tr className="border-b border-border bg-[#F8FAFC]/50">
                       <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider pl-6">Nº Orçamento</th>
                       <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Cliente / Razão</th>
                       <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Valor Produtos</th>
@@ -620,11 +620,11 @@ export default function PropostasPage() {
                   <tbody className="divide-y divide-border/20 text-xs">
                     {filteredProps.map((p) => (
                       <tr key={p.id} className="hover:bg-secondary/15 transition-colors text-xs">
-                        <td className="p-3.5 pl-6 font-mono font-bold text-emerald-400">PROP-{p.pedido}</td>
-                        <td className="p-3.5 text-slate-200 font-semibold">{p.clienteNome}</td>
-                        <td className="p-3.5 font-bold text-slate-400">{formatCurrency(p.valorProdutos)}</td>
-                        <td className="p-3.5 font-bold text-slate-400">{formatCurrency(p.valorServicos)}</td>
-                        <td className="p-3.5 font-extrabold text-emerald-400">{formatCurrency(p.valorTotal)}</td>
+                        <td className="p-3.5 pl-6 font-mono font-bold text-emerald-700">PROP-{p.pedido}</td>
+                        <td className="p-3.5 text-slate-800 font-semibold">{p.clienteNome}</td>
+                        <td className="p-3.5 font-bold text-slate-600">{formatCurrency(p.valorProdutos)}</td>
+                        <td className="p-3.5 font-bold text-slate-600">{formatCurrency(p.valorServicos)}</td>
+                        <td className="p-3.5 font-extrabold text-emerald-700">{formatCurrency(p.valorTotal)}</td>
                         <td className="p-3.5 text-muted-foreground font-medium">{p.data}</td>
                         <td className="p-3.5 text-muted-foreground font-medium">{p.validade}</td>
                         <td className="p-3.5">
@@ -642,7 +642,7 @@ export default function PropostasPage() {
                             onClick={() => handleOpenEditor(p.pedido)}
                             variant="ghost"
                             size="sm"
-                            className="h-7 text-emerald-400 flex items-center justify-end gap-1 font-semibold ml-auto hover:bg-[#064e3b]/25 cursor-pointer border-none"
+                            className="h-7 text-emerald-700 flex items-center justify-end gap-1 font-semibold ml-auto hover:bg-[#D1FAE5]/25 cursor-pointer border-none"
                           >
                             Editar <ArrowUpRight className="h-3.5 w-3.5" />
                           </Button>
@@ -665,12 +665,12 @@ export default function PropostasPage() {
                 onClick={() => setView("list")}
                 variant="outline"
                 size="sm"
-                className="h-9 w-9 p-0 rounded-xl border-border hover:bg-secondary/40 text-slate-300 cursor-pointer shadow-sm transition-all"
+                className="h-9 w-9 p-0 rounded-xl border-border hover:bg-secondary/40 text-slate-600 cursor-pointer shadow-sm transition-all"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
               <div>
-                <h2 className="text-xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
+                <h2 className="text-xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
                   {currentProp.id ? `Orçamento: PROP-${currentProp.pedido}` : "Nova Proposta Comercial"}
                 </h2>
                 <p className="text-xs text-muted-foreground mt-0.5 font-medium">
@@ -708,12 +708,12 @@ export default function PropostasPage() {
               <div className="xl:col-span-12 space-y-6">
 
                 {/* Client & Core Info Card */}
-                <Card className="bg-[#0A0D18]/40 border border-border/40 shadow-2xl overflow-hidden backdrop-blur-xl rounded-2xl">
+                <Card className="bg-[#F8FAFC]/40 border border-border/40 shadow-2xl overflow-hidden backdrop-blur-xl rounded-2xl">
                   <div className="p-4 border-b border-border/10 bg-gradient-to-r from-indigo-900/20 to-transparent flex items-center gap-2">
-                    <div className="p-1.5 bg-indigo-500/20 rounded-lg text-indigo-400">
+                    <div className="p-1.5 bg-indigo-500/20 rounded-lg text-indigo-700">
                       <User className="h-4 w-4" />
                     </div>
-                    <h3 className="text-sm font-bold text-slate-200">Cliente & Identificação</h3>
+                    <h3 className="text-sm font-bold text-slate-800">Cliente & Identificação</h3>
                   </div>
 
                   <div className="p-5 grid grid-cols-1 lg:grid-cols-12 gap-5">
@@ -738,7 +738,7 @@ export default function PropostasPage() {
                       <select
                         value={currentProp.tipo}
                         onChange={(e) => setCurrentProp({ ...currentProp, tipo: e.target.value })}
-                        className="h-9 px-3 rounded-xl bg-[#0F1420] border border-border/60 text-xs font-semibold text-slate-200 focus:outline-none focus:border-indigo-500/50 hover:border-border transition-colors cursor-pointer"
+                        className="h-9 px-3 rounded-xl bg-[#FFFFFF] border border-border/60 text-xs font-semibold text-slate-800 focus:outline-none focus:border-indigo-500/50 hover:border-border transition-colors cursor-pointer"
                       >
                         <option value="Proposta">Proposta (Orçamento)</option>
                         <option value="Pedido">Pedido de Venda</option>
@@ -754,7 +754,7 @@ export default function PropostasPage() {
                         type="text"
                         value={currentProp.pedido || ""}
                         readOnly
-                        className="h-9 px-3 rounded-xl bg-[#121826]/60 border border-border/20 text-xs font-bold text-slate-400 outline-none cursor-not-allowed"
+                        className="h-9 px-3 rounded-xl bg-[#FFFFFF]/60 border border-border/20 text-xs font-bold text-slate-600 outline-none cursor-not-allowed"
                         placeholder="Automático"
                       />
                     </div>
@@ -765,27 +765,27 @@ export default function PropostasPage() {
                         type="date"
                         value={currentProp.data}
                         onChange={e => setCurrentProp({ ...currentProp, data: e.target.value })}
-                        className="h-9 px-3 rounded-xl bg-[#0F1420] border border-border/60 text-xs font-semibold text-slate-200 focus:outline-none focus:border-indigo-500/50 hover:border-border transition-colors cursor-text"
+                        className="h-9 px-3 rounded-xl bg-[#FFFFFF] border border-border/60 text-xs font-semibold text-slate-800 focus:outline-none focus:border-indigo-500/50 hover:border-border transition-colors cursor-text"
                       />
                     </div>
                   </div>
                 </Card>
 
                 {/* Products & Items Card */}
-                <Card className="bg-[#0A0D18]/40 border border-border/40 shadow-2xl overflow-hidden backdrop-blur-xl rounded-2xl">
+                <Card className="bg-[#F8FAFC]/40 border border-border/40 shadow-2xl overflow-hidden backdrop-blur-xl rounded-2xl">
                   <div className="p-4 border-b border-border/10 bg-gradient-to-r from-blue-900/20 to-transparent flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-blue-500/20 rounded-lg text-blue-400">
+                      <div className="p-1.5 bg-blue-500/20 rounded-lg text-blue-700">
                         <Layers className="h-4 w-4" />
                       </div>
-                      <h3 className="text-sm font-bold text-slate-200">Itens da Proposta</h3>
+                      <h3 className="text-sm font-bold text-slate-800">Itens da Proposta</h3>
                     </div>
-                    <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 font-bold px-3">
+                    <Badge className="bg-blue-500/10 text-blue-700 border border-blue-500/20 hover:bg-blue-500/20 font-bold px-3">
                       {currentProp.itens.length} {currentProp.itens.length === 1 ? 'Item' : 'Itens'}
                     </Badge>
                   </div>
 
-                  <div className="p-4 bg-[#121826]/40 border-b border-border/10">
+                  <div className="p-4 bg-[#FFFFFF]/40 border-b border-border/10">
                     <ProductSearchPanel
                       tipoPreco={currentProp.tipoPreco}
                       onAddItem={handleAddItemFromPanel}
@@ -798,13 +798,13 @@ export default function PropostasPage() {
                         <div className="h-12 w-12 rounded-full bg-secondary/30 flex items-center justify-center mb-3 text-muted-foreground">
                           <Search className="h-5 w-5" />
                         </div>
-                        <p className="text-sm font-semibold text-slate-300">Nenhum item adicionado</p>
+                        <p className="text-sm font-semibold text-slate-600">Nenhum item adicionado</p>
                         <p className="text-xs text-muted-foreground mt-1 max-w-sm">Utilize a busca acima para encontrar produtos ou serviços e adicioná-los à sua proposta.</p>
                       </div>
                     ) : (
                       <table className="w-full text-left border-collapse">
                         <thead>
-                          <tr className="border-b border-border/20 bg-[#070A12]/50 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                          <tr className="border-b border-border/20 bg-[#F8FAFC]/50 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                             <th className="p-3 pl-4">Ação</th>
                             <th className="p-3 w-12 text-center">Foto</th>
                             <th className="p-3">Item / Descrição</th>
@@ -821,29 +821,29 @@ export default function PropostasPage() {
                                 <button
                                   type="button"
                                   onClick={() => handleRemoveItem(idx)}
-                                  className="text-red-400/70 hover:text-red-400 hover:bg-red-500/10 h-7 w-7 rounded-lg border border-transparent hover:border-red-500/20 flex items-center justify-center cursor-pointer transition-all"
+                                  className="text-red-700 hover:text-red-700 hover:bg-red-500/10 h-7 w-7 rounded-lg border border-transparent hover:border-red-500/20 flex items-center justify-center cursor-pointer transition-all"
                                   title="Remover item"
                                 >
                                   <Trash2 className="h-3.5 w-3.5" />
                                 </button>
                               </td>
                               <td className="p-3 align-middle text-center">
-                                <div className="h-9 w-9 rounded-lg overflow-hidden border border-border/20 bg-[#0F1420] flex items-center justify-center shadow-sm inline-flex">
+                                <div className="h-9 w-9 rounded-lg overflow-hidden border border-border/20 bg-[#FFFFFF] flex items-center justify-center shadow-sm inline-flex">
                                   {item.imagemUrl ? (
                                     /* eslint-disable-next-line @next/next/no-img-element */
                                     <img src={item.imagemUrl} alt="Foto" className="h-full w-full object-cover" />
                                   ) : (
-                                    <ImageIcon className="h-4 w-4 text-muted-foreground/50" />
+                                    <ImageIcon className="h-4 w-4 text-muted-foreground" />
                                   )}
                                 </div>
                               </td>
                               <td className="p-3 align-middle">
                                 <div className="flex flex-col gap-0.5">
-                                  <span className="font-bold text-slate-200 line-clamp-1">{item.nome}</span>
+                                  <span className="font-bold text-slate-800 line-clamp-1">{item.nome}</span>
                                   <div className="flex items-center gap-2 text-[9px]">
                                     <span className="font-mono text-slate-500">Cód: {item.codpro}</span>
                                     {item.referencia && <span className="font-mono text-slate-500">Ref: {item.referencia}</span>}
-                                    <span className={item.estoqueFisico > 0 ? "text-emerald-500/80 font-bold" : "text-amber-500/80 font-bold"}>
+                                    <span className={item.estoqueFisico > 0 ? "text-emerald-700 font-bold" : "text-amber-700 font-bold"}>
                                       Est: {item.estoqueFisico} {item.unidade}
                                     </span>
                                   </div>
@@ -855,7 +855,7 @@ export default function PropostasPage() {
                                   value={item.ambiente}
                                   onChange={(e) => handleUpdateItemField(idx, "ambiente", e.target.value)}
                                   placeholder="Ex: Sala..."
-                                  className="w-full min-w-[80px] h-8 px-2 rounded-lg bg-[#0F1420]/50 border border-transparent hover:border-border/60 focus:border-blue-500/50 focus:bg-[#0F1420] text-xs text-slate-300 outline-none transition-all"
+                                  className="w-full min-w-[80px] h-8 px-2 rounded-lg bg-[#FFFFFF]/50 border border-transparent hover:border-border/60 focus:border-blue-500/50 focus:bg-[#FFFFFF] text-xs text-slate-600 outline-none transition-all"
                                 />
                               </td>
                               <td className="p-3 align-middle text-center">
@@ -863,7 +863,7 @@ export default function PropostasPage() {
                                   type="number"
                                   value={item.qtd}
                                   onChange={(e) => handleUpdateItemField(idx, "qtd", Math.max(1, Number(e.target.value)))}
-                                  className="w-16 h-8 px-1 rounded-lg bg-[#0F1420]/50 border border-transparent hover:border-border/60 focus:border-blue-500/50 focus:bg-[#0F1420] text-center text-xs font-bold text-slate-200 outline-none transition-all mx-auto"
+                                  className="w-16 h-8 px-1 rounded-lg bg-[#FFFFFF]/50 border border-transparent hover:border-border/60 focus:border-blue-500/50 focus:bg-[#FFFFFF] text-center text-xs font-bold text-slate-800 outline-none transition-all mx-auto"
                                 />
                               </td>
                               <td className="p-3 align-middle text-right">
@@ -874,11 +874,11 @@ export default function PropostasPage() {
                                     value={item.precoUnitario}
                                     step="0.01"
                                     onChange={(e) => handleUpdateItemField(idx, "precoUnitario", Math.max(0, Number(e.target.value)))}
-                                    className="w-20 h-8 px-1.5 rounded-lg bg-[#0F1420]/50 border border-transparent hover:border-border/60 focus:border-blue-500/50 focus:bg-[#0F1420] text-right text-xs font-bold text-slate-200 outline-none transition-all"
+                                    className="w-20 h-8 px-1.5 rounded-lg bg-[#FFFFFF]/50 border border-transparent hover:border-border/60 focus:border-blue-500/50 focus:bg-[#FFFFFF] text-right text-xs font-bold text-slate-800 outline-none transition-all"
                                   />
                                 </div>
                               </td>
-                              <td className="p-3 pr-4 align-middle text-right font-bold text-emerald-400 bg-gradient-to-r from-transparent to-emerald-900/5">
+                              <td className="p-3 pr-4 align-middle text-right font-bold text-emerald-700 bg-gradient-to-r from-transparent to-emerald-900/5">
                                 {formatCurrency(item.total)}
                               </td>
                             </tr>
@@ -893,8 +893,8 @@ export default function PropostasPage() {
             </div>
 
             {/* ERP TABS PANEL - MODERNIZED */}
-            <Card className="bg-[#0A0D18]/80 border border-border/40 shadow-2xl overflow-hidden backdrop-blur-xl rounded-2xl mb-32">
-              <div className="flex overflow-x-auto border-b border-border/20 bg-[#070A12]/80 scrollbar-hide">
+            <Card className="bg-[#F8FAFC]/80 border border-border/40 shadow-2xl overflow-hidden backdrop-blur-xl rounded-2xl mb-32">
+              <div className="flex overflow-x-auto border-b border-border/20 bg-[#F8FAFC]/80 scrollbar-hide">
                 {[
                   "Textos", "Totalizadores", "Tributos", "Transportadora",
                   "Histórico", "Produção", "Parâmetros", "Fechamento", "Estoquista", "ECommerce"
@@ -903,8 +903,8 @@ export default function PropostasPage() {
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`px-5 py-3 whitespace-nowrap text-xs font-bold uppercase tracking-wider transition-colors border-b-2 ${activeTab === tab
-                        ? "text-emerald-400 border-emerald-500 bg-[#121826]/60"
-                        : "text-muted-foreground border-transparent hover:text-slate-300 hover:bg-white/5"
+                        ? "text-emerald-700 border-emerald-500 bg-[#FFFFFF]/60"
+                        : "text-muted-foreground border-transparent hover:text-slate-600 hover:bg-secondary"
                       }`}
                   >
                     {tab}
@@ -913,7 +913,7 @@ export default function PropostasPage() {
               </div>
 
               {/* TAB CONTENT AREAS */}
-              <div className="p-5 min-h-[250px] bg-gradient-to-b from-[#121826]/30 to-transparent">
+              <div className="p-5 min-h-[250px] bg-gradient-to-b from-[#FFFFFF]/30 to-transparent">
 
                 {/* 1. TEXTOS */}
                 {activeTab === "Textos" && (
@@ -923,7 +923,7 @@ export default function PropostasPage() {
                       <textarea
                         value={currentProp.observacao}
                         onChange={(e) => setCurrentProp({ ...currentProp, observacao: e.target.value })}
-                        className="w-full h-32 p-3 rounded-xl bg-[#0F1420] border border-border/60 text-xs text-slate-200 outline-none focus:border-emerald-500/50 resize-none"
+                        className="w-full h-32 p-3 rounded-xl bg-[#FFFFFF] border border-border/60 text-xs text-slate-800 outline-none focus:border-emerald-500/50 resize-none"
                       />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -931,7 +931,7 @@ export default function PropostasPage() {
                       <textarea
                         value={currentProp.observacaoCliente}
                         onChange={(e) => setCurrentProp({ ...currentProp, observacaoCliente: e.target.value })}
-                        className="w-full h-32 p-3 rounded-xl bg-[#0F1420] border border-border/60 text-xs text-slate-200 outline-none focus:border-emerald-500/50 resize-none"
+                        className="w-full h-32 p-3 rounded-xl bg-[#FFFFFF] border border-border/60 text-xs text-slate-800 outline-none focus:border-emerald-500/50 resize-none"
                       />
                     </div>
                   </div>
@@ -952,7 +952,7 @@ export default function PropostasPage() {
                           <label className="text-[9px] font-bold text-muted-foreground uppercase truncate">{field}</label>
                           <input
                             readOnly
-                            className="h-8 px-2 rounded-lg bg-[#0F1420]/60 border border-border/30 text-xs text-slate-400 outline-none cursor-not-allowed"
+                            className="h-8 px-2 rounded-lg bg-[#FFFFFF]/60 border border-border/30 text-xs text-slate-600 outline-none cursor-not-allowed"
                             value={field === "Lanc." ? "78464" : ""}
                           />
                         </div>
@@ -960,27 +960,27 @@ export default function PropostasPage() {
                     </div>
 
                     {/* Right Totals */}
-                    <div className="w-full lg:w-64 shrink-0 flex flex-col gap-3 p-4 bg-[#0A0D18]/80 rounded-xl border border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.05)]">
+                    <div className="w-full lg:w-64 shrink-0 flex flex-col gap-3 p-4 bg-[#F8FAFC]/80 rounded-xl border border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.05)]">
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase">Produtos</label>
-                        <input readOnly value={formatCurrency(currentProp.valorProdutos)} className="h-8 px-2 rounded-lg bg-secondary/20 border border-border/40 text-xs font-bold text-right text-slate-300 outline-none" />
+                        <label className="text-[10px] font-bold text-slate-600 uppercase">Produtos</label>
+                        <input readOnly value={formatCurrency(currentProp.valorProdutos)} className="h-8 px-2 rounded-lg bg-secondary/20 border border-border/40 text-xs font-bold text-right text-slate-600 outline-none" />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase">Desconto (%)</label>
+                        <label className="text-[10px] font-bold text-slate-600 uppercase">Desconto (%)</label>
                         <input
                           type="number"
                           value={currentProp.descontoPercentual}
                           onChange={(e) => handleDescontoChange(Number(e.target.value))}
-                          className="h-8 px-2 rounded-lg bg-[#0F1420] border border-rose-500/30 text-xs font-bold text-right text-rose-400 focus:border-rose-500 outline-none transition-colors"
+                          className="h-8 px-2 rounded-lg bg-[#FFFFFF] border border-rose-500/30 text-xs font-bold text-right text-rose-700 focus:border-rose-500 outline-none transition-colors"
                         />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase">Subtotal</label>
-                        <input readOnly value={formatCurrency(currentProp.subtotal)} className="h-8 px-2 rounded-lg bg-secondary/20 border border-border/40 text-xs font-bold text-right text-slate-300 outline-none" />
+                        <label className="text-[10px] font-bold text-slate-600 uppercase">Subtotal</label>
+                        <input readOnly value={formatCurrency(currentProp.subtotal)} className="h-8 px-2 rounded-lg bg-secondary/20 border border-border/40 text-xs font-bold text-right text-slate-600 outline-none" />
                       </div>
                       <div className="flex flex-col gap-1 mt-auto pt-2 border-t border-border/30">
-                        <label className="text-[11px] font-black text-emerald-400 uppercase">Total</label>
-                        <input readOnly value={formatCurrency(currentProp.valorTotal)} className="h-10 px-2 rounded-lg bg-emerald-950/30 border border-emerald-500/40 text-lg font-black text-right text-emerald-400 outline-none" />
+                        <label className="text-[11px] font-black text-emerald-700 uppercase">Total</label>
+                        <input readOnly value={formatCurrency(currentProp.valorTotal)} className="h-10 px-2 rounded-lg bg-emerald-50 border border-emerald-500/40 text-lg font-black text-right text-emerald-700 outline-none" />
                       </div>
                     </div>
                   </div>
@@ -993,7 +993,7 @@ export default function PropostasPage() {
                       {["ICMS Int.%", "FCP %", "ICMS Deson.", "FCP Dest", "ICMS UF Dest", "ICMS UF Rem."].map(field => (
                         <div key={field} className="flex flex-col gap-1.5">
                           <label className="text-[9px] font-bold text-muted-foreground uppercase">{field}</label>
-                          <input className="w-24 h-8 px-2 rounded-lg bg-[#0F1420]/60 border border-border/30 text-xs" readOnly />
+                          <input className="w-24 h-8 px-2 rounded-lg bg-[#FFFFFF]/60 border border-border/30 text-xs" readOnly />
                         </div>
                       ))}
                     </div>
@@ -1001,7 +1001,7 @@ export default function PropostasPage() {
                       {["B.C. PIS/Cofins", "PIS", "COFINS"].map((field, idx) => (
                         <div key={field} className={`flex flex-col gap-1.5 ${idx === 0 ? 'col-span-2' : ''}`}>
                           <label className="text-[9px] font-bold text-muted-foreground uppercase">{field}</label>
-                          <input className="w-24 h-8 px-2 rounded-lg bg-[#0F1420]/60 border border-emerald-500/20 text-xs" readOnly />
+                          <input className="w-24 h-8 px-2 rounded-lg bg-[#FFFFFF]/60 border border-emerald-500/20 text-xs" readOnly />
                         </div>
                       ))}
                     </div>
@@ -1015,36 +1015,36 @@ export default function PropostasPage() {
                       <div className="flex flex-col gap-1.5 flex-1 max-w-sm">
                         <label className="text-[10px] font-bold text-muted-foreground uppercase">Transportadora</label>
                         <div className="flex gap-2">
-                          <input className="w-16 h-8 px-2 rounded-lg bg-[#0F1420] border border-border/50 text-xs" placeholder="Cód" />
-                          <input className="flex-1 h-8 px-2 rounded-lg bg-[#0F1420] border border-border/50 text-xs" placeholder="Nome da Transportadora..." />
-                          <Button size="sm" variant="outline" className="h-8 px-3 border-border/50 bg-[#121826] hover:bg-secondary/40">
-                            <Truck className="h-4 w-4 mr-2 text-blue-400" /> Buscar
+                          <input className="w-16 h-8 px-2 rounded-lg bg-[#FFFFFF] border border-border/50 text-xs" placeholder="Cód" />
+                          <input className="flex-1 h-8 px-2 rounded-lg bg-[#FFFFFF] border border-border/50 text-xs" placeholder="Nome da Transportadora..." />
+                          <Button size="sm" variant="outline" className="h-8 px-3 border-border/50 bg-[#FFFFFF] hover:bg-secondary/40">
+                            <Truck className="h-4 w-4 mr-2 text-blue-700" /> Buscar
                           </Button>
                         </div>
                       </div>
                       <div className="flex gap-3">
                         <div className="flex flex-col gap-1.5">
                           <label className="text-[10px] font-bold text-muted-foreground uppercase">Qtd</label>
-                          <input className="w-16 h-8 px-2 rounded-lg bg-[#0F1420]/60 border border-border/30 text-xs" />
+                          <input className="w-16 h-8 px-2 rounded-lg bg-[#FFFFFF]/60 border border-border/30 text-xs" />
                         </div>
                         <div className="flex flex-col gap-1.5">
                           <label className="text-[10px] font-bold text-muted-foreground uppercase">Espécie</label>
-                          <select className="w-24 h-8 px-2 rounded-lg bg-[#0F1420]/60 border border-border/30 text-xs">
+                          <select className="w-24 h-8 px-2 rounded-lg bg-[#FFFFFF]/60 border border-border/30 text-xs">
                             <option>Caixa</option>
                             <option>Volume</option>
                           </select>
                         </div>
                         <div className="flex flex-col gap-1.5">
                           <label className="text-[10px] font-bold text-muted-foreground uppercase">Peso Lqd</label>
-                          <input className="w-20 h-8 px-2 rounded-lg bg-[#0F1420]/60 border border-border/30 text-xs" />
+                          <input className="w-20 h-8 px-2 rounded-lg bg-[#FFFFFF]/60 border border-border/30 text-xs" />
                         </div>
                         <div className="flex flex-col gap-1.5">
                           <label className="text-[10px] font-bold text-muted-foreground uppercase">Peso Brt</label>
-                          <input className="w-20 h-8 px-2 rounded-lg bg-[#0F1420]/60 border border-border/30 text-xs" />
+                          <input className="w-20 h-8 px-2 rounded-lg bg-[#FFFFFF]/60 border border-border/30 text-xs" />
                         </div>
                       </div>
                     </div>
-                    <div className="h-32 border border-border/30 rounded-xl bg-[#070A12]/50 flex items-center justify-center text-xs text-muted-foreground">
+                    <div className="h-32 border border-border/30 rounded-xl bg-[#F8FAFC]/50 flex items-center justify-center text-xs text-muted-foreground">
                       Grid de Cálculos de Frete (TRANSPORTADORA, UF, MUNICÍPIO, PREÇO, TOTAL)
                     </div>
                   </div>
@@ -1053,16 +1053,16 @@ export default function PropostasPage() {
                 {/* 5. HISTORICO */}
                 {activeTab === "Histórico" && (
                   <div className="flex gap-6 animate-in fade-in slide-in-from-bottom-2">
-                    <textarea className="w-1/3 h-40 p-3 rounded-xl bg-[#0F1420] border border-border/60 text-xs resize-none" placeholder="Histórico de negociação..." />
+                    <textarea className="w-1/3 h-40 p-3 rounded-xl bg-[#FFFFFF] border border-border/60 text-xs resize-none" placeholder="Histórico de negociação..." />
                     <div className="flex flex-col justify-center gap-2">
                       {["PREÇO ALTO", "QUALIDADE", "ENTREGA", "PRAZO", "OUTROS"].map(cb => (
-                        <label key={cb} className="flex items-center gap-2 text-[10px] font-bold text-slate-300 uppercase cursor-pointer hover:text-emerald-400">
+                        <label key={cb} className="flex items-center gap-2 text-[10px] font-bold text-slate-600 uppercase cursor-pointer hover:text-emerald-700">
                           <input type="checkbox" className="accent-emerald-500 w-3 h-3" /> {cb}
                         </label>
                       ))}
                     </div>
                     <div className="flex-1 flex flex-col gap-2">
-                      <div className="bg-blue-900/30 text-blue-400 text-[10px] font-bold uppercase text-center py-1 rounded">ESTORNO</div>
+                      <div className="bg-blue-50 text-blue-700 text-[10px] font-bold uppercase text-center py-1 rounded">ESTORNO</div>
                       <div className="flex gap-2 text-[9px] font-bold text-muted-foreground uppercase">
                         <div className="w-24">Data</div>
                         <div className="w-16">Código</div>
@@ -1070,10 +1070,10 @@ export default function PropostasPage() {
                         <div className="w-24">Situação</div>
                       </div>
                       <div className="flex gap-2">
-                        <input className="w-24 h-7 px-2 rounded bg-[#0F1420]/60 border border-border/30 text-xs" readOnly />
-                        <input className="w-16 h-7 px-2 rounded bg-[#0F1420]/60 border border-border/30 text-xs" readOnly />
-                        <input className="flex-1 h-7 px-2 rounded bg-[#0F1420]/60 border border-border/30 text-xs" readOnly />
-                        <input className="w-24 h-7 px-2 rounded bg-[#0F1420]/60 border border-border/30 text-xs bg-blue-900/20" readOnly />
+                        <input className="w-24 h-7 px-2 rounded bg-[#FFFFFF]/60 border border-border/30 text-xs" readOnly />
+                        <input className="w-16 h-7 px-2 rounded bg-[#FFFFFF]/60 border border-border/30 text-xs" readOnly />
+                        <input className="flex-1 h-7 px-2 rounded bg-[#FFFFFF]/60 border border-border/30 text-xs" readOnly />
+                        <input className="w-24 h-7 px-2 rounded bg-[#FFFFFF]/60 border border-border/30 text-xs bg-blue-50" readOnly />
                       </div>
                     </div>
                   </div>
@@ -1084,32 +1084,32 @@ export default function PropostasPage() {
                   <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2">
                     <div className="flex items-end gap-4">
                       <div className="flex flex-col gap-1.5 flex-1 max-w-xs">
-                        <label className="text-[10px] font-bold text-blue-400 uppercase">Separado por:</label>
+                        <label className="text-[10px] font-bold text-blue-700 uppercase">Separado por:</label>
                         <div className="flex gap-2">
-                          <input className="w-16 h-8 px-2 rounded-lg bg-[#0F1420] border border-border/50 text-xs" />
-                          <input className="flex-1 h-8 px-2 rounded-lg bg-[#0F1420] border border-border/50 text-xs bg-yellow-500/10 text-yellow-200" />
+                          <input className="w-16 h-8 px-2 rounded-lg bg-[#FFFFFF] border border-border/50 text-xs" />
+                          <input className="flex-1 h-8 px-2 rounded-lg border border-amber-300 bg-amber-50 text-xs text-amber-800" />
                         </div>
                       </div>
                       <div className="flex flex-col gap-1.5 w-48">
-                        <label className="text-[10px] font-bold text-blue-400 uppercase">Rota:</label>
-                        <select className="w-full h-8 px-2 rounded-lg bg-[#0F1420] border border-border/50 text-xs">
+                        <label className="text-[10px] font-bold text-blue-700 uppercase">Rota:</label>
+                        <select className="w-full h-8 px-2 rounded-lg bg-[#FFFFFF] border border-border/50 text-xs">
                           <option>Selecione Rota...</option>
                         </select>
                       </div>
-                      <Button size="sm" variant="outline" className="h-8 border-border/50 bg-[#121826] hover:bg-secondary/40">
-                        <Globe className="h-3.5 w-3.5 mr-2 text-blue-500" /> Carga On Line
+                      <Button size="sm" variant="outline" className="h-8 border-border/50 bg-[#FFFFFF] hover:bg-secondary/40">
+                        <Globe className="h-3.5 w-3.5 mr-2 text-blue-700" /> Carga On Line
                       </Button>
                     </div>
                     <div className="flex items-end gap-4">
                       <div className="flex flex-col gap-1.5 w-32">
-                        <label className="text-[10px] font-bold text-blue-400 uppercase">Depósito</label>
-                        <select className="w-full h-8 px-2 rounded-lg bg-[#0F1420] border border-border/50 text-xs">
+                        <label className="text-[10px] font-bold text-blue-700 uppercase">Depósito</label>
+                        <select className="w-full h-8 px-2 rounded-lg bg-[#FFFFFF] border border-border/50 text-xs">
                           <option>Geral</option>
                         </select>
                       </div>
                       <div className="flex flex-col gap-1.5 w-48">
-                        <label className="text-[10px] font-bold text-blue-400 uppercase">CNPJ Terceiro</label>
-                        <input className="w-full h-8 px-2 rounded-lg bg-[#0F1420] border border-border/50 text-xs" />
+                        <label className="text-[10px] font-bold text-blue-700 uppercase">CNPJ Terceiro</label>
+                        <input className="w-full h-8 px-2 rounded-lg bg-[#FFFFFF] border border-border/50 text-xs" />
                       </div>
                     </div>
                   </div>
@@ -1127,18 +1127,18 @@ export default function PropostasPage() {
           </div>
 
           {/* FIXED BOTTOM ACTION TOOLBAR */}
-          <div className="fixed bottom-0 left-0 lg:left-64 right-0 bg-[#070A12]/95 backdrop-blur-xl border-t border-border/30 p-3 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+          <div className="fixed bottom-0 left-0 lg:left-64 right-0 bg-[#F8FAFC]/95 backdrop-blur-xl border-t border-border/30 p-3 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
             <div className="max-w-[1600px] mx-auto flex flex-col gap-2">
               {/* TOP ROW */}
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-200">
-                  <FileText className="h-3 w-3 mr-1.5 text-blue-400" /> Condições
+                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-800">
+                  <FileText className="h-3 w-3 mr-1.5 text-blue-700" /> Condições
                 </Button>
-                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-200">
-                  <FileText className="h-3 w-3 mr-1.5 text-blue-400" /> Pedido
+                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-800">
+                  <FileText className="h-3 w-3 mr-1.5 text-blue-700" /> Pedido
                 </Button>
-                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-200">
-                  <Mail className="h-3 w-3 mr-1.5 text-blue-400" /> E-Mail
+                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-800">
+                  <Mail className="h-3 w-3 mr-1.5 text-blue-700" /> E-Mail
                 </Button>
 
                 {/* APROVAR BUTTON */}
@@ -1150,17 +1150,17 @@ export default function PropostasPage() {
                   {approving ? <Loader2 className="h-3 w-3 animate-spin mr-1.5" /> : <Check className="h-3 w-3 mr-1.5" />} Aprovar
                 </Button>
 
-                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-200">
-                  <FileText className="h-3 w-3 mr-1.5 text-blue-400" /> Requisição
+                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-800">
+                  <FileText className="h-3 w-3 mr-1.5 text-blue-700" /> Requisição
                 </Button>
-                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-200">
-                  <Search className="h-3 w-3 mr-1.5 text-emerald-400" /> Filtrar
+                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-800">
+                  <Search className="h-3 w-3 mr-1.5 text-emerald-700" /> Filtrar
                 </Button>
-                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-200">
-                  <FileText className="h-3 w-3 mr-1.5 text-amber-400" /> Lista de Preços
+                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-800">
+                  <FileText className="h-3 w-3 mr-1.5 text-amber-700" /> Lista de Preços
                 </Button>
-                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-200">
-                  <FileText className="h-3 w-3 mr-1.5 text-amber-400" /> Docs
+                <Button variant="outline" size="sm" className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-secondary/20 border-border/40 hover:bg-secondary/40 hover:text-slate-800">
+                  <FileText className="h-3 w-3 mr-1.5 text-amber-700" /> Docs
                 </Button>
 
                 {/* GRAVAR BUTTON */}
@@ -1172,33 +1172,33 @@ export default function PropostasPage() {
                   {saving ? <Loader2 className="h-3 w-3 animate-spin mr-1.5" /> : <Save className="h-3 w-3 mr-1.5" />} Gravar
                 </Button>
 
-                <Button variant="outline" size="sm" onClick={() => setView("list")} className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 border-rose-500/30 text-rose-400 hover:bg-rose-500/20 hover:text-rose-300">
+                <Button variant="outline" size="sm" onClick={() => setView("list")} className="h-8 px-3 text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 border-rose-500/30 text-rose-700 hover:bg-rose-500/20 hover:text-rose-700">
                   <X className="h-3 w-3 mr-1.5" /> Sair
                 </Button>
               </div>
 
               {/* BOTTOM ROW */}
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-300">
+                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-600">
                   <Truck className="h-3 w-3 mr-1" /> Entrega Parcial
                 </Button>
-                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-300">
+                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-600">
                   <ShoppingCart className="h-3 w-3 mr-1" /> Pré-Venda
                 </Button>
-                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-300">
-                  <CheckCircle className="h-3 w-3 mr-1 text-emerald-500/70" /> Finalizar
+                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-600">
+                  <CheckCircle className="h-3 w-3 mr-1 text-emerald-700" /> Finalizar
                 </Button>
-                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-300">
-                  <RotateCcw className="h-3 w-3 mr-1 text-rose-400/70" /> Devolução
+                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-600">
+                  <RotateCcw className="h-3 w-3 mr-1 text-rose-700" /> Devolução
                 </Button>
-                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-300">
+                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-600">
                   <FileText className="h-3 w-3 mr-1" /> S.Remessa
                 </Button>
-                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-300">
-                  <User className="h-3 w-3 mr-1 text-indigo-400/70" /> Cadastro
+                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-600">
+                  <User className="h-3 w-3 mr-1 text-indigo-700" /> Cadastro
                 </Button>
-                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-300">
-                  <Key className="h-3 w-3 mr-1 text-amber-400/70" /> Autorizar
+                <Button variant="outline" size="sm" className="h-7 px-3 text-[9px] font-bold uppercase tracking-wider bg-transparent border-border/30 hover:bg-secondary/30 text-muted-foreground hover:text-slate-600">
+                  <Key className="h-3 w-3 mr-1 text-amber-700" /> Autorizar
                 </Button>
               </div>
             </div>

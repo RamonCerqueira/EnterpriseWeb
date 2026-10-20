@@ -30,8 +30,8 @@ export default function FinanceiroPage() {
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <DollarSign className="h-6 w-6 text-emerald-400" /> Fluxo de Caixa & Finanças
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <DollarSign className="h-6 w-6 text-emerald-700" /> Fluxo de Caixa & Finanças
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Gerencie o plano de contas, contas a pagar, contas a receber, faturamentos, e conciliação bancária do ERP.
@@ -50,57 +50,57 @@ export default function FinanceiroPage() {
 
       {/* Row 1: Summary Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-emerald-950/45 text-emerald-400 flex items-center justify-center border border-emerald-500/10">
+            <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-500/10">
               <TrendingUp className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Receitas (Mês)</span>
           </div>
-          <h3 className="text-xl font-extrabold text-slate-100">{formatCurrency(4700.0)}</h3>
-          <span className="text-[9px] text-emerald-400 font-semibold mt-1 block">↑ 18.2% vs mês anterior</span>
+          <h3 className="text-xl font-extrabold text-slate-800">{formatCurrency(4700.0)}</h3>
+          <span className="text-[9px] text-emerald-700 font-semibold mt-1 block">↑ 18.2% vs mês anterior</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-rose-950/45 text-rose-400 flex items-center justify-center border border-rose-500/10">
+            <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center border border-rose-500/10">
               <TrendingDown className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Despesas (Mês)</span>
           </div>
-          <h3 className="text-xl font-extrabold text-slate-100">{formatCurrency(7230.0)}</h3>
-          <span className="text-[9px] text-rose-400 font-semibold mt-1 block">↓ 8.5% economia em AWS</span>
+          <h3 className="text-xl font-extrabold text-slate-800">{formatCurrency(7230.0)}</h3>
+          <span className="text-[9px] text-rose-700 font-semibold mt-1 block">↓ 8.5% economia em AWS</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-blue-950/45 text-blue-400 flex items-center justify-center border border-blue-500/10">
+            <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-500/10">
               <Wallet className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Saldo Líquido</span>
           </div>
-          <h3 className="text-xl font-extrabold text-slate-100">{formatCurrency(-2530.0)}</h3>
-          <span className="text-[9px] text-rose-400 font-semibold mt-1 block">Déficit provisório de capital</span>
+          <h3 className="text-xl font-extrabold text-slate-800">{formatCurrency(-2530.0)}</h3>
+          <span className="text-[9px] text-rose-700 font-semibold mt-1 block">Déficit provisório de capital</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-amber-950/45 text-amber-400 flex items-center justify-center border border-amber-500/10">
+            <div className="h-7 w-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-500/10">
               <AlertCircle className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Inadimplência</span>
           </div>
-          <h3 className="text-xl font-extrabold text-slate-100">{formatCurrency(28650.5)}</h3>
-          <span className="text-[9px] text-rose-400 font-semibold mt-1 block">12 Títulos vencidos</span>
+          <h3 className="text-xl font-extrabold text-slate-800">{formatCurrency(28650.5)}</h3>
+          <span className="text-[9px] text-rose-700 font-semibold mt-1 block">12 Títulos vencidos</span>
         </Card>
       </div>
 
       {/* Main card grid table */}
-      <Card className="bg-[#121826]/75 border border-border/60 overflow-hidden">
+      <Card className="bg-[#FFFFFF]/75 border border-border/60 overflow-hidden">
         {/* Table Header Filter */}
-        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30">
+        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/30">
           <div>
-            <CardTitle className="text-sm font-bold text-slate-200">Livro de Lançamentos</CardTitle>
+            <CardTitle className="text-sm font-bold text-slate-800">Livro de Lançamentos</CardTitle>
             <p className="text-[10px] text-muted-foreground">Transações de entradas e saídas correntes e previstas.</p>
           </div>
 
@@ -114,7 +114,7 @@ export default function FinanceiroPage() {
               placeholder="Filtrar por cliente, referência ou descrição..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
             />
           </div>
         </div>
@@ -128,7 +128,7 @@ export default function FinanceiroPage() {
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-border bg-[#0E131F]/50">
+                <tr className="border-b border-border bg-[#F8FAFC]/50">
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider pl-6">Direção</th>
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Descrição / Lançamento</th>
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Referência</th>
@@ -146,20 +146,20 @@ export default function FinanceiroPage() {
                         {t.type === "Recebimento" ? (
                           <>
                             <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
-                            <span className="text-emerald-400">Recebimento</span>
+                            <span className="text-emerald-700">Recebimento</span>
                           </>
                         ) : (
                           <>
                             <span className="h-2 w-2 rounded-full bg-rose-400"></span>
-                            <span className="text-rose-400">Despesa</span>
+                            <span className="text-rose-700">Despesa</span>
                           </>
                         )}
                       </div>
                     </td>
-                    <td className="p-3.5 text-slate-200 font-semibold">{t.desc}</td>
+                    <td className="p-3.5 text-slate-800 font-semibold">{t.desc}</td>
                     <td className="p-3.5 text-muted-foreground font-mono font-bold">{t.ref}</td>
-                    <td className="p-3.5 text-slate-200 font-semibold">{t.entity}</td>
-                    <td className="p-3.5 font-bold text-slate-100">{formatCurrency(t.value)}</td>
+                    <td className="p-3.5 text-slate-800 font-semibold">{t.entity}</td>
+                    <td className="p-3.5 font-bold text-slate-800">{formatCurrency(t.value)}</td>
                     <td className="p-3.5">
                       <Badge
                         variant={t.status === "Liquidado" ? "success" : "warning"}

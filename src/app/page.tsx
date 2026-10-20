@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#0B0F19] text-foreground overflow-hidden relative">
+    <div className="flex flex-col min-h-screen bg-[#F8FAFC] text-foreground overflow-hidden relative">
       {/* Premium custom page animations style block */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes float-slower {
@@ -35,7 +35,7 @@ export default function Home() {
       `}} />
 
       {/* Modern SVG grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29370b_1px,transparent_1px),linear-gradient(to_bottom,#1f29370b_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#CBD5E155_1px,transparent_1px),linear-gradient(to_bottom,#CBD5E155_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
       {/* Background glowing blobs with orbiting keyframes */}
       <div className="absolute top-[-15%] left-[-15%] w-[50%] h-[50%] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none animate-orbit-1"></div>
@@ -46,7 +46,7 @@ export default function Home() {
         <Logo showText />
         <div className="flex items-center gap-3">
           <Link href="/login">
-            <Button variant="ghost" size="sm" className="text-xs font-bold text-slate-300 hover:text-slate-100 hover:bg-secondary/40 cursor-pointer">
+            <Button variant="ghost" size="sm" className="text-xs font-bold text-slate-600 hover:text-slate-800 hover:bg-secondary/40 cursor-pointer">
               Login
             </Button>
           </Link>
@@ -60,14 +60,14 @@ export default function Home() {
 
       {/* Main hero section */}
       <main className="container mx-auto px-6 flex-1 flex flex-col items-center justify-center text-center py-16 z-10 relative">
-        <div className="inline-flex items-center gap-2 bg-[#121826] border border-border px-3.5 py-1.5 rounded-full text-xs font-semibold text-emerald-400 mb-6 shadow-sm">
+        <div className="inline-flex items-center gap-2 bg-[#FFFFFF] border border-border px-3.5 py-1.5 rounded-full text-xs font-semibold text-emerald-700 mb-6 shadow-sm">
           <Sparkles className="h-3.5 w-3.5 animate-pulse" />
           <span>Próxima Geração de ERP Web</span>
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-100 max-w-4xl leading-[1.15] mb-6">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-800 max-w-4xl leading-[1.15] mb-6">
           Gestão Empresarial Inteligente com o{" "}
-          <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-500 bg-clip-text text-transparent glow-text-green font-black">
+          <span className="bg-gradient-to-r from-emerald-700 via-teal-700 to-indigo-700 bg-clip-text text-transparent font-black">
             EnterpriseWeb
           </span>
         </h1>
@@ -78,15 +78,15 @@ export default function Home() {
 
         {/* Floating tech badge pills */}
         <div className="flex flex-wrap items-center justify-center gap-3 mb-10 max-w-xl animate-float-slower">
-          <span className="px-3 py-1 rounded-full border border-border/80 bg-[#0E1320]/65 text-[10px] font-bold text-slate-300 flex items-center gap-1.5 backdrop-blur-sm">
+          <span className="px-3 py-1 rounded-full border border-border/80 bg-[#F8FAFC]/65 text-[10px] font-bold text-slate-600 flex items-center gap-1.5 backdrop-blur-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping"></span>
             ⚡ SQL Server: Ativo
           </span>
-          <span className="px-3 py-1 rounded-full border border-border/80 bg-[#0E1320]/65 text-[10px] font-bold text-slate-300 flex items-center gap-1.5 backdrop-blur-sm">
+          <span className="px-3 py-1 rounded-full border border-border/80 bg-[#F8FAFC]/65 text-[10px] font-bold text-slate-600 flex items-center gap-1.5 backdrop-blur-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
             🛡️ Segurança: Op1-Op105
           </span>
-          <span className="px-3 py-1 rounded-full border border-border/80 bg-[#0E1320]/65 text-[10px] font-bold text-slate-300 flex items-center gap-1.5 backdrop-blur-sm">
+          <span className="px-3 py-1 rounded-full border border-border/80 bg-[#F8FAFC]/65 text-[10px] font-bold text-slate-600 flex items-center gap-1.5 backdrop-blur-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-purple-400"></span>
             ✨ Assistente IA: Online
           </span>
@@ -112,7 +112,7 @@ export default function Home() {
         </div>
 
         {/* Interactive Dashboard Mockup Preview */}
-        <div className="relative mb-20 w-full max-w-4xl rounded-2xl border border-border/80 bg-[#0E1320]/60 p-4 shadow-[0_0_50px_rgba(16,185,129,0.08)] backdrop-blur-md group hover:border-emerald-500/20 transition-all duration-500 select-none">
+        <div className="relative mb-20 w-full max-w-4xl rounded-2xl border border-border/80 bg-[#F8FAFC]/60 p-4 shadow-[0_0_50px_rgba(16,185,129,0.08)] backdrop-blur-md group hover:border-emerald-500/20 transition-all duration-500 select-none">
           {/* Windows Title bar */}
           <div className="flex items-center justify-between pb-3 border-b border-border/40 mb-4 px-2">
             <div className="flex items-center gap-1.5">
@@ -128,18 +128,18 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Column 1: Financial card & status */}
             <div className="space-y-4">
-              <div className="bg-[#121826]/80 border border-border/80 rounded-xl p-4 text-left">
+              <div className="bg-[#FFFFFF]/80 border border-border/80 rounded-xl p-4 text-left">
                 <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider block">Faturamento Consolidado</span>
-                <h4 className="text-lg font-extrabold text-slate-100 mt-1">R$ 128.780,00</h4>
-                <div className="flex items-center gap-1 mt-2 text-[9px] font-semibold text-emerald-400 bg-emerald-950/20 px-2 py-0.5 rounded w-fit">
+                <h4 className="text-lg font-extrabold text-slate-800 mt-1">R$ 128.780,00</h4>
+                <div className="flex items-center gap-1 mt-2 text-[9px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded w-fit">
                   <span>↑ 18.6%</span>
                   <span className="text-muted-foreground font-medium">este mês</span>
                 </div>
               </div>
-              <div className="bg-[#121826]/80 border border-border/80 rounded-xl p-4 text-left">
+              <div className="bg-[#FFFFFF]/80 border border-border/80 rounded-xl p-4 text-left">
                 <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider block">Ordens de Serviço</span>
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs font-bold text-slate-200">8 Em Execução</span>
+                  <span className="text-xs font-bold text-slate-800">8 Em Execução</span>
                   <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 </div>
                 <div className="h-1.5 w-full bg-secondary/60 rounded-full mt-2 overflow-hidden">
@@ -149,10 +149,10 @@ export default function Home() {
             </div>
 
             {/* Column 2: Graph Lines */}
-            <div className="bg-[#121826]/80 border border-border/80 rounded-xl p-4 flex flex-col justify-between text-left md:col-span-2">
+            <div className="bg-[#FFFFFF]/80 border border-border/80 rounded-xl p-4 flex flex-col justify-between text-left md:col-span-2">
               <div>
                 <span className="text-[9px] text-muted-foreground font-bold uppercase tracking-wider block">Fluxo de Caixa Operacional</span>
-                <span className="text-[10px] text-emerald-400 font-semibold block mt-0.5">Saldo Líquido Previsto: + R$ 48.200,00</span>
+                <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Saldo Líquido Previsto: + R$ 48.200,00</span>
               </div>
               
               {/* Clean Mock Graph Bars */}
@@ -163,7 +163,7 @@ export default function Home() {
                       className="w-full rounded-t bg-gradient-to-t from-emerald-500/20 to-emerald-400/80 group-hover/bar:to-emerald-300 transition-all duration-300 relative" 
                       style={{ height: `${h * 0.7}px` }}
                     >
-                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-900 border border-border px-1 py-0.5 rounded text-[8px] font-bold text-slate-100 opacity-0 group-hover/bar:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-50 border border-border px-1 py-0.5 rounded text-[8px] font-bold text-slate-800 opacity-0 group-hover/bar:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
                         R$ {h}k
                       </div>
                     </div>
@@ -177,31 +177,31 @@ export default function Home() {
 
         {/* Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl text-left">
-          <div className="bg-[#121826]/75 border border-border/80 rounded-xl p-6 glow-card transition-all duration-300">
-            <div className="h-10 w-10 bg-emerald-500/10 text-emerald-400 rounded-lg flex items-center justify-center mb-4 border border-emerald-500/20">
+          <div className="bg-[#FFFFFF]/75 border border-border/80 rounded-xl p-6 glow-card transition-all duration-300">
+            <div className="h-10 w-10 bg-emerald-500/10 text-emerald-700 rounded-lg flex items-center justify-center mb-4 border border-emerald-500/20">
               <Database className="h-5 w-5" />
             </div>
-            <h3 className="text-sm font-bold text-slate-100 mb-2">Prisma & SQL Server</h3>
+            <h3 className="text-sm font-bold text-slate-800 mb-2">Prisma & SQL Server</h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Totalmente integrado ao seu banco corporativo **TESTE** no SQL Server, garantindo performance e integridade de dados absoluta.
             </p>
           </div>
 
-          <div className="bg-[#121826]/75 border border-border/80 rounded-xl p-6 glow-card transition-all duration-300">
-            <div className="h-10 w-10 bg-indigo-500/10 text-indigo-400 rounded-lg flex items-center justify-center mb-4 border border-indigo-500/20">
+          <div className="bg-[#FFFFFF]/75 border border-border/80 rounded-xl p-6 glow-card transition-all duration-300">
+            <div className="h-10 w-10 bg-indigo-500/10 text-indigo-700 rounded-lg flex items-center justify-center mb-4 border border-indigo-500/20">
               <ShieldCheck className="h-5 w-5" />
             </div>
-            <h3 className="text-sm font-bold text-slate-100 mb-2">Controle de Permissões</h3>
+            <h3 className="text-sm font-bold text-slate-800 mb-2">Controle de Permissões</h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Mapeamento de **105 operadores (Op1 a Op105)** do legado para habilitar ou bloquear módulos, garantindo controle estrito de acessos.
             </p>
           </div>
 
-          <div className="bg-[#121826]/75 border border-border/80 rounded-xl p-6 glow-card transition-all duration-300">
-            <div className="h-10 w-10 bg-teal-500/10 text-teal-400 rounded-lg flex items-center justify-center mb-4 border border-teal-500/20">
+          <div className="bg-[#FFFFFF]/75 border border-border/80 rounded-xl p-6 glow-card transition-all duration-300">
+            <div className="h-10 w-10 bg-teal-500/10 text-teal-700 rounded-lg flex items-center justify-center mb-4 border border-teal-500/20">
               <Cpu className="h-5 w-5" />
             </div>
-            <h3 className="text-sm font-bold text-slate-100 mb-2">Assistente com IA</h3>
+            <h3 className="text-sm font-bold text-slate-800 mb-2">Assistente com IA</h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Converse com o Assistente de Inteligência Artificial integrado ao ERP para obter insights de faturamento, estoque e inadimplência.
             </p>
@@ -214,7 +214,7 @@ export default function Home() {
         <div className="container mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span>&copy; {new Date().getFullYear()} SoftLine Sistemas. Todos os direitos reservados.</span>
           <div className="flex gap-4">
-            <span className="flex items-center gap-1.5"><Terminal className="h-3.5 w-3.5 text-emerald-400" /> Next.js + SQL Server v15</span>
+            <span className="flex items-center gap-1.5"><Terminal className="h-3.5 w-3.5 text-emerald-700" /> Next.js + SQL Server v15</span>
           </div>
         </div>
       </footer>

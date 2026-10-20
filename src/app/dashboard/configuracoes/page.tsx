@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { 
-  Settings, Save, Building2, Sliders, Bell, Database, 
-  RefreshCw, User, MapPin, Percent, FileText, Mail, 
+import {
+  Settings, Save, Building2, Sliders, Bell, Database,
+  RefreshCw, User, MapPin, Percent, FileText, Mail,
   Image as ImageIcon, CheckCircle, ShieldAlert
 } from "lucide-react";
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
@@ -28,7 +28,7 @@ interface CompanyListItem {
 
 export default function ConfiguracoesPage() {
   const [activeTab, setActiveTab] = useState("empresa");
-  
+
   // Company Registry States
   const [companies, setCompanies] = useState<CompanyListItem[]>([]);
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
@@ -147,12 +147,12 @@ export default function ConfiguracoesPage() {
   };
 
   return (
-    <div className="space-y-6 select-none animate-fade-in pb-12 text-left text-slate-100 relative">
+    <div className="space-y-6 select-none animate-fade-in pb-12 text-left text-slate-800 relative">
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <Settings className="h-6 w-6 text-emerald-400" /> Configurações Gerais
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <Settings className="h-6 w-6 text-emerald-700" /> Configurações Gerais
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Ajuste os parâmetros fiscais e comerciais da empresa, configurações do servidor SMTP de e-mails, alertas e backups.
@@ -160,7 +160,7 @@ export default function ConfiguracoesPage() {
         </div>
 
         {activeTab === "empresa" && selectedCompanyId && (
-          <Button 
+          <Button
             onClick={handleSaveCompany}
             disabled={isSaving || isDetailLoading}
             className="text-xs font-black h-9 bg-emerald-500 hover:bg-emerald-400 text-black flex items-center gap-1.5 shadow-[0_0_10px_rgba(16,185,129,0.15)] cursor-pointer"
@@ -193,8 +193,8 @@ export default function ConfiguracoesPage() {
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 text-xs font-bold border-b-2 transition-all cursor-pointer whitespace-nowrap outline-none ${
               activeTab === tab.id
-                ? "border-emerald-500 text-emerald-400 font-extrabold bg-emerald-950/10"
-                : "border-transparent text-muted-foreground hover:text-slate-200"
+                ? "border-emerald-500 text-emerald-700 font-extrabold bg-emerald-50"
+                : "border-transparent text-muted-foreground hover:text-slate-800"
             }`}
           >
             <tab.icon className="h-4 w-4" />
@@ -207,7 +207,7 @@ export default function ConfiguracoesPage() {
       {activeTab === "empresa" ? (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
           {/* LEFT PANEL: Filiais List */}
-          <Card className="lg:col-span-1 bg-[#0E1322]/80 border border-border/60 p-4 shadow-lg backdrop-blur-md">
+          <Card className="lg:col-span-1 bg-[#FFFFFF]/80 border border-border/60 p-4 shadow-lg backdrop-blur-md">
             <CompanyList
               companies={companies}
               selectedCompanyId={selectedCompanyId}
@@ -219,10 +219,10 @@ export default function ConfiguracoesPage() {
           </Card>
 
           {/* RIGHT PANEL: Complex Delphi Form Layout */}
-          <Card className="lg:col-span-3 bg-[#0E1322]/80 border border-border/60 p-6 shadow-lg backdrop-blur-md relative min-h-[500px]">
+          <Card className="lg:col-span-3 bg-[#FFFFFF]/80 border border-border/60 p-6 shadow-lg backdrop-blur-md relative min-h-[500px]">
             {isDetailLoading ? (
-              <div className="absolute inset-0 z-50 bg-[#0E1322]/90 flex flex-col items-center justify-center gap-2">
-                <RefreshCw className="h-8 w-8 text-emerald-400 animate-spin" />
+              <div className="absolute inset-0 z-50 bg-[#FFFFFF]/90 flex flex-col items-center justify-center gap-2">
+                <RefreshCw className="h-8 w-8 text-emerald-700 animate-spin" />
                 <span className="text-xs text-muted-foreground font-extrabold">Carregando dados fiscais do SQL Server...</span>
               </div>
             ) : !companyData ? (
@@ -233,17 +233,17 @@ export default function ConfiguracoesPage() {
               <div className="space-y-6">
                 {saveStatus && (
                   <div className={`p-2.5 rounded-lg text-[10px] font-bold flex items-center gap-2 border ${
-                    saveStatus.success 
-                      ? "bg-emerald-950/35 border-emerald-500/30 text-emerald-400" 
-                      : "bg-rose-950/35 border-rose-500/30 text-rose-400"
+                    saveStatus.success
+                      ? "bg-emerald-50 border-emerald-500/30 text-emerald-700"
+                      : "bg-rose-50 border-rose-500/30 text-rose-700"
                   }`}>
-                    {saveStatus.success ? <CheckCircle className="h-4 w-4 shrink-0 text-emerald-400" /> : <ShieldAlert className="h-4 w-4 shrink-0 text-rose-400" />}
+                    {saveStatus.success ? <CheckCircle className="h-4 w-4 shrink-0 text-emerald-700" /> : <ShieldAlert className="h-4 w-4 shrink-0 text-rose-700" />}
                     <span>{saveStatus.message}</span>
                   </div>
                 )}
 
                 {/* SUB-TABS NAVIGATION (Delphi style tabs) */}
-                <div className="flex border-b border-border/40 gap-1.5 overflow-x-auto shrink-0 pb-1 bg-slate-950/25 p-1 rounded-lg">
+                <div className="flex border-b border-border/40 gap-1.5 overflow-x-auto shrink-0 pb-1 bg-white/25 p-1 rounded-lg">
                   {[
                     { id: "identificacao", label: "Identificação", icon: User },
                     { id: "endereco", label: "Endereço & Contato", icon: MapPin },
@@ -259,7 +259,7 @@ export default function ConfiguracoesPage() {
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap outline-none ${
                         subTab === sub.id
                           ? "bg-emerald-500 text-black font-black shadow-md"
-                          : "text-slate-400 hover:text-slate-200 hover:bg-[#05080E]/40"
+                          : "text-slate-600 hover:text-slate-800 hover:bg-[#F8FAFC]/40"
                       }`}
                     >
                       <sub.icon className="h-3.5 w-3.5" />
@@ -291,10 +291,10 @@ export default function ConfiguracoesPage() {
                   )}
 
                   {subTab === "parametros" && (
-                    <ParametrosTab 
-                      data={companyData} 
-                      onChange={handleInputChange} 
-                      onLogoUpload={handleLogoUpload} 
+                    <ParametrosTab
+                      data={companyData}
+                      onChange={handleInputChange}
+                      onLogoUpload={handleLogoUpload}
                     />
                   )}
                 </div>
@@ -304,48 +304,48 @@ export default function ConfiguracoesPage() {
           </Card>
         </div>
       ) : (
-        <Card className="bg-[#121826]/75 border border-border/60 p-6 shadow-xl backdrop-blur-md">
+        <Card className="bg-[#FFFFFF]/75 border border-border/60 p-6 shadow-xl backdrop-blur-md">
           {activeTab === "sistema" && (
             <div className="space-y-4 max-w-2xl">
-              <h3 className="text-sm font-bold text-slate-200 border-b border-border/40 pb-2 flex items-center gap-1.5">
-                <Sliders className="h-4.5 w-4.5 text-emerald-400" /> Servidor SMTP para Envio de E-mails
+              <h3 className="text-sm font-bold text-slate-800 border-b border-border/40 pb-2 flex items-center gap-1.5">
+                <Sliders className="h-4.5 w-4.5 text-emerald-700" /> Servidor SMTP para Envio de E-mails
               </h3>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Servidor SMTP</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Servidor SMTP</label>
                   <input
                     type="text"
                     value={smtpServer}
                     onChange={(e) => setSmtpServer(e.target.value)}
-                    className="w-full h-9.5 px-3 rounded-lg bg-[#0F1420] border border-border text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-semibold"
+                    className="w-full h-9.5 px-3 rounded-lg bg-[#FFFFFF] border border-border text-xs text-slate-800 focus:outline-none focus:border-emerald-500 font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Porta SMTP</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Porta SMTP</label>
                   <input
                     type="text"
                     value={smtpPort}
                     onChange={(e) => setSmtpPort(e.target.value)}
-                    className="w-full h-9.5 px-3 rounded-lg bg-[#0F1420] border border-border text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-mono font-bold"
+                    className="w-full h-9.5 px-3 rounded-lg bg-[#FFFFFF] border border-border text-xs text-slate-800 focus:outline-none focus:border-emerald-500 font-mono font-bold"
                   />
                 </div>
 
                 <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">E-mail SMTP Remetente</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">E-mail SMTP Remetente</label>
                   <input
                     type="email"
                     defaultValue="no-reply@softlinesistemas.com"
-                    className="w-full h-9.5 px-3 rounded-lg bg-[#0F1420] border border-border text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-semibold"
+                    className="w-full h-9.5 px-3 rounded-lg bg-[#FFFFFF] border border-border text-xs text-slate-800 focus:outline-none focus:border-emerald-500 font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Protocolo de Criptografia</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Protocolo de Criptografia</label>
                   <select
                     defaultValue="STARTTLS"
-                    className="w-full h-9.5 px-3 rounded-lg bg-[#0F1420] border border-border text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer"
+                    className="w-full h-9.5 px-3 rounded-lg bg-[#FFFFFF] border border-border text-xs text-slate-800 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer"
                   >
                     <option value="STARTTLS">STARTTLS (Recomendado)</option>
                     <option value="SSL/TLS">SSL / TLS</option>
@@ -358,34 +358,34 @@ export default function ConfiguracoesPage() {
 
           {activeTab === "notificacoes" && (
             <div className="space-y-4 max-w-2xl">
-              <h3 className="text-sm font-bold text-slate-200 border-b border-border/40 pb-2 flex items-center gap-1.5">
-                <Bell className="h-4.5 w-4.5 text-emerald-400" /> Preferências de Notificações
+              <h3 className="text-sm font-bold text-slate-800 border-b border-border/40 pb-2 flex items-center gap-1.5">
+                <Bell className="h-4.5 w-4.5 text-emerald-700" /> Preferências de Notificações
               </h3>
-              
+
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-lg border border-border/60 bg-[#0E1320] cursor-pointer" onClick={() => setNotifEmail(!notifEmail)}>
+                <div className="flex items-center justify-between p-3 rounded-lg border border-border/60 bg-[#F8FAFC] cursor-pointer" onClick={() => setNotifEmail(!notifEmail)}>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-200">Notificar por E-mail</h4>
+                    <h4 className="text-xs font-bold text-slate-800">Notificar por E-mail</h4>
                     <p className="text-[10px] text-muted-foreground mt-0.5">Envia relatórios diários de faturamento e alertas de estoque por e-mail.</p>
                   </div>
                   <input
                     type="checkbox"
                     checked={notifEmail}
                     onChange={() => {}}
-                    className="h-4.5 w-4.5 rounded border-gray-600 bg-gray-700 text-emerald-600 focus:ring-emerald-500 pointer-events-none cursor-pointer"
+                    className="h-4.5 w-4.5 rounded border-gray-200 bg-white text-emerald-600 focus:ring-emerald-500 pointer-events-none cursor-pointer"
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-lg border border-border/60 bg-[#0E1320] cursor-pointer" onClick={() => setNotifSms(!notifSms)}>
+                <div className="flex items-center justify-between p-3 rounded-lg border border-border/60 bg-[#F8FAFC] cursor-pointer" onClick={() => setNotifSms(!notifSms)}>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-200">Notificar por SMS</h4>
+                    <h4 className="text-xs font-bold text-slate-800">Notificar por SMS</h4>
                     <p className="text-[10px] text-muted-foreground mt-0.5">Envia lembretes SMS automáticos para faturas vencidas de clientes.</p>
                   </div>
                   <input
                     type="checkbox"
                     checked={notifSms}
                     onChange={() => {}}
-                    className="h-4.5 w-4.5 rounded border-gray-600 bg-gray-700 text-emerald-600 focus:ring-emerald-500 pointer-events-none cursor-pointer"
+                    className="h-4.5 w-4.5 rounded border-gray-200 bg-white text-emerald-600 focus:ring-emerald-500 pointer-events-none cursor-pointer"
                   />
                 </div>
               </div>
@@ -394,17 +394,17 @@ export default function ConfiguracoesPage() {
 
           {activeTab === "backup" && (
             <div className="space-y-4 max-w-2xl">
-              <h3 className="text-sm font-bold text-slate-200 border-b border-border/40 pb-2 flex items-center gap-1.5">
-                <Database className="h-4.5 w-4.5 text-emerald-400" /> Controle de Segurança de Dados
+              <h3 className="text-sm font-bold text-slate-800 border-b border-border/40 pb-2 flex items-center gap-1.5">
+                <Database className="h-4.5 w-4.5 text-emerald-700" /> Controle de Segurança de Dados
               </h3>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Periodicidade do Backup</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Periodicidade do Backup</label>
                   <select
                     value={backupPeriod}
                     onChange={(e) => setBackupPeriod(e.target.value)}
-                    className="w-full h-9.5 px-3 rounded-lg bg-[#0F1420] border border-border text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer"
+                    className="w-full h-9.5 px-3 rounded-lg bg-[#FFFFFF] border border-border text-xs text-slate-800 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer"
                   >
                     <option value="Diário">Diário (Recomendado)</option>
                     <option value="Semanal">Semanal</option>
@@ -413,10 +413,10 @@ export default function ConfiguracoesPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Destino do Backup na Nuvem</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Destino do Backup na Nuvem</label>
                   <select
                     defaultValue="Amazon S3"
-                    className="w-full h-9.5 px-3 rounded-lg bg-[#0F1420] border border-border text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer"
+                    className="w-full h-9.5 px-3 rounded-lg bg-[#FFFFFF] border border-border text-xs text-slate-800 focus:outline-none focus:border-emerald-500 font-semibold cursor-pointer"
                   >
                     <option value="Amazon S3">Amazon S3 Secure Storage</option>
                     <option value="Google Cloud">Google Cloud Bucket</option>

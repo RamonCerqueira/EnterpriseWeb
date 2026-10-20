@@ -29,8 +29,8 @@ export default function OrdensServicoPage() {
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <ClipboardList className="h-6 w-6 text-emerald-400" /> Ordens de Serviço (OS)
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <ClipboardList className="h-6 w-6 text-emerald-700" /> Ordens de Serviço (OS)
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Controle as ordens de serviço preventivas e corretivas, atribua técnicos e gerencie prazos de entrega.
@@ -44,57 +44,57 @@ export default function OrdensServicoPage() {
 
       {/* Row 1: Summary Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-emerald-950/45 text-emerald-400 flex items-center justify-center border border-emerald-500/10">
+            <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-500/10">
               <CheckCircle className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Concluídas</span>
           </div>
-          <h3 className="text-lg font-bold text-slate-100">2 Ordens</h3>
-          <span className="text-[9px] text-emerald-400 font-semibold mt-1 block">100% de satisfação do cliente</span>
+          <h3 className="text-lg font-bold text-slate-800">2 Ordens</h3>
+          <span className="text-[9px] text-emerald-700 font-semibold mt-1 block">100% de satisfação do cliente</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-blue-950/45 text-blue-400 flex items-center justify-center border border-blue-500/10">
+            <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-500/10">
               <Clock className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Em Andamento</span>
           </div>
-          <h3 className="text-lg font-bold text-slate-100">1 Ordem</h3>
-          <span className="text-[9px] text-blue-400 font-semibold mt-1 block">Técnico Carlos Souza alocado</span>
+          <h3 className="text-lg font-bold text-slate-800">1 Ordem</h3>
+          <span className="text-[9px] text-blue-700 font-semibold mt-1 block">Técnico Carlos Souza alocado</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-rose-950/45 text-rose-400 flex items-center justify-center border border-rose-500/10">
+            <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center border border-rose-500/10">
               <AlertTriangle className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Atrasadas</span>
           </div>
-          <h3 className="text-lg font-bold text-slate-100">1 Ordem</h3>
-          <span className="text-[9px] text-rose-400 font-semibold mt-1 block">Instalação elétrica sob risco</span>
+          <h3 className="text-lg font-bold text-slate-800">1 Ordem</h3>
+          <span className="text-[9px] text-rose-700 font-semibold mt-1 block">Instalação elétrica sob risco</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-secondary text-slate-400 flex items-center justify-center border border-border">
+            <div className="h-7 w-7 rounded-lg bg-secondary text-slate-600 flex items-center justify-center border border-border">
               <ClipboardList className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Total Registrado</span>
           </div>
-          <h3 className="text-lg font-bold text-slate-100">5 Ordens</h3>
+          <h3 className="text-lg font-bold text-slate-800">5 Ordens</h3>
           <span className="text-[9px] text-muted-foreground font-semibold mt-1 block">Média de 3.2 dias para término</span>
         </Card>
       </div>
 
       {/* Main card grid table */}
-      <Card className="bg-[#121826]/75 border border-border/60 overflow-hidden">
+      <Card className="bg-[#FFFFFF]/75 border border-border/60 overflow-hidden">
         {/* Table Header Filter */}
-        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30">
+        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/30">
           <div>
-            <CardTitle className="text-sm font-bold text-slate-200">Painel Operacional de OS</CardTitle>
+            <CardTitle className="text-sm font-bold text-slate-800">Painel Operacional de OS</CardTitle>
             <p className="text-[10px] text-muted-foreground">Monitore o status do serviço executado em campo e cronograma.</p>
           </div>
 
@@ -108,7 +108,7 @@ export default function OrdensServicoPage() {
               placeholder="Filtrar por cliente, referência ou técnico..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
             />
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function OrdensServicoPage() {
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-border bg-[#0E131F]/50">
+                <tr className="border-b border-border bg-[#F8FAFC]/50">
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider pl-6">Código OS</th>
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Cliente Razão</th>
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Serviço Solicitado</th>
@@ -136,12 +136,12 @@ export default function OrdensServicoPage() {
               <tbody className="divide-y divide-border/20">
                 {filteredOrders.map((o) => (
                   <tr key={o.id} className="hover:bg-secondary/15 transition-colors text-xs">
-                    <td className="p-3.5 pl-6 font-mono font-bold text-emerald-400">{o.ref}</td>
-                    <td className="p-3.5 text-slate-200 font-semibold">{o.client}</td>
-                    <td className="p-3.5 text-slate-300 font-medium">{o.service}</td>
-                    <td className="p-3.5 text-slate-200 font-semibold">
+                    <td className="p-3.5 pl-6 font-mono font-bold text-emerald-700">{o.ref}</td>
+                    <td className="p-3.5 text-slate-800 font-semibold">{o.client}</td>
+                    <td className="p-3.5 text-slate-600 font-medium">{o.service}</td>
+                    <td className="p-3.5 text-slate-800 font-semibold">
                       <div className="flex items-center gap-1.5">
-                        <User className="h-3.5 w-3.5 text-emerald-400" />
+                        <User className="h-3.5 w-3.5 text-emerald-700" />
                         <span>{o.tech}</span>
                       </div>
                     </td>
@@ -159,7 +159,7 @@ export default function OrdensServicoPage() {
                       </Badge>
                     </td>
                     <td className="p-3.5 pr-6 text-right">
-                      <Button variant="ghost" size="sm" className="h-7 text-emerald-400 flex items-center justify-end gap-1 font-semibold ml-auto">
+                      <Button variant="ghost" size="sm" className="h-7 text-emerald-700 flex items-center justify-end gap-1 font-semibold ml-auto">
                         Detalhes <ArrowUpRight className="h-3.5 w-3.5" />
                       </Button>
                     </td>

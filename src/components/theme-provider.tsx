@@ -2,86 +2,12 @@
 
 import * as React from "react";
 
-export type Theme = "light" | "dark" | "system";
-
-type ThemeProviderState = {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-};
-
-const ThemeProviderContext = React.createContext<ThemeProviderState | undefined>(undefined);
-
-export function ThemeProvider({
-  children,
-  defaultTheme = "light",
-  storageKey = "softline-theme",
-}: {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
-}) {
-  const [theme, setThemeState] = React.useState<Theme>(defaultTheme);
-
-  // Read the saved preference on mount. New visitors start in light mode and
-  // receive a saved preference immediately as well.
-  React.useEffect(() => {
-    const saved = localStorage.getItem(storageKey);
-
-    if (saved === "light" || saved === "dark" || saved === "system") {
-      setThemeState(saved);
-      return;
-    }
-
-    localStorage.setItem(storageKey, defaultTheme);
-  }, [defaultTheme, storageKey]);
-
-  // Apply selected theme class to document
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove("light", "dark");
+    root.classList.remove("dark");
+    root.classList.add("light");
+  }, []);
 
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-      root.classList.add(systemTheme);
-      return;
-    }
-
-    root.classList.add(theme);
-  }, [theme]);
-
-  // Listen to system changes if "system" is chosen
-  React.useEffect(() => {
-    if (theme !== "system") return;
-
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = () => {
-      const root = window.document.documentElement;
-      root.classList.remove("light", "dark");
-      root.classList.add(mediaQuery.matches ? "dark" : "light");
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [theme]);
-
-  const setTheme = (newTheme: Theme) => {
-    localStorage.setItem(storageKey, newTheme);
-    setThemeState(newTheme);
-  };
-
-  return (
-    <ThemeProviderContext.Provider value={{ theme, setTheme }}>
-      {children}
-    </ThemeProviderContext.Provider>
-  );
+  return <>{children}</>;
 }
-
-export const useTheme = () => {
-  const context = React.useContext(ThemeProviderContext);
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
-};

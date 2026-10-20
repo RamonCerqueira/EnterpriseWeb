@@ -531,7 +531,7 @@ export default function UsersDashboard() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-120px)] gap-6 select-none animate-fade-in text-slate-100 overflow-hidden pr-2">
+    <div className="flex h-[calc(100vh-120px)] gap-6 select-none animate-fade-in text-slate-800 overflow-hidden pr-2">
       
       {/* Sidebar List (Master Component) */}
       <CollaboratorsSidebar
@@ -545,15 +545,15 @@ export default function UsersDashboard() {
       />
 
       {/* Details Workspace (Detail) */}
-      <div className="flex-1 flex flex-col bg-[#121826]/75 border border-border/80 rounded-2xl backdrop-blur-xl overflow-hidden">
+      <div className="flex-1 flex flex-col bg-[#FFFFFF]/75 border border-border/80 rounded-2xl backdrop-blur-xl overflow-hidden">
         
         {!selectedUser && !isCreatingNew ? (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 space-y-4">
-            <div className="h-16 w-16 rounded-full bg-[#0E1320] border border-border/70 flex items-center justify-center">
+            <div className="h-16 w-16 rounded-full bg-[#F8FAFC] border border-border/70 flex items-center justify-center">
               <Users className="h-7 w-7 text-slate-500 animate-pulse" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider">Painel Administrativo Unificado</h3>
+              <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">Painel Administrativo Unificado</h3>
               <p className="text-xs text-muted-foreground max-w-sm">
                 Selecione um colaborador da lista à esquerda para carregar sua ficha cadastral completa ou clique em Novo.
               </p>
@@ -569,19 +569,19 @@ export default function UsersDashboard() {
           <form onSubmit={handleSaveUnifiedChanges} className="flex-1 flex flex-col overflow-hidden">
             
             {/* Workspace Header */}
-            <div className="p-4 border-b border-border/40 bg-[#0E131F]/30 flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
+            <div className="p-4 border-b border-border/40 bg-[#F8FAFC]/30 flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
               
               <div className="flex items-center gap-3.5 min-w-0">
-                <div className="h-11 w-11 rounded-xl bg-emerald-950/40 border border-emerald-500/25 flex items-center justify-center font-extrabold text-xs text-emerald-400 shrink-0 shadow-[0_0_12px_rgba(16,185,129,0.06)]">
+                <div className="h-11 w-11 rounded-xl bg-emerald-50 border border-emerald-500/25 flex items-center justify-center font-extrabold text-xs text-emerald-700 shrink-0 shadow-[0_0_12px_rgba(16,185,129,0.06)]">
                   {nome ? nome.substring(0, 2).toUpperCase() : "?"}
                 </div>
 
                 <div className="flex flex-col text-left min-w-0">
-                  <span className="text-sm font-black text-slate-100 tracking-tight truncate">
+                  <span className="text-sm font-black text-slate-800 tracking-tight truncate">
                     {isCreatingNew ? "Novo Colaborador / Ficha Cadastral" : nome}
                   </span>
                   <span className="text-[10px] text-muted-foreground font-mono flex items-center gap-2">
-                    <span>Login: <strong className="text-emerald-400">@{usuario || "indefinido"}</strong></span>
+                    <span>Login: <strong className="text-emerald-700">@{usuario || "indefinido"}</strong></span>
                     <span>•</span>
                     <span>ERP ID: <strong>{selectedUser?.id || "NOVO"}</strong></span>
                   </span>
@@ -594,29 +594,29 @@ export default function UsersDashboard() {
                 <button
                   type="button"
                   onClick={() => setInativo(!inativo)}
-                  className="flex items-center gap-1.5 bg-[#0F1420] border border-border/80 px-2.5 py-1.5 rounded-lg text-[10px] font-bold tracking-wider uppercase transition-all hover:border-slate-700 cursor-pointer text-slate-300"
+                  className="flex items-center gap-1.5 bg-[#FFFFFF] border border-border/80 px-2.5 py-1.5 rounded-lg text-[10px] font-bold tracking-wider uppercase transition-all hover:border-slate-200 cursor-pointer text-slate-600"
                 >
                   {inativo ? (
                     <>
-                      <ToggleLeft className="h-4.5 w-4.5 text-rose-500 shrink-0" />
-                      <span className="text-rose-400">ERP Inativo</span>
+                      <ToggleLeft className="h-4.5 w-4.5 text-rose-700 shrink-0" />
+                      <span className="text-rose-700">ERP Inativo</span>
                     </>
                   ) : (
                     <>
-                      <ToggleRight className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
-                      <span className="text-emerald-400">ERP Ativo</span>
+                      <ToggleRight className="h-4.5 w-4.5 text-emerald-700 shrink-0" />
+                      <span className="text-emerald-700">ERP Ativo</span>
                     </>
                   )}
                 </button>
 
-                <div className="flex bg-[#0E1320] border border-border/80 p-1 rounded-lg">
+                <div className="flex bg-[#F8FAFC] border border-border/80 p-1 rounded-lg">
                   <button
                     type="button"
                     onClick={() => setActiveTab("acesso")}
                     className={`px-3 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
                       activeTab === "acesso"
                         ? "bg-emerald-500 text-black shadow-[0_0_10px_rgba(16,185,129,0.15)]"
-                        : "text-muted-foreground hover:text-slate-200"
+                        : "text-muted-foreground hover:text-slate-800"
                     }`}
                   >
                     <Key className="h-3.5 w-3.5" /> Acesso & Diretivas
@@ -627,7 +627,7 @@ export default function UsersDashboard() {
                     className={`px-3 py-1.5 text-[10px] font-bold uppercase rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
                       activeTab === "colaborador"
                         ? "bg-emerald-500 text-black shadow-[0_0_10px_rgba(16,185,129,0.15)]"
-                        : "text-muted-foreground hover:text-slate-200"
+                        : "text-muted-foreground hover:text-slate-800"
                     }`}
                   >
                     <Briefcase className="h-3.5 w-3.5" /> Ficha Cadastral
@@ -640,13 +640,13 @@ export default function UsersDashboard() {
 
             {/* Notifications */}
             {formError && (
-              <div className="bg-rose-950/45 border-b border-rose-500/35 text-rose-400 p-2.5 text-[10px] font-bold flex items-center gap-2 animate-shake shrink-0">
+              <div className="bg-rose-50 border-b border-rose-500/35 text-rose-700 p-2.5 text-[10px] font-bold flex items-center gap-2 animate-shake shrink-0">
                 <ShieldAlert className="h-4 w-4 shrink-0" />
                 <span>{formError}</span>
               </div>
             )}
             {successMsg && (
-              <div className="bg-emerald-950/45 border-b border-emerald-500/35 text-emerald-400 p-2.5 text-[10px] font-bold flex items-center gap-2 animate-fade-in shrink-0">
+              <div className="bg-emerald-50 border-b border-emerald-500/35 text-emerald-700 p-2.5 text-[10px] font-bold flex items-center gap-2 animate-fade-in shrink-0">
                 <CheckCircle className="h-4 w-4 shrink-0" />
                 <span>{successMsg}</span>
               </div>
@@ -727,7 +727,7 @@ export default function UsersDashboard() {
             </div>
 
             {/* Actions Footer */}
-            <div className="p-4 border-t border-border/40 bg-[#0E131F]/30 flex items-center justify-between shrink-0">
+            <div className="p-4 border-t border-border/40 bg-[#F8FAFC]/30 flex items-center justify-between shrink-0">
               
               <div>
                 {!isCreatingNew && selectedUser && (
@@ -735,7 +735,7 @@ export default function UsersDashboard() {
                     type="button"
                     variant="ghost"
                     onClick={() => setDeletingUser(selectedUser)}
-                    className="h-8.5 px-3 text-xs font-bold text-rose-400 hover:text-rose-300 hover:bg-rose-500/5 cursor-pointer"
+                    className="h-8.5 px-3 text-xs font-bold text-rose-700 hover:text-rose-700 hover:bg-rose-500/5 cursor-pointer"
                   >
                     <Trash2 className="h-4 w-4 mr-1.5" /> Excluir Registro
                   </Button>
@@ -780,29 +780,29 @@ export default function UsersDashboard() {
       <Dialog open={!!deletingUser} onOpenChange={(open) => {
         if (!open) setDeletingUser(null);
       }}>
-        <DialogContent className="max-w-md border-border/80 bg-[#121826]/95 backdrop-blur-xl">
+        <DialogContent className="max-w-md border-border/80 bg-[#FFFFFF]/95 backdrop-blur-xl">
           <DialogHeader className="pb-3 text-left">
-            <DialogTitle className="text-base font-extrabold text-slate-100 flex items-center gap-2">
-              <Trash2 className="h-5 w-5 text-rose-500" /> Confirmar Exclusão
+            <DialogTitle className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-rose-700" /> Confirmar Exclusão
             </DialogTitle>
-            <DialogDescription className="text-xs text-slate-300">
-              Você está prestes a excluir permanentemente o cadastro de <strong className="text-slate-100 font-bold">{deletingUser?.nome}</strong> do sistema.
+            <DialogDescription className="text-xs text-slate-600">
+              Você está prestes a excluir permanentemente o cadastro de <strong className="text-slate-800 font-bold">{deletingUser?.nome}</strong> do sistema.
             </DialogDescription>
           </DialogHeader>
 
           {deletingUser?.colaborador && (
-            <div className="bg-[#0E1320] p-3 rounded-lg border border-border/40 space-y-2 select-none text-left">
-              <span className="text-[10px] font-bold text-amber-400 block uppercase tracking-wider">Atenção</span>
+            <div className="bg-[#F8FAFC] p-3 rounded-lg border border-border/40 space-y-2 select-none text-left">
+              <span className="text-[10px] font-bold text-amber-700 block uppercase tracking-wider">Atenção</span>
               <p className="text-[10px] text-muted-foreground">
                 Este colaborador possui uma ficha cadastral ativa no banco de dados. Deseja excluir a credencial e a ficha cadastral dele simultaneamente?
               </p>
               
-              <label className="text-[10px] font-bold text-slate-200 cursor-pointer flex items-center gap-2 pt-1">
+              <label className="text-[10px] font-bold text-slate-800 cursor-pointer flex items-center gap-2 pt-1">
                 <input
                   type="checkbox"
                   checked={deletarColaboradorVinculado}
                   onChange={(e) => setDeletarColaboradorVinculado(e.target.checked)}
-                  className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-rose-600 focus:ring-rose-500 cursor-pointer"
+                  className="h-4 w-4 rounded border-gray-200 bg-white text-rose-600 focus:ring-rose-500 cursor-pointer"
                 />
                 <span>Excluir também a ficha de colaborador vinculada</span>
               </label>

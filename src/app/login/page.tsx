@@ -177,7 +177,7 @@ function ThreeBackground() {
     };
   }, []);
 
-  return <div ref={containerRef} className="absolute inset-0 z-0 w-full h-full opacity-55 pointer-events-none" />;
+  return <div ref={containerRef} className="absolute inset-0 z-0 w-full h-full opacity-20 pointer-events-none" />;
 }
 
 export default function LoginPage() {
@@ -222,7 +222,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070B14] text-foreground flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4 relative overflow-hidden">
       
       {/* Dynamic 3D Wave Constellation Background */}
       <ThreeBackground />
@@ -236,9 +236,9 @@ export default function LoginPage() {
           <Logo showText width={72} height={72} />
         </div>
 
-        <Card className="border border-border/60 bg-[#0E1322]/80 backdrop-blur-lg shadow-2xl relative">
+        <Card className="border border-border/60 bg-[#FFFFFF]/80 backdrop-blur-lg shadow-2xl relative">
           <CardHeader className="space-y-1.5 pb-6">
-            <CardTitle className="text-xl font-extrabold text-center text-slate-100">
+            <CardTitle className="text-xl font-extrabold text-center text-slate-800">
               Acesso ao Sistema
             </CardTitle>
             <CardDescription className="text-center text-xs text-muted-foreground">
@@ -249,19 +249,19 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
               {error && (
-                <div className="bg-rose-950/35 border border-rose-500/30 text-rose-400 p-3 rounded-lg text-xs font-semibold flex items-center gap-2 animate-shake">
-                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
+                <div className="bg-rose-50 border border-rose-500/30 text-rose-700 p-3 rounded-lg text-xs font-semibold flex items-center gap-2 animate-shake">
+                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-700" />
                   <span>{error}</span>
                 </div>
               )}
 
               {/* Username Input */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-extrabold text-slate-300 uppercase tracking-wider block">
+                <label className="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider block">
                   Usuário
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground/75">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
                     <User className="h-4 w-4" />
                   </span>
                   <Input
@@ -270,7 +270,7 @@ export default function LoginPage() {
                     value={usuario}
                     onChange={(e) => setUsuario(e.target.value)}
                     disabled={isLoading}
-                    className="pl-9 h-10 border-border bg-[#05080E]/90 text-sm font-semibold focus:border-cyan-500/70"
+                    className="pl-9 h-10 border-border bg-[#F8FAFC]/90 text-sm font-semibold focus:border-cyan-500/70"
                     autoComplete="username"
                   />
                 </div>
@@ -279,12 +279,12 @@ export default function LoginPage() {
               {/* Password Input */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-[10px] font-extrabold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[10px] font-extrabold text-slate-600 uppercase tracking-wider block">
                     Senha
                   </label>
                 </div>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground/75">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
                     <Lock className="h-4 w-4" />
                   </span>
                   <Input
@@ -293,7 +293,7 @@ export default function LoginPage() {
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                     disabled={isLoading}
-                    className="pl-9 h-10 border-border bg-[#05080E]/90 text-sm font-semibold focus:border-cyan-500/70"
+                    className="pl-9 h-10 border-border bg-[#F8FAFC]/90 text-sm font-semibold focus:border-cyan-500/70"
                     autoComplete="current-password"
                   />
                 </div>
@@ -320,7 +320,7 @@ export default function LoginPage() {
               </Button>
 
               <div className="text-[10px] text-muted-foreground text-center flex flex-col gap-1 select-none">
-                <span>Banco de dados de Teste ativo: <strong className="text-slate-300">TESTE</strong></span>
+                <span>Banco de dados de Teste ativo: <strong className="text-slate-600">TESTE</strong></span>
                 <span className="opacity-75">Ambiente seguro com conexões criptografadas.</span>
               </div>
             </CardFooter>

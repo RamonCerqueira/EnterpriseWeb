@@ -29,8 +29,8 @@ export default function LocacaoPage() {
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <Hammer className="h-6 w-6 text-emerald-400" /> Locação de Equipamentos
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <Hammer className="h-6 w-6 text-emerald-700" /> Locação de Equipamentos
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Controle contratos de locação de ferramentas, máquinas e computadores, controle prazos de devolução e receitas.
@@ -44,57 +44,57 @@ export default function LocacaoPage() {
 
       {/* Row 1: Summary Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-emerald-950/45 text-emerald-400 flex items-center justify-center border border-emerald-500/10">
+            <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-500/10">
               <CheckCircle className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Em Vigência</span>
           </div>
-          <h3 className="text-lg font-bold text-slate-100">{formatCurrency(4700.0)}</h3>
-          <span className="text-[9px] text-emerald-400 font-semibold mt-1 block">2 Contratos ativos</span>
+          <h3 className="text-lg font-bold text-slate-800">{formatCurrency(4700.0)}</h3>
+          <span className="text-[9px] text-emerald-700 font-semibold mt-1 block">2 Contratos ativos</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-rose-950/45 text-rose-400 flex items-center justify-center border border-rose-500/10">
+            <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center border border-rose-500/10">
               <AlertTriangle className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Atraso na Devolução</span>
           </div>
-          <h3 className="text-lg font-bold text-slate-100">{formatCurrency(1800.0)}</h3>
-          <span className="text-[9px] text-rose-400 font-semibold mt-1 block">Lavadora Industrial pendente</span>
+          <h3 className="text-lg font-bold text-slate-800">{formatCurrency(1800.0)}</h3>
+          <span className="text-[9px] text-rose-700 font-semibold mt-1 block">Lavadora Industrial pendente</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-blue-950/45 text-blue-400 flex items-center justify-center border border-blue-500/10">
+            <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-500/10">
               <Clock className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Devolvidos</span>
           </div>
-          <h3 className="text-lg font-bold text-slate-100">{formatCurrency(450.0)}</h3>
-          <span className="text-[9px] text-blue-400 font-semibold mt-1 block">Notebook Dell devolvido</span>
+          <h3 className="text-lg font-bold text-slate-800">{formatCurrency(450.0)}</h3>
+          <span className="text-[9px] text-blue-700 font-semibold mt-1 block">Notebook Dell devolvido</span>
         </Card>
 
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
+        <Card className="p-4 bg-[#FFFFFF]/75 border border-border/60">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-secondary text-slate-400 flex items-center justify-center border border-border">
+            <div className="h-7 w-7 rounded-lg bg-secondary text-slate-600 flex items-center justify-center border border-border">
               <Hammer className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Total Acumulado</span>
           </div>
-          <h3 className="text-lg font-bold text-slate-100">{formatCurrency(6950.0)}</h3>
+          <h3 className="text-lg font-bold text-slate-800">{formatCurrency(6950.0)}</h3>
           <span className="text-[9px] text-muted-foreground font-semibold mt-1 block">4 Contratos registrados</span>
         </Card>
       </div>
 
       {/* Main card grid table */}
-      <Card className="bg-[#121826]/75 border border-border/60 overflow-hidden">
+      <Card className="bg-[#FFFFFF]/75 border border-border/60 overflow-hidden">
         {/* Table Header Filter */}
-        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30">
+        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/30">
           <div>
-            <CardTitle className="text-sm font-bold text-slate-200">Painel de Locações</CardTitle>
+            <CardTitle className="text-sm font-bold text-slate-800">Painel de Locações</CardTitle>
             <p className="text-[10px] text-muted-foreground">Listagem de faturamento de locações temporárias e prazos.</p>
           </div>
 
@@ -108,7 +108,7 @@ export default function LocacaoPage() {
               placeholder="Filtrar por cliente, contrato ou equipamento..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
             />
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function LocacaoPage() {
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-border bg-[#0E131F]/50">
+                <tr className="border-b border-border bg-[#F8FAFC]/50">
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider pl-6">Contrato</th>
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Cliente Razão</th>
                   <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Equipamento Locado</th>
@@ -136,10 +136,10 @@ export default function LocacaoPage() {
               <tbody className="divide-y divide-border/20">
                 {filteredRentals.map((r) => (
                   <tr key={r.id} className="hover:bg-secondary/15 transition-colors text-xs">
-                    <td className="p-3.5 pl-6 font-mono font-bold text-emerald-400">{r.contract}</td>
-                    <td className="p-3.5 text-slate-200 font-semibold">{r.client}</td>
-                    <td className="p-3.5 text-slate-300 font-semibold">{r.asset}</td>
-                    <td className="p-3.5 font-bold text-slate-100">{formatCurrency(r.value)}</td>
+                    <td className="p-3.5 pl-6 font-mono font-bold text-emerald-700">{r.contract}</td>
+                    <td className="p-3.5 text-slate-800 font-semibold">{r.client}</td>
+                    <td className="p-3.5 text-slate-600 font-semibold">{r.asset}</td>
+                    <td className="p-3.5 font-bold text-slate-800">{formatCurrency(r.value)}</td>
                     <td className="p-3.5 text-muted-foreground font-medium">{r.start}</td>
                     <td className="p-3.5 text-muted-foreground font-medium">{r.end}</td>
                     <td className="p-3.5">
@@ -153,7 +153,7 @@ export default function LocacaoPage() {
                       </Badge>
                     </td>
                     <td className="p-3.5 pr-6 text-right">
-                      <Button variant="ghost" size="sm" className="h-7 text-emerald-400 flex items-center justify-end gap-1 font-semibold ml-auto">
+                      <Button variant="ghost" size="sm" className="h-7 text-emerald-700 flex items-center justify-end gap-1 font-semibold ml-auto">
                         Detalhes <ArrowUpRight className="h-3.5 w-3.5" />
                       </Button>
                     </td>

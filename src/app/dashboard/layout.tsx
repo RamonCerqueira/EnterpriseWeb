@@ -27,7 +27,7 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
         <Header session={session} />
 
         {/* Scrollable page content */}
-        <main className="flex-1 overflow-y-auto bg-[#0B0F19] p-6 relative">
+        <main className="flex-1 overflow-y-auto bg-background p-6 relative">
           {children}
         </main>
       </div>

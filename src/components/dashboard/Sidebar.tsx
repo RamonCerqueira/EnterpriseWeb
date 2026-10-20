@@ -29,8 +29,6 @@ import {
   Hammer,
   Contact,
   Sun,
-  Moon,
-  Laptop,
   Search,
   Check,
   CreditCard,
@@ -39,7 +37,6 @@ import {
   BookMarked,
   Building2,
 } from "lucide-react";
-import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import { SessionData } from "@/lib/auth";
 import { Logo } from "@/components/ui/logo";
@@ -52,7 +49,6 @@ export default function Sidebar({ session }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { theme, setTheme } = useTheme();
 
   // Sidebar collapse states
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -375,7 +371,7 @@ export default function Sidebar({ session }: SidebarProps) {
           
           <button
             onClick={toggleSidebar}
-            className="h-6 w-6 rounded bg-secondary/80 border border-border/80 flex items-center justify-center text-muted-foreground hover:text-slate-100 hover:border-border transition-all cursor-pointer outline-none shrink-0"
+            className="h-6 w-6 rounded bg-secondary/80 border border-border/80 flex items-center justify-center text-muted-foreground hover:text-slate-800 hover:border-border transition-all cursor-pointer outline-none shrink-0"
             title={isCollapsed ? "Expandir Menu" : "Recolher Menu"}
           >
             {isCollapsed ? (
@@ -393,7 +389,7 @@ export default function Sidebar({ session }: SidebarProps) {
             className="bg-background/60 hover:bg-background border border-border/80 rounded-lg h-9 flex items-center justify-center cursor-pointer transition-all duration-200"
             title={activeCompany ? activeCompany.nome : "SoftLine Sistemas"}
           >
-            <Network className="h-4 w-4 text-emerald-400 shrink-0" />
+            <Network className="h-4 w-4 text-emerald-700 shrink-0" />
           </div>
         ) : (
           <div className="relative" ref={dropdownRef}>
@@ -406,19 +402,19 @@ export default function Sidebar({ session }: SidebarProps) {
             >
               <div className="flex flex-col text-left min-w-0 pr-2">
                 <span className="text-[10px] text-muted-foreground">Empresa Atual</span>
-                <span className="text-xs font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors truncate max-w-[150px]">
+                <span className="text-xs font-semibold text-slate-800 group-hover:text-emerald-700 transition-colors truncate max-w-[150px]">
                   {activeCompany ? activeCompany.nome : "SoftLine Sistemas"}
                 </span>
               </div>
               <ChevronDown className={cn(
-                "h-4 w-4 text-muted-foreground group-hover:text-slate-200 transition-all shrink-0",
-                isCompanyDropdownOpen && "transform rotate-180 text-emerald-400"
+                "h-4 w-4 text-muted-foreground group-hover:text-slate-800 transition-all shrink-0",
+                isCompanyDropdownOpen && "transform rotate-180 text-emerald-700"
               )} />
             </div>
 
             {/* Premium Dropdown list */}
             {isCompanyDropdownOpen && (
-              <div className="absolute left-0 right-0 mt-1.5 bg-[#0F1420]/95 backdrop-blur-md border border-border/85 rounded-xl shadow-2xl z-50 overflow-hidden animate-scale-in text-left">
+              <div className="absolute left-0 right-0 mt-1.5 bg-[#FFFFFF]/95 backdrop-blur-md border border-border/85 rounded-xl shadow-2xl z-50 overflow-hidden animate-scale-in text-left">
                 {/* Search bar inside dropdown */}
                 <div className="p-2 border-b border-border/40 relative">
                   <input
@@ -426,7 +422,7 @@ export default function Sidebar({ session }: SidebarProps) {
                     placeholder="Buscar filial..."
                     value={companySearch}
                     onChange={(e) => setCompanySearch(e.target.value)}
-                    className="w-full h-8 pl-8 pr-3 rounded-lg bg-[#05080E]/75 border border-border/60 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500/80 transition-all"
+                    className="w-full h-8 pl-8 pr-3 rounded-lg bg-[#F8FAFC]/75 border border-border/60 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500/80 transition-all"
                   />
                   <Search className="h-3.5 w-3.5 text-muted-foreground absolute left-4.5 top-1/2 -translate-y-1/2" />
                 </div>
@@ -447,12 +443,12 @@ export default function Sidebar({ session }: SidebarProps) {
                           className={cn(
                             "flex items-center justify-between p-2 rounded-lg cursor-pointer transition-all duration-150 group",
                             isSelected
-                              ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
-                              : "hover:bg-slate-900/60 text-slate-300 hover:text-slate-100 border border-transparent"
+                              ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-700"
+                              : "hover:bg-slate-50/60 text-slate-600 hover:text-slate-800 border border-transparent"
                           )}
                         >
                           <div className="flex flex-col min-w-0 pr-2">
-                            <span className="text-xs font-bold truncate group-hover:text-emerald-400 transition-colors">
+                            <span className="text-xs font-bold truncate group-hover:text-emerald-700 transition-colors">
                               {c.nome}
                             </span>
                             {c.cnpj && (
@@ -462,7 +458,7 @@ export default function Sidebar({ session }: SidebarProps) {
                             )}
                           </div>
                           {isSelected && (
-                            <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                            <Check className="h-3.5 w-3.5 text-emerald-700 shrink-0" />
                           )}
                         </div>
                       );
@@ -471,12 +467,12 @@ export default function Sidebar({ session }: SidebarProps) {
                 </div>
 
                 {/* Footer stats */}
-                <div className="p-2 border-t border-border/20 bg-[#0A0D16]/50 flex items-center justify-between text-[9px] text-muted-foreground font-bold px-3 uppercase tracking-wider">
+                <div className="p-2 border-t border-border/20 bg-[#F8FAFC]/50 flex items-center justify-between text-[9px] text-muted-foreground font-bold px-3 uppercase tracking-wider">
                   <span>Filiais: {companies.length}</span>
                   <Link 
                     href="/dashboard/configuracoes" 
                     onClick={() => setIsCompanyDropdownOpen(false)}
-                    className="text-emerald-500 hover:text-emerald-400 flex items-center gap-0.5"
+                    className="text-emerald-700 hover:text-emerald-700 flex items-center gap-0.5"
                   >
                     Gerenciar <ChevronRight className="h-3 w-3" />
                   </Link>
@@ -497,19 +493,19 @@ export default function Sidebar({ session }: SidebarProps) {
               className={cn(
                 "relative flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-all duration-300 group overflow-hidden",
                 pathname === "/dashboard"
-                  ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-400 font-medium pl-4.5"
-                  : "text-muted-foreground hover:bg-slate-900/40 hover:text-slate-100",
+                  ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-700 font-medium pl-4.5"
+                  : "text-muted-foreground hover:bg-slate-50/40 hover:text-slate-800",
                 isCollapsed && "justify-center px-0"
               )}
             >
               {pathname === "/dashboard" && (
                 <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[55%] rounded-r-md bg-gradient-to-b from-emerald-400 to-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.7)] animate-pulse" />
               )}
-              <LayoutDashboard className={cn("h-4 w-4 shrink-0 transition-colors", pathname === "/dashboard" ? "text-emerald-400" : "text-muted-foreground group-hover:text-foreground")} />
+              <LayoutDashboard className={cn("h-4 w-4 shrink-0 transition-colors", pathname === "/dashboard" ? "text-emerald-700" : "text-muted-foreground group-hover:text-foreground")} />
               {!isCollapsed && <span>Dashboard</span>}
             </Link>
             {isCollapsed && (
-              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-900 border border-border text-slate-100 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
+              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-50 border border-border text-slate-800 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
                 Dashboard
               </div>
             )}
@@ -521,8 +517,8 @@ export default function Sidebar({ session }: SidebarProps) {
               className={cn(
                 "relative flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-all duration-300 group overflow-hidden",
                 pathname === "/dashboard/favoritos"
-                  ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-400 font-medium pl-4.5"
-                  : "text-muted-foreground hover:bg-slate-900/40 hover:text-slate-100",
+                  ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-700 font-medium pl-4.5"
+                  : "text-muted-foreground hover:bg-slate-50/40 hover:text-slate-800",
                 isCollapsed && "justify-center px-0"
               )}
             >
@@ -530,13 +526,13 @@ export default function Sidebar({ session }: SidebarProps) {
                 <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[55%] rounded-r-md bg-gradient-to-b from-emerald-400 to-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.7)] animate-pulse" />
               )}
               <div className="flex items-center gap-3">
-                <Star className={cn("h-4 w-4 shrink-0 transition-colors", pathname === "/dashboard/favoritos" ? "text-emerald-400" : "text-muted-foreground group-hover:text-foreground")} />
+                <Star className={cn("h-4 w-4 shrink-0 transition-colors", pathname === "/dashboard/favoritos" ? "text-emerald-700" : "text-muted-foreground group-hover:text-foreground")} />
                 {!isCollapsed && <span>Favoritos</span>}
               </div>
               {!isCollapsed && <ChevronDown className="h-3.5 w-3.5 opacity-60 shrink-0" />}
             </Link>
             {isCollapsed && (
-              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-900 border border-border text-slate-100 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
+              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-50 border border-border text-slate-800 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
                 Favoritos
               </div>
             )}
@@ -570,19 +566,19 @@ export default function Sidebar({ session }: SidebarProps) {
                     className={cn(
                       "relative flex items-center gap-3 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-300 group overflow-hidden",
                       active
-                        ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-400 font-medium pl-4.5"
-                        : "text-muted-foreground hover:bg-slate-900/40 hover:text-slate-100",
+                        ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-700 font-medium pl-4.5"
+                        : "text-muted-foreground hover:bg-slate-50/40 hover:text-slate-800",
                       isCollapsed && "justify-center px-0"
                     )}
                   >
                     {active && (
                       <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[55%] rounded-r-md bg-gradient-to-b from-emerald-400 to-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.7)] animate-pulse" />
                     )}
-                    <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-emerald-400" : "text-muted-foreground group-hover:text-foreground")} />
+                    <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-emerald-700" : "text-muted-foreground group-hover:text-foreground")} />
                     {!isCollapsed && <span>{item.name}</span>}
                   </Link>
                   {isCollapsed && (
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-900 border border-border text-slate-100 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
+                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-50 border border-border text-slate-800 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
                       {item.name}
                     </div>
                   )}
@@ -615,19 +611,19 @@ export default function Sidebar({ session }: SidebarProps) {
                     className={cn(
                       "relative flex items-center gap-3 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-300 group overflow-hidden",
                       active
-                        ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-400 font-medium pl-4.5"
-                        : "text-muted-foreground hover:bg-slate-900/40 hover:text-slate-100",
+                        ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-700 font-medium pl-4.5"
+                        : "text-muted-foreground hover:bg-slate-50/40 hover:text-slate-800",
                       isCollapsed && "justify-center px-0"
                     )}
                   >
                     {active && (
                       <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[55%] rounded-r-md bg-gradient-to-b from-emerald-400 to-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.7)] animate-pulse" />
                     )}
-                    <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-emerald-400" : "text-muted-foreground group-hover:text-foreground")} />
+                    <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-emerald-700" : "text-muted-foreground group-hover:text-foreground")} />
                     {!isCollapsed && <span>{item.name}</span>}
                   </Link>
                   {isCollapsed && (
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-900 border border-border text-slate-100 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
+                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-50 border border-border text-slate-800 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
                       {item.name}
                     </div>
                   )}
@@ -641,10 +637,10 @@ export default function Sidebar({ session }: SidebarProps) {
       {/* bottom news notification box */}
       <div className={cn("border-t border-border/40 shrink-0", isCollapsed ? "p-2 py-4 space-y-4 flex flex-col items-center" : "p-3 space-y-4")}>
         {!isCollapsed ? (
-          <div className="bg-[#0F1420] border border-border/80 rounded-lg p-3 relative overflow-hidden group">
+          <div className="bg-[#FFFFFF] border border-border/80 rounded-lg p-3 relative overflow-hidden group">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[10px] font-bold text-slate-300 flex items-center gap-1">
-                <Info className="h-3.5 w-3.5 text-emerald-400" /> Novidades da Versão
+              <span className="text-[10px] font-bold text-slate-600 flex items-center gap-1">
+                <Info className="h-3.5 w-3.5 text-emerald-700" /> Novidades da Versão
               </span>
               <span className="text-[8px] font-extrabold bg-emerald-500 text-black px-1.5 py-0.5 rounded-full uppercase">
                 Novo
@@ -656,11 +652,11 @@ export default function Sidebar({ session }: SidebarProps) {
           </div>
         ) : (
           <div className="relative group/tooltip cursor-pointer">
-            <div className="h-8 w-8 rounded-lg bg-[#0F1420] border border-border/80 flex items-center justify-center hover:bg-secondary/40 transition-colors">
-              <Info className="h-4 w-4 text-emerald-400" />
+            <div className="h-8 w-8 rounded-lg bg-[#FFFFFF] border border-border/80 flex items-center justify-center hover:bg-secondary/40 transition-colors">
+              <Info className="h-4 w-4 text-emerald-700" />
             </div>
-            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 p-3 bg-slate-900 border border-border text-slate-100 text-[10px] rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 w-52 leading-relaxed text-left">
-              <div className="font-extrabold text-emerald-400 mb-1 flex items-center justify-between">
+            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 p-3 bg-slate-50 border border-border text-slate-800 text-[10px] rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 w-52 leading-relaxed text-left">
+              <div className="font-extrabold text-emerald-700 mb-1 flex items-center justify-between">
                 <span>Versão 2026.1.0</span>
                 <span className="bg-emerald-500 text-black text-[8px] px-1 rounded font-extrabold uppercase">Novo</span>
               </div>
@@ -669,54 +665,27 @@ export default function Sidebar({ session }: SidebarProps) {
           </div>
         )}
 
-        {/* Theme Switcher Segment Control */}
+        {/* Light theme indicator */}
         {!isCollapsed ? (
-          <div className="space-y-1.5 pt-1.5 border-t border-border/20 mt-1">
-            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-wider block text-left">
-              Tema do Sistema
+          <div className="mt-1 border-t border-border/60 pt-2">
+            <span className="mb-1.5 block text-left text-[9px] font-black uppercase tracking-wider text-muted-foreground">
+              Apar?ncia
             </span>
-            <div className="grid grid-cols-3 bg-[#05080E]/75 p-0.5 rounded-lg border border-border/60">
-              {[
-                { id: "light", label: "Claro", icon: Sun },
-                { id: "dark", label: "Escuro", icon: Moon },
-                { id: "system", label: "Auto", icon: Laptop },
-              ].map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setTheme(t.id as any)}
-                  className={cn(
-                    "flex items-center justify-center gap-1 py-1 rounded text-[9px] font-bold transition-all cursor-pointer border-none outline-none",
-                    theme === t.id
-                      ? "bg-emerald-500 text-black font-extrabold"
-                      : "text-muted-foreground hover:text-slate-200 hover:bg-slate-900/35"
-                  )}
-                >
-                  <t.icon className="h-3 w-3 shrink-0" />
-                  <span>{t.label}</span>
-                </button>
-              ))}
+            <div className="flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-2 text-[10px] font-bold text-emerald-800">
+              <Sun className="h-3.5 w-3.5 shrink-0" />
+              <span>Tema claro</span>
             </div>
           </div>
         ) : (
           <div className="relative group/tooltip">
-            <button
-              onClick={() => {
-                const nextTheme = theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
-                setTheme(nextTheme);
-              }}
-              className="h-8 w-8 rounded-lg bg-[#0F1420] border border-border/80 flex items-center justify-center hover:bg-secondary/40 transition-colors cursor-pointer outline-none"
-              title="Alternar Tema"
+            <div
+              aria-label="Tema claro ativo"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700"
             >
-              {theme === "light" ? (
-                <Sun className="h-4 w-4 text-amber-400" />
-              ) : theme === "dark" ? (
-                <Moon className="h-4 w-4 text-emerald-400" />
-              ) : (
-                <Laptop className="h-4 w-4 text-cyan-400" />
-              )}
-            </button>
-            <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-900 border border-border text-slate-100 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
-              Tema: {theme === "light" ? "Claro" : theme === "dark" ? "Escuro" : "Automático"}
+              <Sun className="h-4 w-4" />
+            </div>
+            <div className="pointer-events-none absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 whitespace-nowrap rounded border border-border bg-white px-2 py-1.5 text-[10px] font-bold text-slate-800 opacity-0 shadow-xl transition-all duration-200 group-hover/tooltip:translate-x-1 group-hover/tooltip:opacity-100">
+              Tema claro
             </div>
           </div>
         )}
@@ -737,7 +706,7 @@ export default function Sidebar({ session }: SidebarProps) {
               {!isCollapsed && <span>Suporte</span>}
             </a>
             {isCollapsed && (
-              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-900 border border-border text-slate-100 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
+              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-50 border border-border text-slate-800 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
                 Suporte
               </div>
             )}
@@ -747,15 +716,15 @@ export default function Sidebar({ session }: SidebarProps) {
             <button
               onClick={handleLogout}
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-rose-400 hover:bg-rose-950/25 hover:text-rose-300 transition-all group cursor-pointer text-left w-full border-0 bg-transparent font-semibold",
+                "flex items-center gap-3 px-3 py-2 rounded-md text-xs font-semibold text-rose-700 hover:bg-rose-50 hover:text-rose-700 transition-all group cursor-pointer text-left w-full border-0 bg-transparent font-semibold",
                 isCollapsed && "justify-center px-0"
               )}
             >
-              <LogOut className="h-4 w-4 text-rose-400 group-hover:text-rose-300 shrink-0" />
+              <LogOut className="h-4 w-4 text-rose-700 group-hover:text-rose-700 shrink-0" />
               {!isCollapsed && <span>Sair do Sistema</span>}
             </button>
             {isCollapsed && (
-              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-900 border border-border text-slate-100 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
+              <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-50 border border-border text-slate-800 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
                 Sair do Sistema
               </div>
             )}

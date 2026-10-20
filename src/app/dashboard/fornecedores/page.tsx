@@ -108,13 +108,13 @@ export default function FornecedoresPage() {
   };
 
   return (
-    <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-100">
+    <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-800">
 
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-semibold tracking-tight text-slate-100 flex items-center gap-2">
-            <Truck className="h-6 w-6 text-sky-400" /> Cadastro de Fornecedores
+          <h2 className="text-xl md:text-2xl font-semibold tracking-tight text-slate-800 flex items-center gap-2">
+            <Truck className="h-6 w-6 text-sky-700" /> Cadastro de Fornecedores
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Cadastre e gerencie fornecedores, dados bancários de faturamento e notas contratuais.
@@ -127,7 +127,7 @@ export default function FornecedoresPage() {
             variant="outline"
             size="sm"
             onClick={fetchFornecedores}
-            className="h-9 px-3 text-xs flex items-center gap-1 cursor-pointer border-border/80 hover:bg-slate-800"
+            className="h-9 px-3 text-xs flex items-center gap-1 cursor-pointer border-border/80 hover:bg-slate-100"
           >
             <RefreshCw className="h-3.5 w-3.5" />
           </Button>
@@ -143,12 +143,12 @@ export default function FornecedoresPage() {
       </div>
 
       {/* Main Grid Card Container */}
-      <Card className="bg-[#121826]/75 border border-border/60 overflow-hidden shadow-2xl">
+      <Card className="bg-[#FFFFFF]/75 border border-border/60 overflow-hidden shadow-2xl">
 
         {/* Toolbar: Search, Status & View Mode Toggle */}
-        <div className="p-4 border-b border-border/40 flex flex-col lg:flex-row items-center justify-between gap-4 bg-[#0E131F]/30">
+        <div className="p-4 border-b border-border/40 flex flex-col lg:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/30">
           <div>
-            <CardTitle className="text-sm font-extrabold text-slate-200">Filtro de Fornecedores</CardTitle>
+            <CardTitle className="text-sm font-extrabold text-slate-800">Filtro de Fornecedores</CardTitle>
             <p className="text-[10px] text-muted-foreground">Filtre por código, nome, CNPJ/CPF, cidade ou pela situação cadastral.</p>
           </div>
 
@@ -163,7 +163,7 @@ export default function FornecedoresPage() {
                 placeholder="Pesquisar por Cód, Nome, CNPJ, Cidade..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-sky-500 transition-all font-semibold"
+                className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-sky-500 transition-all font-semibold"
               />
             </div>
 
@@ -171,7 +171,7 @@ export default function FornecedoresPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="h-9 px-3 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-300 focus:outline-none focus:border-sky-500 cursor-pointer font-bold w-full sm:w-40 shrink-0"
+              className="h-9 px-3 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-600 focus:outline-none focus:border-sky-500 cursor-pointer font-bold w-full sm:w-40 shrink-0"
             >
               <option value="TODOS">Todas as Situações</option>
               <option value="A">Somente Ativos</option>
@@ -179,12 +179,12 @@ export default function FornecedoresPage() {
             </select>
 
             {/* View Mode Toggle Buttons */}
-            <div className="flex items-center bg-[#0F1420] border border-border/80 p-0.5 rounded-lg shrink-0 w-full sm:w-auto justify-center">
+            <div className="flex items-center bg-[#FFFFFF] border border-border/80 p-0.5 rounded-lg shrink-0 w-full sm:w-auto justify-center">
               <button
                 onClick={() => setViewMode("card")}
                 className={`h-7.5 w-8.5 rounded-md flex items-center justify-center transition-all cursor-pointer ${viewMode === "card"
                     ? "bg-sky-500 text-black font-extrabold"
-                    : "text-muted-foreground hover:text-slate-200"
+                    : "text-muted-foreground hover:text-slate-800"
                   }`}
                 title="Visão em Cartões"
               >
@@ -194,7 +194,7 @@ export default function FornecedoresPage() {
                 onClick={() => setViewMode("list")}
                 className={`h-7.5 w-8.5 rounded-md flex items-center justify-center transition-all cursor-pointer ${viewMode === "list"
                     ? "bg-sky-500 text-black font-extrabold"
-                    : "text-muted-foreground hover:text-slate-200"
+                    : "text-muted-foreground hover:text-slate-800"
                   }`}
                 title="Visão em Lista"
               >
@@ -207,17 +207,17 @@ export default function FornecedoresPage() {
         {/* Dynamic List Content rendering */}
         {isLoading ? (
           <div className="p-16 flex flex-col items-center justify-center gap-3">
-            <Loader2 className="h-8 w-8 text-sky-400 animate-spin" />
+            <Loader2 className="h-8 w-8 text-sky-700 animate-spin" />
             <span className="text-xs text-muted-foreground font-semibold">Consultando fornecedores no banco SQL Server...</span>
           </div>
         ) : fornecedores.length === 0 ? (
           <div className="p-16 text-center text-xs text-muted-foreground font-semibold flex flex-col items-center justify-center gap-2">
-            <AlertCircle className="h-7 w-7 text-amber-500/80" />
+            <AlertCircle className="h-7 w-7 text-amber-700" />
             <span>Nenhum registro de fornecedor encontrado. Crie um novo acima!</span>
           </div>
         ) : viewMode === "card" ? (
           /* Cards view: Responsive Grid with exactly 4 cards per row on large displays (xl:grid-cols-4) */
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 p-5 bg-[#0A0D16]/20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 p-5 bg-[#F8FAFC]/20">
             {fornecedores.map((fornec) => (
               <FornecCard
                 key={fornec.CodFor}
@@ -240,9 +240,9 @@ export default function FornecedoresPage() {
 
         {/* Pagination Bar */}
         {totalItems > 0 && (
-          <div className="p-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30 text-xs font-semibold">
+          <div className="p-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/30 text-xs font-semibold">
             <div className="text-muted-foreground text-center sm:text-left">
-              Exibindo <span className="text-slate-200 font-bold">{fornecedores.length}</span> de <span className="text-slate-200 font-bold">{totalItems}</span> registros
+              Exibindo <span className="text-slate-800 font-bold">{fornecedores.length}</span> de <span className="text-slate-800 font-bold">{totalItems}</span> registros
             </div>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto justify-end">
@@ -254,7 +254,7 @@ export default function FornecedoresPage() {
                     setLimit(parseInt(e.target.value));
                     setPage(1);
                   }}
-                  className="h-7 px-2 rounded bg-[#0F1420] border border-border/60 text-slate-300 focus:outline-none focus:border-sky-500 cursor-pointer font-bold"
+                  className="h-7 px-2 rounded bg-[#FFFFFF] border border-border/60 text-slate-600 focus:outline-none focus:border-sky-500 cursor-pointer font-bold"
                 >
                   <option value={10}>10 por página</option>
                   <option value={20}>20 por página</option>
@@ -269,11 +269,11 @@ export default function FornecedoresPage() {
                   size="sm"
                   disabled={page === 1}
                   onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                  className="h-7 px-2 border border-border/60 hover:bg-[#1C2436] hover:text-sky-400 text-muted-foreground disabled:opacity-40"
+                  className="h-7 px-2 border border-border/60 hover:bg-[#F1F5F9] hover:text-sky-700 text-muted-foreground disabled:opacity-40"
                 >
                   Anterior
                 </Button>
-                <div className="h-7 px-3 flex items-center justify-center rounded bg-[#1F293D] border border-border/40 text-sky-400 font-bold min-w-7">
+                <div className="h-7 px-3 flex items-center justify-center rounded bg-[#E2E8F0] border border-border/40 text-sky-700 font-bold min-w-7">
                   {page} / {totalPages}
                 </div>
                 <Button
@@ -281,7 +281,7 @@ export default function FornecedoresPage() {
                   size="sm"
                   disabled={page >= totalPages}
                   onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-                  className="h-7 px-2 border border-border/60 hover:bg-[#1C2436] hover:text-sky-400 text-muted-foreground disabled:opacity-40"
+                  className="h-7 px-2 border border-border/60 hover:bg-[#F1F5F9] hover:text-sky-700 text-muted-foreground disabled:opacity-40"
                 >
                   Próximo
                 </Button>
@@ -302,13 +302,13 @@ export default function FornecedoresPage() {
       {/* Custom Delete Confirmation Modal */}
       {isDeleteOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="w-full max-w-sm bg-[#0F1422] border border-border/80 p-5 rounded-xl shadow-2xl space-y-4">
-            <div className="flex items-center gap-3 text-rose-400">
+          <div className="w-full max-w-sm bg-[#FFFFFF] border border-border/80 p-5 rounded-xl shadow-2xl space-y-4">
+            <div className="flex items-center gap-3 text-rose-700">
               <ShieldAlert className="h-6 w-6" />
               <h4 className="text-sm font-extrabold uppercase tracking-wide">Excluir Fornecedor</h4>
             </div>
 
-            <p className="text-xs text-slate-300 font-medium leading-relaxed">
+            <p className="text-xs text-slate-600 font-medium leading-relaxed">
               Você tem certeza absoluta que deseja excluir este fornecedor? Essa ação removerá o registro permanente da tabela `Fornec` do banco de dados e não poderá ser desfeita.
             </p>
 

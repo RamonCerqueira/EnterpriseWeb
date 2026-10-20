@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { 
-  X, User, MapPin, CreditCard, Landmark, 
-  Phone, Mail, Globe, Calendar, FileText, 
+import {
+  X, User, MapPin, CreditCard, Landmark,
+  Phone, Mail, Globe, Calendar, FileText,
   Shield, Check, Loader2, DollarSign
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -248,29 +248,29 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm select-none p-4 animate-fade-in">
-      <div className="relative w-full max-w-4xl bg-[#0F1422] border border-border/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        
+      <div className="relative w-full max-w-4xl bg-[#FFFFFF] border border-border/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border/60 bg-[#0E131F]/90">
+        <div className="flex items-center justify-between p-4 border-b border-border/60 bg-[#F8FAFC]/90">
           <div>
-            <h3 className="text-sm font-extrabold text-slate-100 flex items-center gap-2">
-              <Landmark className="h-5 w-5 text-sky-400" />
+            <h3 className="text-sm font-extrabold text-slate-800 flex items-center gap-2">
+              <Landmark className="h-5 w-5 text-sky-700" />
               {fornec ? `Editar Fornecedor: #${fornec.CodFor} - ${fornec.Fornec}` : "Cadastrar Novo Fornecedor"}
             </h3>
             <p className="text-[10px] text-muted-foreground mt-0.5">
               Preencha os campos para atualizar os registros corporativos da tabela `Fornec`.
             </p>
           </div>
-          <button 
-            onClick={onClose} 
-            className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+          <button
+            onClick={onClose}
+            className="text-slate-600 hover:text-slate-800 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
           >
             <X className="h-4.5 w-4.5" />
           </button>
         </div>
 
         {/* Dynamic Navigation Tabs */}
-        <div className="flex border-b border-border/40 bg-[#0C101B] overflow-x-auto scrollbar-none">
+        <div className="flex border-b border-border/40 bg-[#F8FAFC] overflow-x-auto scrollbar-none">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -280,9 +280,9 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-5 py-3 text-[11px] font-bold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
-                  isActive 
-                    ? "border-sky-500 text-sky-400 bg-sky-950/10" 
-                    : "border-transparent text-muted-foreground hover:text-slate-200"
+                  isActive
+                    ? "border-sky-500 text-sky-700 bg-sky-50"
+                    : "border-transparent text-muted-foreground hover:text-slate-800"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -295,7 +295,7 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
         {/* Modal Body / Form Container */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin">
           {formError && (
-            <div className="bg-rose-950/45 border border-rose-500/35 text-rose-400 p-3 rounded-lg text-xs font-semibold">
+            <div className="bg-rose-50 border border-rose-500/35 text-rose-700 p-3 rounded-lg text-xs font-semibold">
               {formError}
             </div>
           )}
@@ -304,34 +304,34 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
           {activeTab === "geral" && (
             <div className="space-y-4 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                
+
                 {/* Nome Fantasia */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Nome Fantasia / Fornecedor <span className="text-sky-400">*</span></label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Nome Fantasia / Fornecedor <span className="text-sky-700">*</span></label>
+                  <Input
                     value={fornecName}
                     onChange={(e) => setFornecName(e.target.value)}
                     placeholder="Nome Fantasia ou Identificador"
-                    className="h-9.5 bg-[#070B14] border-border/80 text-xs font-semibold focus:border-sky-500"
+                    className="h-9.5 bg-[#F8FAFC] border-border/80 text-xs font-semibold focus:border-sky-500"
                     required
                   />
                 </div>
 
                 {/* Tipo de Fornecedor (F/J) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Tipo de Pessoa</label>
-                  <div className="grid grid-cols-2 gap-2 h-9.5 bg-[#070B14] p-1 rounded-md border border-border/80">
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Tipo de Pessoa</label>
+                  <div className="grid grid-cols-2 gap-2 h-9.5 bg-[#F8FAFC] p-1 rounded-md border border-border/80">
                     <button
                       type="button"
                       onClick={() => setTipo("F")}
-                      className={`text-[10px] font-bold rounded transition-all cursor-pointer ${tipo === "F" ? "bg-sky-500 text-black font-extrabold" : "text-slate-400 hover:text-slate-200"}`}
+                      className={`text-[10px] font-bold rounded transition-all cursor-pointer ${tipo === "F" ? "bg-sky-500 text-black font-extrabold" : "text-slate-600 hover:text-slate-800"}`}
                     >
                       Física
                     </button>
                     <button
                       type="button"
                       onClick={() => setTipo("J")}
-                      className={`text-[10px] font-bold rounded transition-all cursor-pointer ${tipo === "J" ? "bg-sky-500 text-black font-extrabold" : "text-slate-400 hover:text-slate-200"}`}
+                      className={`text-[10px] font-bold rounded transition-all cursor-pointer ${tipo === "J" ? "bg-sky-500 text-black font-extrabold" : "text-slate-600 hover:text-slate-800"}`}
                     >
                       Jurídica
                     </button>
@@ -340,70 +340,70 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
 
                 {/* Razão Social */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Razão Social / Nome Completo</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Razão Social / Nome Completo</label>
+                  <Input
                     value={razao}
                     onChange={(e) => setRazao(e.target.value)}
                     placeholder="Razão Social Corporativa"
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* CNPJ ou CPF */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">
                     {tipo === "F" ? "C.P.F." : "C.N.P.J. / C.G.C."}
                   </label>
                   {tipo === "F" ? (
-                    <Input 
+                    <Input
                       value={cpf}
                       onChange={(e) => setCpf(e.target.value)}
                       placeholder="000.000.000-00"
-                      className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                     />
                   ) : (
-                    <Input 
+                    <Input
                       value={cnpj}
                       onChange={(e) => setCnpj(e.target.value)}
                       placeholder="00.000.000/0000-00"
-                      className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                     />
                   )}
                 </div>
 
                 {/* RG (Física) / Inscrição Estadual (Jurídica) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">
                     {tipo === "F" ? "R.G." : "Insc. Estadual (I.E.)"}
                   </label>
-                  <Input 
+                  <Input
                     value={tipo === "F" ? rg : ie}
                     onChange={(e) => tipo === "F" ? setRg(e.target.value) : setIe(e.target.value)}
                     placeholder={tipo === "F" ? "RG do responsável" : "Inscrição Estadual"}
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Órgão Emissor / Inscrição Municipal */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">
                     {tipo === "F" ? "Órgão Emissor" : "Insc. Municipal (I.M.)"}
                   </label>
-                  <Input 
+                  <Input
                     value={tipo === "F" ? orgao : im}
                     onChange={(e) => tipo === "F" ? setOrgao(e.target.value) : setIm(e.target.value)}
                     placeholder={tipo === "F" ? "SSP/SP" : "Inscrição Municipal"}
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Situação Cadastral (A/I) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Situação</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Situação</label>
                   <select
                     value={situacao}
                     onChange={(e) => setSituacao(e.target.value)}
-                    className="w-full h-9.5 rounded-md border border-border/80 bg-[#070B14] text-xs text-slate-200 px-3 focus:outline-none focus:ring-1 focus:ring-sky-500 cursor-pointer font-bold"
+                    className="w-full h-9.5 rounded-md border border-border/80 bg-[#F8FAFC] text-xs text-slate-800 px-3 focus:outline-none focus:ring-1 focus:ring-sky-500 cursor-pointer font-bold"
                   >
                     <option value="A">Ativo / Liberado</option>
                     <option value="I">Inativo / Bloqueado</option>
@@ -412,40 +412,40 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
 
                 {/* Data de Nascimento */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Data Nasc. / Fundação</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Data Nasc. / Fundação</label>
+                  <Input
                     type="date"
                     value={nasc}
                     onChange={(e) => setNasc(e.target.value)}
-                    className="h-9.5 bg-[#070B14] text-xs cursor-pointer font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs cursor-pointer font-bold"
                   />
                 </div>
 
                 {/* E-mail */}
                 <div className="space-y-1 md:col-span-2">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">E-mail Principal</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">E-mail Principal</label>
                   <div className="relative">
                     <Mail className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="comercial@fornecedor.com"
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs font-semibold"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs font-semibold"
                     />
                   </div>
                 </div>
 
                 {/* Site */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Website</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Website</label>
                   <div className="relative">
                     <Globe className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       value={site}
                       onChange={(e) => setSite(e.target.value)}
                       placeholder="www.fornecedor.com"
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                 </div>
@@ -458,97 +458,97 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
           {activeTab === "endereco" && (
             <div className="space-y-4 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                
+
                 {/* CEP */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cep <span className="text-sky-400">*</span></label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cep <span className="text-sky-700">*</span></label>
+                  <Input
                     value={cep}
                     onChange={(e) => setCep(e.target.value)}
                     placeholder="00000-000"
-                    className="h-9.5 bg-[#070B14] text-xs font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-bold"
                   />
                 </div>
 
                 {/* Endereço */}
                 <div className="md:col-span-3 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Endereço Principal</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Endereço Principal</label>
+                  <Input
                     value={endereco}
                     onChange={(e) => setEndereco(e.target.value)}
                     placeholder="Rua, Avenida, Praça..."
-                    className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                   />
                 </div>
 
                 {/* Bairro */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Bairro</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Bairro</label>
+                  <Input
                     value={bairro}
                     onChange={(e) => setBairro(e.target.value)}
                     placeholder="Bairro"
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Cidade */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cidade</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cidade</label>
+                  <Input
                     value={cidade}
                     onChange={(e) => setCidade(e.target.value)}
                     placeholder="Cidade"
-                    className="h-9.5 bg-[#070B14] text-xs font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-bold"
                   />
                 </div>
 
                 {/* Estado */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">UF</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">UF</label>
+                  <Input
                     value={estado}
                     onChange={(e) => setEstado(e.target.value.substring(0, 2).toUpperCase())}
                     placeholder="SP"
-                    className="h-9.5 bg-[#070B14] text-xs text-center font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs text-center font-bold"
                   />
                 </div>
 
                 {/* Complemento */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Complemento</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Complemento</label>
+                  <Input
                     value={complemento}
                     onChange={(e) => setComplemento(e.target.value)}
                     placeholder="Bloco, Galpão, Referência..."
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Telefone 1 */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Telefone Principal</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Telefone Principal</label>
                   <div className="relative">
                     <Phone className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       value={tel}
                       onChange={(e) => setTel(e.target.value)}
                       placeholder="(00) 0000-0000"
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                 </div>
 
                 {/* Telefone 2 */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Telefone 2</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Telefone 2</label>
                   <div className="relative">
                     <Phone className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       value={tel2}
                       onChange={(e) => setTel2(e.target.value)}
                       placeholder="(00) 90000-0000"
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                 </div>
@@ -560,76 +560,76 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
           {/* TAB 3: DADOS BANCÁRIOS */}
           {activeTab === "bancario" && (
             <div className="space-y-6 animate-fade-in">
-              
+
               {/* Banco 1 Section */}
-              <div className="p-4 rounded-xl border border-border/50 bg-[#090C15]/40 space-y-4">
-                <span className="text-[10px] font-black text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="p-4 rounded-xl border border-border/50 bg-[#F8FAFC]/40 space-y-4">
+                <span className="text-[10px] font-black text-sky-700 uppercase tracking-wider flex items-center gap-1.5">
                   <Landmark className="h-4 w-4" /> Conta Bancária Principal
                 </span>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Nome do Banco</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Nome do Banco</label>
+                    <Input
                       value={banco1}
                       onChange={(e) => setBanco1(e.target.value)}
                       placeholder="Ex: Banco do Brasil"
-                      className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Agência</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Agência</label>
+                    <Input
                       value={agencia1}
                       onChange={(e) => setAgencia1(e.target.value)}
                       placeholder="Ex: 0123-4"
-                      className="h-9.5 bg-[#070B14] text-xs font-mono font-bold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-mono font-bold"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Conta Corrente</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Conta Corrente</label>
+                    <Input
                       value={conta1}
                       onChange={(e) => setConta1(e.target.value)}
                       placeholder="Ex: 12345-6"
-                      className="h-9.5 bg-[#070B14] text-xs font-mono font-bold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Banco 2 Section */}
-              <div className="p-4 rounded-xl border border-border/50 bg-[#090C15]/40 space-y-4">
-                <span className="text-[10px] font-black text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="p-4 rounded-xl border border-border/50 bg-[#F8FAFC]/40 space-y-4">
+                <span className="text-[10px] font-black text-sky-700 uppercase tracking-wider flex items-center gap-1.5">
                   <Landmark className="h-4 w-4" /> Conta Bancária Secundária (Opcional)
                 </span>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Nome do Banco</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Nome do Banco</label>
+                    <Input
                       value={banco2}
                       onChange={(e) => setBanco2(e.target.value)}
                       placeholder="Ex: Itaú Unibanco"
-                      className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Agência</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Agência</label>
+                    <Input
                       value={agencia2}
                       onChange={(e) => setAgencia2(e.target.value)}
                       placeholder="Ex: 4567"
-                      className="h-9.5 bg-[#070B14] text-xs font-mono font-bold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-mono font-bold"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Conta Corrente</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Conta Corrente</label>
+                    <Input
                       value={conta2}
                       onChange={(e) => setConta2(e.target.value)}
                       placeholder="Ex: 98765-4"
-                      className="h-9.5 bg-[#070B14] text-xs font-mono font-bold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
@@ -641,77 +641,77 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
           {/* TAB 4: FATURAMENTO & ADICIONAL */}
           {activeTab === "adicional" && (
             <div className="space-y-4 animate-fade-in">
-              
+
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {/* Desconto Padrão */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Desconto Acordado (%)</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Desconto Acordado (%)</label>
                   <div className="relative">
                     <DollarSign className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       type="number"
                       step="0.01"
                       value={desconto}
                       onChange={(e) => setDesconto(e.target.value)}
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs font-bold"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs font-bold"
                     />
                   </div>
                 </div>
 
                 {/* ICMS */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">ICMS Padrão (%)</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">ICMS Padrão (%)</label>
+                  <Input
                     type="number"
                     step="0.01"
                     value={icms}
                     onChange={(e) => setIcms(e.target.value)}
-                    className="h-9.5 bg-[#070B14] text-xs font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-bold"
                   />
                 </div>
 
                 {/* IPI */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">IPI Padrão (%)</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">IPI Padrão (%)</label>
+                  <Input
                     type="number"
                     step="0.01"
                     value={ipi}
                     onChange={(e) => setIpi(e.target.value)}
-                    className="h-9.5 bg-[#070B14] text-xs font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-bold"
                   />
                 </div>
 
                 {/* Prazo de Pagamento */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Prazo Faturamento (Dias)</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Prazo Faturamento (Dias)</label>
+                  <Input
                     type="number"
                     value={prazo}
                     onChange={(e) => setPrazo(e.target.value)}
-                    className="h-9.5 bg-[#070B14] text-xs font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-bold"
                   />
                 </div>
 
                 {/* Placa do Veículo */}
                 <div className="space-y-1 md:col-span-2">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Placa do Veículo (Transportadora)</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Placa do Veículo (Transportadora)</label>
+                  <Input
                     value={placa}
                     onChange={(e) => setPlaca(e.target.value.substring(0, 8).toUpperCase())}
                     placeholder="Ex: ABC-1234"
-                    className="h-9.5 bg-[#070B14] text-xs font-mono font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-mono font-bold"
                   />
                 </div>
 
                 {/* Placa UF */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Placa UF</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Placa UF</label>
+                  <Input
                     value={placaUf}
                     onChange={(e) => setPlacaUf(e.target.value.substring(0, 2).toUpperCase())}
                     placeholder="SP"
-                    className="h-9.5 bg-[#070B14] text-xs font-bold text-center"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-bold text-center"
                   />
                 </div>
 
@@ -720,13 +720,13 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
 
                 {/* Observações */}
                 <div className="md:col-span-4 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Observações do Fornecedor</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Observações do Fornecedor</label>
                   <textarea
                     value={observacao}
                     onChange={(e) => setObservacao(e.target.value)}
                     placeholder="Insira notas, termos ou detalhes contratuais adicionais..."
                     rows={4}
-                    className="w-full rounded-md border border-border/80 bg-[#070B14] text-xs text-slate-200 p-3 focus:outline-none focus:ring-1 focus:ring-sky-500 font-semibold"
+                    className="w-full rounded-md border border-border/80 bg-[#F8FAFC] text-xs text-slate-800 p-3 focus:outline-none focus:ring-1 focus:ring-sky-500 font-semibold"
                   />
                 </div>
 

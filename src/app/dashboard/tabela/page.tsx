@@ -46,30 +46,30 @@ export default function PriceTablePage() {
     <div className="space-y-6 animate-fade-in pb-12">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-100 md:text-2xl"><Tags className="h-6 w-6 text-emerald-400" /> Tabela de Preços</h1>
+          <h1 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-800 md:text-2xl"><Tags className="h-6 w-6 text-emerald-700" /> Tabela de Preços</h1>
           <p className="mt-0.5 text-xs text-muted-foreground">Consulta dos valores de tabela, custo e markup dos itens cadastrados.</p>
         </div>
-        <button type="button" onClick={() => setReload(value => value + 1)} className="flex h-9 items-center justify-center gap-2 rounded-md border border-border bg-secondary/40 px-3 text-xs font-semibold text-slate-200 hover:bg-secondary">
+        <button type="button" onClick={() => setReload(value => value + 1)} className="flex h-9 items-center justify-center gap-2 rounded-md border border-border bg-secondary/40 px-3 text-xs font-semibold text-slate-800 hover:bg-secondary">
           <RefreshCw className="h-4 w-4" /> Atualizar
         </button>
       </div>
 
-      <section className="overflow-hidden rounded-xl border border-border/60 bg-[#121826]/75">
+      <section className="overflow-hidden rounded-xl border border-border/60 bg-[#FFFFFF]/75">
         <div className="border-b border-border/40 p-4">
           <label className="relative block max-w-xl">
             <span className="sr-only">Buscar item na tabela</span>
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar por código ou descrição..." className="h-9 w-full rounded-lg border border-border/70 bg-[#0F1420] pl-9 pr-3 text-xs text-slate-100 outline-none focus:border-emerald-500" />
+            <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar por código ou descrição..." className="h-9 w-full rounded-lg border border-border/70 bg-[#FFFFFF] pl-9 pr-3 text-xs text-slate-800 outline-none focus:border-emerald-500" />
           </label>
         </div>
-        {error ? <p role="alert" className="m-4 rounded-lg border border-rose-500/40 bg-rose-500/10 p-3 text-xs text-rose-200">{error}</p> : (
+        {error ? <p role="alert" className="m-4 rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs text-rose-800">{error}</p> : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-left text-xs">
-              <thead className="bg-[#0E131F]/80 text-[10px] font-bold uppercase tracking-wider text-muted-foreground"><tr><th className="p-3.5">Código</th><th className="p-3.5">Item</th><th className="p-3.5 text-right">Custo tabela</th><th className="p-3.5 text-right">Markup</th><th className="p-3.5 text-right">Preço de venda</th></tr></thead>
+              <thead className="bg-[#F8FAFC]/80 text-[10px] font-bold uppercase tracking-wider text-muted-foreground"><tr><th className="p-3.5">Código</th><th className="p-3.5">Item</th><th className="p-3.5 text-right">Custo tabela</th><th className="p-3.5 text-right">Markup</th><th className="p-3.5 text-right">Preço de venda</th></tr></thead>
               <tbody>
-                {loading ? <tr><td colSpan={5} className="p-14 text-center"><Loader2 className="mx-auto h-6 w-6 animate-spin text-emerald-400" /><span className="mt-2 block text-muted-foreground">Carregando tabela...</span></td></tr>
+                {loading ? <tr><td colSpan={5} className="p-14 text-center"><Loader2 className="mx-auto h-6 w-6 animate-spin text-emerald-700" /><span className="mt-2 block text-muted-foreground">Carregando tabela...</span></td></tr>
                   : items.length === 0 ? <tr><td colSpan={5} className="p-14 text-center text-muted-foreground">Nenhum item encontrado.</td></tr>
-                  : items.map(item => <tr key={item.id} className="border-t border-border/40 hover:bg-slate-800/35"><td className="p-3.5 font-semibold text-emerald-400">{item.codigo || item.id}</td><td className="p-3.5 font-medium text-slate-200">{item.nome}</td><td className="p-3.5 text-right text-slate-300">{currency.format(item.custoTabela || 0)}</td><td className="p-3.5 text-right text-slate-300">{item.markupTabela || 0}%</td><td className="p-3.5 text-right font-bold text-emerald-300">{currency.format(item.preco || 0)}</td></tr>)}
+                  : items.map(item => <tr key={item.id} className="border-t border-border/40 hover:bg-slate-100/35"><td className="p-3.5 font-semibold text-emerald-700">{item.codigo || item.id}</td><td className="p-3.5 font-medium text-slate-800">{item.nome}</td><td className="p-3.5 text-right text-slate-600">{currency.format(item.custoTabela || 0)}</td><td className="p-3.5 text-right text-slate-600">{item.markupTabela || 0}%</td><td className="p-3.5 text-right font-bold text-emerald-700">{currency.format(item.preco || 0)}</td></tr>)}
               </tbody>
             </table>
           </div>

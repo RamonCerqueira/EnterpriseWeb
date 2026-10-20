@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { 
-  Boxes, Plus, Search, Tag, DollarSign, Layers, 
-  AlertTriangle, CheckCircle, Package, ArrowUpRight, 
+import {
+  Boxes, Plus, Search, Tag, DollarSign, Layers,
+  AlertTriangle, CheckCircle, Package, ArrowUpRight,
   ArrowDownRight, RefreshCw, ChevronLeft, ChevronRight,
   TrendingUp, FileText, Check, X, ShieldAlert
 } from "lucide-react";
@@ -178,12 +178,12 @@ export default function EstoquePage() {
   };
 
   return (
-    <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-100 relative">
+    <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-800 relative">
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <Boxes className="h-6 w-6 text-emerald-400" /> Controle de Estoque
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <Boxes className="h-6 w-6 text-emerald-700" /> Controle de Estoque
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Acompanhe saldos físicos, controle reservas dinâmicas de vendas e requisições, e analise movimentações históricas.
@@ -191,16 +191,16 @@ export default function EstoquePage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button 
+          <Button
             onClick={() => {
               setActiveTab("inventario");
               fetchInventory();
-            }} 
-            variant="secondary" 
-            size="sm" 
-            className="text-xs font-semibold h-9 border border-border/60 bg-[#0E1322]/80 cursor-pointer"
+            }}
+            variant="secondary"
+            size="sm"
+            className="text-xs font-semibold h-9 border border-border/60 bg-[#FFFFFF]/80 cursor-pointer"
           >
-            <RefreshCw className="h-4 w-4 mr-1 text-cyan-400" /> Atualizar Saldos
+            <RefreshCw className="h-4 w-4 mr-1 text-cyan-700" /> Atualizar Saldos
           </Button>
         </div>
       </div>
@@ -208,59 +208,59 @@ export default function EstoquePage() {
       {/* Row 1: Real-time Metric Cards from database */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1 */}
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg relative overflow-hidden backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg relative overflow-hidden backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-cyan-950/45 text-cyan-400 flex items-center justify-center border border-cyan-500/10">
+            <div className="h-7 w-7 rounded-lg bg-cyan-50 text-cyan-700 flex items-center justify-center border border-cyan-500/10">
               <Package className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Total de Peças</span>
           </div>
-          <h3 className="text-xl font-black text-slate-100">
+          <h3 className="text-xl font-black text-slate-800">
             {stats.totalItems.toLocaleString("pt-BR")} <span className="text-xs font-medium text-muted-foreground">unidades</span>
           </h3>
-          <span className="text-[9px] text-cyan-400 font-semibold mt-1 block">Estoque físico consolidado</span>
+          <span className="text-[9px] text-cyan-700 font-semibold mt-1 block">Estoque físico consolidado</span>
         </Card>
 
         {/* Metric 2 */}
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg relative overflow-hidden backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg relative overflow-hidden backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-emerald-950/45 text-emerald-400 flex items-center justify-center border border-emerald-500/10">
+            <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-500/10">
               <DollarSign className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Valor do Inventário</span>
           </div>
-          <h3 className="text-xl font-black text-emerald-400">
+          <h3 className="text-xl font-black text-emerald-700">
             {stats.totalValue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </h3>
-          <span className="text-[9px] text-emerald-400/80 font-semibold mt-1 block">Preço de custo real acumulado</span>
+          <span className="text-[9px] text-emerald-700 font-semibold mt-1 block">Preço de custo real acumulado</span>
         </Card>
 
         {/* Metric 3 */}
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg relative overflow-hidden backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg relative overflow-hidden backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-rose-950/45 text-rose-400 flex items-center justify-center border border-rose-500/10">
+            <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center border border-rose-500/10">
               <AlertTriangle className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">SKUs Críticos</span>
           </div>
-          <h3 className="text-xl font-black text-rose-400">
+          <h3 className="text-xl font-black text-rose-700">
             {stats.lowStockCount} <span className="text-xs font-medium text-muted-foreground">itens</span>
           </h3>
-          <span className="text-[9px] text-rose-400 font-semibold mt-1 block">Saldos abaixo do estoque mínimo</span>
+          <span className="text-[9px] text-rose-700 font-semibold mt-1 block">Saldos abaixo do estoque mínimo</span>
         </Card>
 
         {/* Metric 4 */}
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg relative overflow-hidden backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg relative overflow-hidden backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-amber-950/45 text-amber-400 flex items-center justify-center border border-amber-500/10">
+            <div className="h-7 w-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-500/10">
               <Layers className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Total de SKUs</span>
           </div>
-          <h3 className="text-xl font-black text-amber-400">
+          <h3 className="text-xl font-black text-amber-700">
             {stats.totalSKUs} <span className="text-xs font-medium text-muted-foreground">cadastrados</span>
           </h3>
-          <span className="text-[9px] text-amber-400 font-semibold mt-1 block">Filtro de serviços ativos desconsiderado</span>
+          <span className="text-[9px] text-amber-700 font-semibold mt-1 block">Filtro de serviços ativos desconsiderado</span>
         </Card>
       </div>
 
@@ -270,8 +270,8 @@ export default function EstoquePage() {
           onClick={() => setActiveTab("inventario")}
           className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer ${
             activeTab === "inventario"
-              ? "border-emerald-500 text-emerald-400"
-              : "border-transparent text-muted-foreground hover:text-slate-200"
+              ? "border-emerald-500 text-emerald-700"
+              : "border-transparent text-muted-foreground hover:text-slate-800"
           }`}
         >
           Inventário de Saldos
@@ -283,8 +283,8 @@ export default function EstoquePage() {
           }}
           className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all border-b-2 cursor-pointer ${
             activeTab === "movimentacoes"
-              ? "border-emerald-500 text-emerald-400"
-              : "border-transparent text-muted-foreground hover:text-slate-200"
+              ? "border-emerald-500 text-emerald-700"
+              : "border-transparent text-muted-foreground hover:text-slate-800"
           }`}
         >
           Histórico de Auditoria
@@ -293,11 +293,11 @@ export default function EstoquePage() {
 
       {/* MAIN CONTAINER CONTENT */}
       {activeTab === "inventario" ? (
-        <Card className="bg-[#0E1322]/80 border border-border/60 shadow-xl overflow-hidden backdrop-blur-lg">
+        <Card className="bg-[#FFFFFF]/80 border border-border/60 shadow-xl overflow-hidden backdrop-blur-lg">
           {/* Filters and Search Bar */}
-          <div className="p-5 border-b border-border/40 flex flex-col md:flex-row items-center justify-between gap-4 bg-[#0A0D18]/45">
+          <div className="p-5 border-b border-border/40 flex flex-col md:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/45">
             <div>
-              <CardTitle className="text-sm font-bold text-slate-200">Inventário Geral de Produtos</CardTitle>
+              <CardTitle className="text-sm font-bold text-slate-800">Inventário Geral de Produtos</CardTitle>
               <CardDescription className="text-[10px] text-muted-foreground">
                 Exibe estoque físico, demandas bloqueadas por reservas e o saldo disponível real para vendas.
               </CardDescription>
@@ -314,7 +314,7 @@ export default function EstoquePage() {
                   placeholder="Pesquisar SKU ou nome..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full h-8.5 pl-8.5 pr-4 rounded-lg bg-[#05080E]/90 border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+                  className="w-full h-8.5 pl-8.5 pr-4 rounded-lg bg-[#F8FAFC]/90 border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
                 />
               </div>
 
@@ -326,8 +326,8 @@ export default function EstoquePage() {
                 }}
                 className={`h-8.5 px-3 rounded-lg border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                   onlyCritical
-                    ? "bg-rose-950/40 border-rose-500/55 text-rose-400 shadow-[0_0_10px_rgba(244,63,94,0.1)]"
-                    : "bg-[#05080E]/90 border-border/80 text-slate-300 hover:border-slate-500"
+                    ? "bg-rose-50 border-rose-500/55 text-rose-700 shadow-[0_0_10px_rgba(244,63,94,0.1)]"
+                    : "bg-[#F8FAFC]/90 border-border/80 text-slate-600 hover:border-slate-500"
                 }`}
               >
                 <AlertTriangle className="h-3.5 w-3.5" />
@@ -340,7 +340,7 @@ export default function EstoquePage() {
           <div className="overflow-x-auto">
             {isLoading ? (
               <div className="p-20 text-center flex flex-col items-center justify-center gap-2">
-                <RefreshCw className="h-7 w-7 text-emerald-400 animate-spin" />
+                <RefreshCw className="h-7 w-7 text-emerald-700 animate-spin" />
                 <span className="text-xs text-muted-foreground font-semibold">Buscando saldos físicos no SQL Server...</span>
               </div>
             ) : products.length === 0 ? (
@@ -350,39 +350,39 @@ export default function EstoquePage() {
             ) : (
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-border/50 bg-[#0E1322]/55">
-                    <th className="p-3 text-[10px] font-bold text-slate-300 uppercase tracking-wider pl-5">SKU / Ref</th>
-                    <th className="p-3 text-[10px] font-bold text-slate-300 uppercase tracking-wider">Descrição do Item</th>
-                    <th className="p-3 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Físico</th>
-                    <th className="p-3 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Reservado</th>
-                    <th className="p-3 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Disponível</th>
-                    <th className="p-3 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Segurança</th>
-                    <th className="p-3 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Status</th>
-                    <th className="p-3 text-[10px] font-bold text-slate-300 uppercase tracking-wider pr-5 text-right">Ação</th>
+                  <tr className="border-b border-border/50 bg-[#FFFFFF]/55">
+                    <th className="p-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider pl-5">SKU / Ref</th>
+                    <th className="p-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider">Descrição do Item</th>
+                    <th className="p-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Físico</th>
+                    <th className="p-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Reservado</th>
+                    <th className="p-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Disponível</th>
+                    <th className="p-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Segurança</th>
+                    <th className="p-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Status</th>
+                    <th className="p-3 text-[10px] font-bold text-slate-600 uppercase tracking-wider pr-5 text-right">Ação</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/10">
                   {products.map((p) => (
-                    <tr key={p.id} className="hover:bg-slate-900/40 transition-colors text-xs">
+                    <tr key={p.id} className="hover:bg-slate-50/40 transition-colors text-xs">
                       <td className="p-3 pl-5">
-                        <span className="font-mono font-bold text-cyan-400 bg-cyan-950/20 px-2 py-0.5 rounded border border-cyan-500/10">
+                        <span className="font-mono font-bold text-cyan-700 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-500/10">
                           {p.codigo}
                         </span>
                       </td>
                       <td className="p-3">
                         <div className="flex flex-col">
-                          <span className="font-bold text-slate-200">{p.nome}</span>
+                          <span className="font-bold text-slate-800">{p.nome}</span>
                           <span className="text-[10px] text-muted-foreground">ID Interno: #{p.id}</span>
                         </div>
                       </td>
                       {/* Physical */}
-                      <td className="p-3 text-center font-bold text-slate-100">
+                      <td className="p-3 text-center font-bold text-slate-800">
                         {p.estoqueFisico} <span className="text-[10px] text-muted-foreground font-normal">{p.unidade}</span>
                       </td>
                       {/* Reserved */}
                       <td className="p-3 text-center">
                         <div className="inline-flex flex-col items-center">
-                          <span className={`font-bold ${p.totalReservado > 0 ? "text-amber-400" : "text-slate-400"}`}>
+                          <span className={`font-bold ${p.totalReservado > 0 ? "text-amber-700" : "text-slate-600"}`}>
                             {p.totalReservado}
                           </span>
                           {p.totalReservado > 0 && (
@@ -394,7 +394,7 @@ export default function EstoquePage() {
                       </td>
                       {/* Available */}
                       <td className="p-3 text-center">
-                        <span className={`font-black ${p.disponivel <= 0 ? "text-rose-400" : "text-emerald-400"}`}>
+                        <span className={`font-black ${p.disponivel <= 0 ? "text-rose-700" : "text-emerald-700"}`}>
                           {p.disponivel}
                         </span>
                       </td>
@@ -405,15 +405,15 @@ export default function EstoquePage() {
                       {/* Status */}
                       <td className="p-3 text-center">
                         {p.disponivel <= 0 ? (
-                          <span className="bg-rose-950/30 text-rose-400 border border-rose-500/20 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider">
+                          <span className="bg-rose-50 text-rose-700 border border-rose-500/20 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider">
                             Sem Saldo
                           </span>
                         ) : p.isCritico ? (
-                          <span className="bg-amber-950/30 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider">
+                          <span className="bg-amber-50 text-amber-700 border border-amber-500/20 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider">
                             Estoque Crítico
                           </span>
                         ) : (
-                          <span className="bg-emerald-950/30 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider">
+                          <span className="bg-emerald-50 text-emerald-700 border border-emerald-500/20 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider">
                             Normal
                           </span>
                         )}
@@ -424,9 +424,9 @@ export default function EstoquePage() {
                           onClick={() => openAdjustmentModal(p)}
                           size="sm"
                           variant="secondary"
-                          className="h-7 text-[10px] font-bold px-2.5 bg-card hover:bg-slate-900 border border-border/80 cursor-pointer text-slate-300"
+                          className="h-7 text-[10px] font-bold px-2.5 bg-card hover:bg-slate-50 border border-border/80 cursor-pointer text-slate-600"
                         >
-                          <RefreshCw className="h-3 w-3 mr-1 text-amber-500" />
+                          <RefreshCw className="h-3 w-3 mr-1 text-amber-700" />
                           Ajuste
                         </Button>
                       </td>
@@ -439,9 +439,9 @@ export default function EstoquePage() {
 
           {/* Table Pagination Footer */}
           {!isLoading && totalPages > 1 && (
-            <div className="p-4 border-t border-border/40 flex items-center justify-between bg-[#0A0D18]/30">
+            <div className="p-4 border-t border-border/40 flex items-center justify-between bg-[#F8FAFC]/30">
               <span className="text-[10px] text-muted-foreground font-semibold">
-                Página <strong className="text-slate-300">{page}</strong> de <strong className="text-slate-300">{totalPages}</strong>
+                Página <strong className="text-slate-600">{page}</strong> de <strong className="text-slate-600">{totalPages}</strong>
               </span>
 
               <div className="flex items-center gap-1">
@@ -469,9 +469,9 @@ export default function EstoquePage() {
         </Card>
       ) : (
         /* TAB 2: AUDIT MOVEMENTS TIMELINE */
-        <Card className="bg-[#0E1322]/80 border border-border/60 shadow-xl overflow-hidden backdrop-blur-lg">
-          <div className="p-5 border-b border-border/40 bg-[#0A0D18]/45">
-            <CardTitle className="text-sm font-bold text-slate-200">Extrato Geral de Auditoria</CardTitle>
+        <Card className="bg-[#FFFFFF]/80 border border-border/60 shadow-xl overflow-hidden backdrop-blur-lg">
+          <div className="p-5 border-b border-border/40 bg-[#F8FAFC]/45">
+            <CardTitle className="text-sm font-bold text-slate-800">Extrato Geral de Auditoria</CardTitle>
             <CardDescription className="text-[10px] text-muted-foreground">
               Histórico unificado em tempo real das últimas entradas registradas por Compras (`Compra1`) e saídas físicas computadas por Vendas (`Venda1`).
             </CardDescription>
@@ -480,7 +480,7 @@ export default function EstoquePage() {
           <div className="p-5">
             {isMovementsLoading ? (
               <div className="p-20 text-center flex flex-col items-center justify-center gap-2">
-                <RefreshCw className="h-7 w-7 text-emerald-400 animate-spin" />
+                <RefreshCw className="h-7 w-7 text-emerald-700 animate-spin" />
                 <span className="text-xs text-muted-foreground font-semibold">Consolidando ledger de compras e vendas do SQL Server...</span>
               </div>
             ) : movements.length === 0 ? (
@@ -493,9 +493,9 @@ export default function EstoquePage() {
                   <div key={mov.id} className="relative group">
                     {/* Circle icon on the timeline line */}
                     <span className={`absolute -left-[35px] top-1 h-5 w-5 rounded-full flex items-center justify-center border-2 ${
-                      mov.type === "Entrada" 
-                        ? "bg-emerald-950 text-emerald-400 border-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.2)]" 
-                        : "bg-rose-950 text-rose-400 border-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.2)]"
+                      mov.type === "Entrada"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.2)]"
+                        : "bg-rose-50 text-rose-700 border-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.2)]"
                     }`}>
                       {mov.type === "Entrada" ? (
                         <ArrowUpRight className="h-3 w-3" />
@@ -505,13 +505,13 @@ export default function EstoquePage() {
                     </span>
 
                     {/* Content Body of the Movement */}
-                    <div className="bg-[#121826]/60 border border-border/40 rounded-xl p-4 hover:border-emerald-500/25 transition-all shadow-md">
+                    <div className="bg-[#FFFFFF]/60 border border-border/40 rounded-xl p-4 hover:border-emerald-500/25 transition-all shadow-md">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                         <div className="flex items-center gap-2">
                           <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded ${
-                            mov.type === "Entrada" 
-                              ? "bg-emerald-950/50 text-emerald-400 border border-emerald-500/10" 
-                              : "bg-rose-950/50 text-rose-400 border border-rose-500/10"
+                            mov.type === "Entrada"
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-500/10"
+                              : "bg-rose-50 text-rose-700 border border-rose-500/10"
                           }`}>
                             {mov.type}
                           </span>
@@ -520,13 +520,13 @@ export default function EstoquePage() {
                         <span className="text-[10px] text-muted-foreground font-semibold">{mov.date}</span>
                       </div>
 
-                      <h4 className="text-xs font-bold text-slate-100 mb-1">{mov.item}</h4>
-                      
+                      <h4 className="text-xs font-bold text-slate-800 mb-1">{mov.item}</h4>
+
                       <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                        <span>Quantidade: <strong className={mov.type === "Entrada" ? "text-emerald-400" : "text-rose-400"}>
+                        <span>Quantidade: <strong className={mov.type === "Entrada" ? "text-emerald-700" : "text-rose-700"}>
                           {mov.type === "Entrada" ? `+${mov.qty}` : `-${mov.qty}`} un
                         </strong></span>
-                        <span>Registrado em: <strong className="text-slate-300 font-semibold">{mov.user}</strong></span>
+                        <span>Registrado em: <strong className="text-slate-600 font-semibold">{mov.user}</strong></span>
                       </div>
                     </div>
                   </div>
@@ -540,58 +540,58 @@ export default function EstoquePage() {
       {/* ADJUSTMENT MODAL FOR STOCK */}
       {isAdjustmentModalOpen && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <Card className="w-full max-w-md border border-border/80 bg-[#0E1322] shadow-2xl relative">
+          <Card className="w-full max-w-md border border-border/80 bg-[#FFFFFF] shadow-2xl relative">
             <CardHeader className="border-b border-border/40 pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <ShieldAlert className="h-5 w-5 text-amber-500" />
-                  <CardTitle className="text-sm font-black text-slate-100">Ajuste Físico de Estoque</CardTitle>
+                  <ShieldAlert className="h-5 w-5 text-amber-700" />
+                  <CardTitle className="text-sm font-black text-slate-800">Ajuste Físico de Estoque</CardTitle>
                 </div>
-                <button 
+                <button
                   onClick={() => setIsAdjustmentModalOpen(false)}
-                  className="text-muted-foreground hover:text-slate-200 cursor-pointer"
+                  className="text-muted-foreground hover:text-slate-800 cursor-pointer"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
               <CardDescription className="text-[10px] text-muted-foreground mt-1">
-                 SKU: <strong className="text-cyan-400 font-mono">{selectedProduct.codigo}</strong> -- {selectedProduct.nome}
+                 SKU: <strong className="text-cyan-700 font-mono">{selectedProduct.codigo}</strong> -- {selectedProduct.nome}
               </CardDescription>
             </CardHeader>
 
             <form onSubmit={handleAdjustmentSubmit}>
               <CardContent className="space-y-4 pt-5">
                 {/* Warning Alert */}
-                <div className="bg-amber-950/20 border border-amber-500/25 p-3 rounded-lg flex items-start gap-2.5">
-                  <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
-                  <div className="text-[10px] text-amber-400 font-medium leading-relaxed">
+                <div className="bg-amber-50 border border-amber-500/25 p-3 rounded-lg flex items-start gap-2.5">
+                  <AlertTriangle className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
+                  <div className="text-[10px] text-amber-700 font-medium leading-relaxed">
                     <strong>Atenção:</strong> Esta alteração corrige diretamente o estoque de prateleira na base do SQL Server. Apenas execute se tiver certeza da contagem do inventário físico.
                   </div>
                 </div>
 
                 {/* Display Current Math Stats */}
-                <div className="grid grid-cols-2 gap-4 bg-[#05080E]/90 p-3 rounded-lg border border-border/40 text-xs font-semibold">
+                <div className="grid grid-cols-2 gap-4 bg-[#F8FAFC]/90 p-3 rounded-lg border border-border/40 text-xs font-semibold">
                   <div>
                     <span className="text-[10px] text-muted-foreground block font-medium uppercase tracking-wider mb-0.5">Estoque Atual</span>
-                    <span className="text-slate-200 font-bold">{selectedProduct.estoqueFisico} {selectedProduct.unidade}</span>
+                    <span className="text-slate-800 font-bold">{selectedProduct.estoqueFisico} {selectedProduct.unidade}</span>
                   </div>
                   <div>
                     <span className="text-[10px] text-muted-foreground block font-medium uppercase tracking-wider mb-0.5">Reservado</span>
-                    <span className="text-amber-400 font-bold">{selectedProduct.totalReservado} {selectedProduct.unidade}</span>
+                    <span className="text-amber-700 font-bold">{selectedProduct.totalReservado} {selectedProduct.unidade}</span>
                   </div>
                 </div>
 
                 {/* Error Banner */}
                 {adjustmentError && (
-                  <div className="bg-rose-950/35 border border-rose-500/30 text-rose-400 p-2.5 rounded-lg text-[10px] font-bold flex items-center gap-2">
-                    <AlertTriangle className="h-4 w-4 shrink-0 text-rose-400" />
+                  <div className="bg-rose-50 border border-rose-500/30 text-rose-700 p-2.5 rounded-lg text-[10px] font-bold flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4 shrink-0 text-rose-700" />
                     <span>{adjustmentError}</span>
                   </div>
                 )}
 
                 {/* New Stock Input */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
                     Nova Quantidade Física
                   </label>
                   <Input
@@ -601,13 +601,13 @@ export default function EstoquePage() {
                     value={newStockValue}
                     onChange={(e) => setNewStockValue(e.target.value)}
                     disabled={isSubmittingAdjustment}
-                    className="h-10 border-border bg-[#05080E]/90 text-sm font-bold focus:border-cyan-500"
+                    className="h-10 border-border bg-[#F8FAFC]/90 text-sm font-bold focus:border-cyan-500"
                   />
                 </div>
               </CardContent>
 
               {/* Modal Footer Controls */}
-              <div className="p-4 border-t border-border/40 flex justify-end gap-2 bg-[#0A0D18]/45">
+              <div className="p-4 border-t border-border/40 flex justify-end gap-2 bg-[#F8FAFC]/45">
                 <Button
                   type="button"
                   variant="secondary"

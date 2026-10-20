@@ -65,14 +65,14 @@ export function Logo({
           {/* Emerald to Teal - Bottom Isometric Ribbon */}
           <linearGradient id="isoEmeraldTeal" x1="80" y1="80" x2="20" y2="50" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#10B981" /> {/* emerald-500 */}
-            <stop offset="100%" stopColor="#0D9488" /> {/* teal-600 */}
+            <stop offset="100%" stopColor="#0F766E" /> {/* teal-600 */}
           </linearGradient>
 
           {/* Glowing Laser Beam Gradient (Cyan to Emerald fading to transparent tail) */}
           <linearGradient id="beamLightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#22D3EE" stopOpacity="1" /> {/* High intensity cyan */}
             <stop offset="30%" stopColor="#34D399" stopOpacity="0.8" /> {/* Emerald */}
-            <stop offset="100%" stopColor="#0D9488" stopOpacity="0" /> {/* Smooth transparency fade */}
+            <stop offset="100%" stopColor="#0F766E" stopOpacity="0" /> {/* Smooth transparency fade */}
           </linearGradient>
 
           {/* Central High-Tech Highlight Core */}
@@ -89,12 +89,12 @@ export function Logo({
         </defs>
 
         {/* Isometric Grid Guideline Ring (Blueprint blueprint underlay) */}
-        <circle cx="50" cy="50" r="44" stroke="#1E293B" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.4" />
+        <circle cx="50" cy="50" r="44" stroke="#E2E8F0" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.4" />
 
         {/* Animated backbone trail trace underlay (guideline for the laser) */}
         <path
           d="M 78 32 L 50 16 L 22 32 L 50 48 L 50 52 L 78 68 L 50 84 L 22 68"
-          stroke="#1E293B"
+          stroke="#E2E8F0"
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeDasharray="2 3"
@@ -158,20 +158,20 @@ export function Logo({
             width > 45 ? "text-[28px]" : "text-[19px]"
           )}>
             {logoSrc ? (
-              <span className="max-w-[155px] truncate bg-gradient-to-r from-cyan-300 to-emerald-400 bg-clip-text text-transparent font-black">
+              <span className="max-w-[155px] truncate bg-gradient-to-r from-cyan-700 to-emerald-700 bg-clip-text text-transparent font-black">
                 {companyName || "Sua empresa"}
               </span>
             ) : (
               <>
-                <span className="text-slate-100">Soft</span>
-                <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent font-black ml-0.5">
+                <span className="text-slate-800">Soft</span>
+                <span className="bg-gradient-to-r from-cyan-700 to-emerald-700 bg-clip-text text-transparent font-black ml-0.5">
                   Line
                 </span>
               </>
             )}
           </div>
           <div className={cn(
-            "font-black text-slate-400 uppercase",
+            "font-black text-slate-600 uppercase",
             width > 45 ? "text-[12px] tracking-[0.35em]" : "text-[9px] tracking-[0.32em]"
           )}>
             {logoSrc ? "Empresa" : "Sistemas"}

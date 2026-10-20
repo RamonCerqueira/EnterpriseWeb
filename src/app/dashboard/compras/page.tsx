@@ -237,12 +237,12 @@ export default function ComprasPage() {
   };
 
   return (
-    <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-100 relative">
+    <div className="space-y-6 select-none animate-fade-in pb-12 text-slate-800 relative">
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <ShoppingCart className="h-6 w-6 text-emerald-400" /> Suprimentos & Compras
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <ShoppingCart className="h-6 w-6 text-emerald-700" /> Suprimentos & Compras
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Gerencie cotações de preços de fornecedores, ordens de compra e lance reabastecimentos de estoque no sistema.
@@ -262,52 +262,52 @@ export default function ComprasPage() {
 
       {/* Row 1: Summary Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-emerald-950/45 text-emerald-400 flex items-center justify-center border border-emerald-500/10">
+            <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-500/10">
               <DollarSign className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Investimento Total</span>
           </div>
-          <h3 className="text-xl font-black text-slate-100">
+          <h3 className="text-xl font-black text-slate-800">
             {stats.totalInvestment.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </h3>
-          <span className="text-[9px] text-emerald-400 font-semibold mt-1 block">Capital em compras faturado</span>
+          <span className="text-[9px] text-emerald-700 font-semibold mt-1 block">Capital em compras faturado</span>
         </Card>
 
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-blue-950/45 text-blue-400 flex items-center justify-center border border-blue-500/10">
+            <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-500/10">
               <ClipboardList className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Volume de Compras</span>
           </div>
-          <h3 className="text-xl font-black text-slate-100">
+          <h3 className="text-xl font-black text-slate-800">
             {stats.totalOrders} <span className="text-xs font-semibold text-muted-foreground">pedidos</span>
           </h3>
-          <span className="text-[9px] text-blue-400 font-semibold mt-1 block">Ordens de suprimento processadas</span>
+          <span className="text-[9px] text-blue-700 font-semibold mt-1 block">Ordens de suprimento processadas</span>
         </Card>
 
-        <Card className="p-4 bg-[#0E1322]/80 border border-border/60 shadow-lg backdrop-blur-md">
+        <Card className="p-4 bg-[#FFFFFF]/80 border border-border/60 shadow-lg backdrop-blur-md">
           <div className="flex items-center gap-2 mb-2">
-            <div className="h-7 w-7 rounded-lg bg-amber-950/45 text-amber-400 flex items-center justify-center border border-amber-500/10">
+            <div className="h-7 w-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-500/10">
               <Truck className="h-4 w-4" />
             </div>
             <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-wider">Custo Médio Compra</span>
           </div>
-          <h3 className="text-xl font-black text-slate-100">
+          <h3 className="text-xl font-black text-slate-800">
             {stats.averagePurchase.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
           </h3>
-          <span className="text-[9px] text-amber-400 font-semibold mt-1 block">Tíquete de aquisição de insumos</span>
+          <span className="text-[9px] text-amber-700 font-semibold mt-1 block">Tíquete de aquisição de insumos</span>
         </Card>
       </div>
 
       {/* Main card grid table */}
-      <Card className="bg-[#0E1322]/80 border border-border/60 overflow-hidden shadow-xl backdrop-blur-md">
+      <Card className="bg-[#FFFFFF]/80 border border-border/60 overflow-hidden shadow-xl backdrop-blur-md">
         {/* Table Header Filter */}
-        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0A0D18]/45">
+        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/45">
           <div>
-            <CardTitle className="text-sm font-bold text-slate-200">Ordens de Compra e Abastecimento</CardTitle>
+            <CardTitle className="text-sm font-bold text-slate-800">Ordens de Compra e Abastecimento</CardTitle>
             <p className="text-[10px] text-muted-foreground">Monitore o fluxo de aquisição e recepção física de insumos no estoque.</p>
           </div>
 
@@ -321,7 +321,7 @@ export default function ComprasPage() {
               placeholder="Filtrar por fornecedor ou NF..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#05080E]/90 border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#F8FAFC]/90 border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
             />
           </div>
         </div>
@@ -330,7 +330,7 @@ export default function ComprasPage() {
         <div className="overflow-x-auto">
           {isLoading ? (
             <div className="p-20 text-center flex flex-col items-center justify-center gap-2">
-              <RefreshCw className="h-7 w-7 text-emerald-400 animate-spin" />
+              <RefreshCw className="h-7 w-7 text-emerald-700 animate-spin" />
               <span className="text-xs text-muted-foreground font-semibold">Consultando faturamentos no SQL Server...</span>
             </div>
           ) : purchases.length === 0 ? (
@@ -340,35 +340,35 @@ export default function ComprasPage() {
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-border/50 bg-[#0E1322]/55">
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider pl-6">Doc. Compra</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">Fornecedor Razão</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Itens Totais</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">Valor Faturado</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider text-center">Status</th>
-                  <th className="p-3.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider pr-6 text-right">Data Emissão</th>
+                <tr className="border-b border-border/50 bg-[#FFFFFF]/55">
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider pl-6">Doc. Compra</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider">Fornecedor Razão</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Itens Totais</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider">Valor Faturado</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider text-center">Status</th>
+                  <th className="p-3.5 text-[10px] font-bold text-slate-600 uppercase tracking-wider pr-6 text-right">Data Emissão</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/10">
                 {purchases.map((p) => (
-                  <tr key={p.id} className="hover:bg-slate-900/40 transition-colors text-xs">
+                  <tr key={p.id} className="hover:bg-slate-50/40 transition-colors text-xs">
                     <td className="p-3.5 pl-6">
-                      <span className="font-mono font-bold text-emerald-400 bg-emerald-950/20 px-2 py-0.5 rounded border border-emerald-500/10">
+                      <span className="font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-500/10">
                         {p.invoice}
                       </span>
                     </td>
-                    <td className="p-3.5 text-slate-200 font-semibold">{p.supplier}</td>
-                    <td className="p-3.5 text-slate-300 text-center font-bold">
+                    <td className="p-3.5 text-slate-800 font-semibold">{p.supplier}</td>
+                    <td className="p-3.5 text-slate-600 text-center font-bold">
                       <div className="inline-flex items-center gap-1">
-                        <Package className="h-3.5 w-3.5 text-emerald-400" />
+                        <Package className="h-3.5 w-3.5 text-emerald-700" />
                         <span>{p.itemsCount} un</span>
                       </div>
                     </td>
-                    <td className="p-3.5 font-black text-slate-100">
+                    <td className="p-3.5 font-black text-slate-800">
                       {p.value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </td>
                     <td className="p-3.5 text-center">
-                      <Badge className="bg-emerald-950/50 text-emerald-400 border border-emerald-500/20 font-black uppercase text-[9px] tracking-wider px-2 py-0.5">
+                      <Badge className="bg-emerald-50 text-emerald-700 border border-emerald-500/20 font-black uppercase text-[9px] tracking-wider px-2 py-0.5">
                         {p.status}
                       </Badge>
                     </td>
@@ -382,9 +382,9 @@ export default function ComprasPage() {
 
         {/* Table Pagination Footer */}
         {!isLoading && totalPages > 1 && (
-          <div className="p-4 border-t border-border/40 flex items-center justify-between bg-[#0A0D18]/30">
+          <div className="p-4 border-t border-border/40 flex items-center justify-between bg-[#F8FAFC]/30">
             <span className="text-[10px] text-muted-foreground font-semibold">
-              Página <strong className="text-slate-300">{page}</strong> de <strong className="text-slate-300">{totalPages}</strong>
+              Página <strong className="text-slate-600">{page}</strong> de <strong className="text-slate-600">{totalPages}</strong>
             </span>
 
             <div className="flex items-center gap-1">
@@ -414,16 +414,16 @@ export default function ComprasPage() {
       {/* MODAL: REGISTRAR COMPRA */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <Card className="w-full max-w-2xl border border-border/80 bg-[#0E1322] shadow-2xl relative max-h-[90vh] overflow-y-auto">
+          <Card className="w-full max-w-2xl border border-border/80 bg-[#FFFFFF] shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <CardHeader className="border-b border-border/40 pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <ShoppingCart className="h-5 w-5 text-emerald-400" />
-                  <CardTitle className="text-sm font-black text-slate-100">Registrar Ordem de Compra / Entrada</CardTitle>
+                  <ShoppingCart className="h-5 w-5 text-emerald-700" />
+                  <CardTitle className="text-sm font-black text-slate-800">Registrar Ordem de Compra / Entrada</CardTitle>
                 </div>
                 <button 
                   onClick={() => setIsModalOpen(false)}
-                  className="text-muted-foreground hover:text-slate-200 cursor-pointer"
+                  className="text-muted-foreground hover:text-slate-800 cursor-pointer"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -436,8 +436,8 @@ export default function ComprasPage() {
             <form onSubmit={handleCreatePurchase}>
               <CardContent className="space-y-4 pt-5">
                 {formError && (
-                  <div className="bg-rose-950/35 border border-rose-500/30 text-rose-400 p-2.5 rounded-lg text-[10px] font-bold flex items-center gap-2">
-                    <ShieldAlert className="h-4 w-4 shrink-0 text-rose-400" />
+                  <div className="bg-rose-50 border border-rose-500/30 text-rose-700 p-2.5 rounded-lg text-[10px] font-bold flex items-center gap-2">
+                    <ShieldAlert className="h-4 w-4 shrink-0 text-rose-700" />
                     <span>{formError}</span>
                   </div>
                 )}
@@ -446,7 +446,7 @@ export default function ComprasPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* NF Input */}
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                    <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
                       Nota Fiscal (NF)
                     </label>
                     <Input
@@ -454,19 +454,19 @@ export default function ComprasPage() {
                       placeholder="Ex: 885942"
                       value={nfNumber}
                       onChange={(e) => setNfNumber(e.target.value)}
-                      className="h-9 border-border bg-[#05080E]/90 text-xs font-semibold focus:border-cyan-500"
+                      className="h-9 border-border bg-[#F8FAFC]/90 text-xs font-semibold focus:border-cyan-500"
                     />
                   </div>
 
                   {/* Status Selection */}
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                    <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
                       Status da Ordem
                     </label>
                     <select
                       value={purchaseStatus}
                       onChange={(e) => setPurchaseStatus(e.target.value)}
-                      className="w-full h-9 rounded-lg border border-border/80 bg-[#05080E]/90 text-xs font-semibold text-slate-200 px-3 focus:outline-none focus:border-cyan-500"
+                      className="w-full h-9 rounded-lg border border-border/80 bg-[#F8FAFC]/90 text-xs font-semibold text-slate-800 px-3 focus:outline-none focus:border-cyan-500"
                     >
                       <option value="Recebido">Recebido (Abastece Físico)</option>
                       <option value="A caminho">A caminho (Sem Abastecimento)</option>
@@ -476,14 +476,14 @@ export default function ComprasPage() {
 
                 {/* Fornecedor Selection */}
                 <div className="space-y-1.5 relative">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
                     Selecionar Fornecedor
                   </label>
                   {selectedSupplier ? (
-                    <div className="flex items-center justify-between bg-emerald-950/20 border border-emerald-500/30 p-2.5 rounded-lg">
+                    <div className="flex items-center justify-between bg-emerald-50 border border-emerald-500/30 p-2.5 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-emerald-400" />
-                        <span className="text-xs font-bold text-emerald-400">{selectedSupplier.nome}</span>
+                        <User className="h-4 w-4 text-emerald-700" />
+                        <span className="text-xs font-bold text-emerald-700">{selectedSupplier.nome}</span>
                         <span className="text-[9px] text-muted-foreground">ID: #{selectedSupplier.id}</span>
                       </div>
                       <Button
@@ -493,7 +493,7 @@ export default function ComprasPage() {
                           setSupplierSearch("");
                         }}
                         variant="ghost"
-                        className="h-6 w-6 p-0 hover:bg-emerald-900/35 text-emerald-400"
+                        className="h-6 w-6 p-0 hover:bg-emerald-50 text-emerald-700"
                       >
                         <X className="h-3.5 w-3.5" />
                       </Button>
@@ -505,16 +505,16 @@ export default function ComprasPage() {
                         placeholder="Pesquisar fornecedor por nome..."
                         value={supplierSearch}
                         onChange={(e) => setSupplierSearch(e.target.value)}
-                        className="h-9 border-border bg-[#05080E]/90 text-xs font-semibold focus:border-cyan-500"
+                        className="h-9 border-border bg-[#F8FAFC]/90 text-xs font-semibold focus:border-cyan-500"
                       />
                       {isSuppliersLoading && (
                         <div className="absolute right-3 top-9 text-xs text-muted-foreground flex items-center gap-1">
-                          <RefreshCw className="h-3 w-3 animate-spin text-emerald-400" />
+                          <RefreshCw className="h-3 w-3 animate-spin text-emerald-700" />
                         </div>
                       )}
                       
                       {supplierSearch.trim().length > 0 && supplierList.length > 0 && (
-                        <div className="absolute z-50 left-0 right-0 mt-1 max-h-40 overflow-y-auto bg-[#121826] border border-border/80 rounded-lg shadow-xl divide-y divide-border/30">
+                        <div className="absolute z-50 left-0 right-0 mt-1 max-h-40 overflow-y-auto bg-[#FFFFFF] border border-border/80 rounded-lg shadow-xl divide-y divide-border/30">
                           {supplierList.map((sup) => (
                             <button
                               key={sup.id}
@@ -524,7 +524,7 @@ export default function ComprasPage() {
                                 setSupplierSearch("");
                                 setSupplierList([]);
                               }}
-                              className="w-full text-left px-3 py-2 text-xs font-bold hover:bg-emerald-500/10 hover:text-emerald-400 transition-colors flex items-center justify-between"
+                              className="w-full text-left px-3 py-2 text-xs font-bold hover:bg-emerald-500/10 hover:text-emerald-700 transition-colors flex items-center justify-between"
                             >
                               <span>{sup.nome}</span>
                               <span className="text-[9px] text-muted-foreground">CNPJ: {sup.cnpj || "Sem doc"}</span>
@@ -538,7 +538,7 @@ export default function ComprasPage() {
 
                 {/* Product Search to Cart */}
                 <div className="space-y-1.5 relative">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
                     Adicionar Produto / Item de Estoque
                   </label>
                   <Input
@@ -546,28 +546,28 @@ export default function ComprasPage() {
                     placeholder="Digite código SKU ou nome do item..."
                     value={productSearch}
                     onChange={(e) => setProductSearch(e.target.value)}
-                    className="h-9 border-border bg-[#05080E]/90 text-xs font-semibold focus:border-cyan-500"
+                    className="h-9 border-border bg-[#F8FAFC]/90 text-xs font-semibold focus:border-cyan-500"
                   />
                   {isProductsLoading && (
                     <div className="absolute right-3 top-9 text-xs text-muted-foreground flex items-center gap-1">
-                      <RefreshCw className="h-3 w-3 animate-spin text-emerald-400" />
+                      <RefreshCw className="h-3 w-3 animate-spin text-emerald-700" />
                     </div>
                   )}
 
                   {productSearch.trim().length > 0 && productList.length > 0 && (
-                    <div className="absolute z-50 left-0 right-0 mt-1 max-h-40 overflow-y-auto bg-[#121826] border border-border/80 rounded-lg shadow-xl divide-y divide-border/30">
+                    <div className="absolute z-50 left-0 right-0 mt-1 max-h-40 overflow-y-auto bg-[#FFFFFF] border border-border/80 rounded-lg shadow-xl divide-y divide-border/30">
                       {productList.map((prod) => (
                         <button
                           key={prod.id}
                           type="button"
                           onClick={() => addToCart(prod)}
-                          className="w-full text-left px-3 py-2 text-xs font-bold hover:bg-emerald-500/10 hover:text-emerald-400 transition-colors flex items-center justify-between"
+                          className="w-full text-left px-3 py-2 text-xs font-bold hover:bg-emerald-500/10 hover:text-emerald-700 transition-colors flex items-center justify-between"
                         >
                           <div className="flex flex-col">
                             <span>{prod.nome}</span>
                             <span className="text-[8px] text-muted-foreground font-mono">Ref: {prod.codigo} -- Estoque Atual: {prod.estoqueFisico} un</span>
                           </div>
-                          <span className="text-emerald-400 font-extrabold">Custo Ref: {prod.custo.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+                          <span className="text-emerald-700 font-extrabold">Custo Ref: {prod.custo.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
                         </button>
                       ))}
                     </div>
@@ -576,18 +576,18 @@ export default function ComprasPage() {
 
                 {/* Cart Table for Purchase */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
                     Lista de Insumos da Ordem
                   </label>
                   {cart.length === 0 ? (
-                    <div className="bg-[#05080E]/60 border border-border/40 p-6 rounded-lg text-center text-xs text-muted-foreground font-semibold">
+                    <div className="bg-[#F8FAFC]/60 border border-border/40 p-6 rounded-lg text-center text-xs text-muted-foreground font-semibold">
                       Nenhum produto adicionado. Pesquise e adicione itens acima.
                     </div>
                   ) : (
-                    <div className="border border-border/40 rounded-lg overflow-hidden bg-[#05080E]/60">
+                    <div className="border border-border/40 rounded-lg overflow-hidden bg-[#F8FAFC]/60">
                       <table className="w-full text-left border-collapse text-xs">
                         <thead>
-                          <tr className="border-b border-border/40 bg-slate-950/40 font-bold text-muted-foreground uppercase text-[8px] tracking-wider">
+                          <tr className="border-b border-border/40 bg-white/40 font-bold text-muted-foreground uppercase text-[8px] tracking-wider">
                             <th className="p-2 pl-3">Ref</th>
                             <th className="p-2">Insumo / SKU</th>
                             <th className="p-2 text-center w-20">Qtd</th>
@@ -599,14 +599,14 @@ export default function ComprasPage() {
                         <tbody className="divide-y divide-border/20">
                           {cart.map((item) => (
                             <tr key={item.codPro}>
-                              <td className="p-2 pl-3 font-mono text-cyan-400 font-bold">{item.codigo}</td>
-                              <td className="p-2 font-bold text-slate-200">{item.nome}</td>
+                              <td className="p-2 pl-3 font-mono text-cyan-700 font-bold">{item.codigo}</td>
+                              <td className="p-2 font-bold text-slate-800">{item.nome}</td>
                               <td className="p-2 text-center">
                                 <input
                                   type="number"
                                   value={item.qty}
                                   onChange={(e) => updateCartQty(item.codPro, parseInt(e.target.value) || 1)}
-                                  className="w-14 h-7 text-center rounded bg-[#121826] border border-border/60 text-xs font-black text-slate-100"
+                                  className="w-14 h-7 text-center rounded bg-[#FFFFFF] border border-border/60 text-xs font-black text-slate-800"
                                 />
                               </td>
                               <td className="p-2 text-center">
@@ -615,10 +615,10 @@ export default function ComprasPage() {
                                   step="0.01"
                                   value={item.cost}
                                   onChange={(e) => updateCartCost(item.codPro, parseFloat(e.target.value) || 0)}
-                                  className="w-24 h-7 px-1.5 text-center rounded bg-[#121826] border border-border/60 text-xs font-bold text-slate-100"
+                                  className="w-24 h-7 px-1.5 text-center rounded bg-[#FFFFFF] border border-border/60 text-xs font-bold text-slate-800"
                                 />
                               </td>
-                              <td className="p-2 text-right font-black text-slate-100">
+                              <td className="p-2 text-right font-black text-slate-800">
                                 {(item.cost * item.qty).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                               </td>
                               <td className="p-2 pr-3 text-right">
@@ -626,7 +626,7 @@ export default function ComprasPage() {
                                   type="button"
                                   onClick={() => removeFromCart(item.codPro)}
                                   variant="ghost"
-                                  className="h-6 w-6 p-0 text-rose-400 hover:bg-rose-950/25"
+                                  className="h-6 w-6 p-0 text-rose-700 hover:bg-rose-50"
                                 >
                                   <Trash2 className="h-3.5 w-3.5" />
                                 </Button>
@@ -634,9 +634,9 @@ export default function ComprasPage() {
                             </tr>
                           ))}
                           {/* Totals row */}
-                          <tr className="border-t-2 border-border bg-slate-950/30 font-black">
-                            <td colSpan={4} className="p-3 text-right text-slate-300">Valor Total Geral:</td>
-                            <td className="p-3 text-right text-emerald-400 text-sm">
+                          <tr className="border-t-2 border-border bg-white/30 font-black">
+                            <td colSpan={4} className="p-3 text-right text-slate-600">Valor Total Geral:</td>
+                            <td className="p-3 text-right text-emerald-700 text-sm">
                               {cartTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </td>
                             <td></td>
@@ -647,8 +647,8 @@ export default function ComprasPage() {
                   )}
                 </div>
 
-                <div className="bg-[#05080E]/40 border border-border/30 rounded-lg p-3 text-[9px] text-muted-foreground flex items-center gap-2.5 leading-relaxed">
-                  <ShieldAlert className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div className="bg-[#F8FAFC]/40 border border-border/30 rounded-lg p-3 text-[9px] text-muted-foreground flex items-center gap-2.5 leading-relaxed">
+                  <ShieldAlert className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" />
                   <span>
                     <strong>Impacto no Estoque:</strong> Salvar esta ordem como **Recebida** injetará o saldo físico de prateleira na base do SQL Server e revalorará o custo contábil base dos produtos no banco.
                   </span>
@@ -656,7 +656,7 @@ export default function ComprasPage() {
               </CardContent>
 
               {/* Modal Footer Controls */}
-              <div className="p-4 border-t border-border/40 flex justify-end gap-2 bg-[#0A0D18]/45">
+              <div className="p-4 border-t border-border/40 flex justify-end gap-2 bg-[#F8FAFC]/45">
                 <Button
                   type="button"
                   variant="secondary"

@@ -7,7 +7,7 @@ import { cadastrosConfig } from "@/lib/cadastros-config";
 
 type RecordData = Record<string, unknown>;
 type FormData = Record<string, string>;
-const inputStyle = "w-full rounded-lg border border-slate-700 bg-slate-950/50 px-3 py-2 text-sm outline-none focus:border-emerald-500 disabled:opacity-70";
+const inputStyle = "w-full rounded-lg border border-slate-200 bg-white/50 px-3 py-2 text-sm outline-none focus:border-emerald-500 disabled:opacity-70";
 
 function imageSource(value: unknown): string {
   if (!value) return "";
@@ -129,14 +129,14 @@ function CadastroEditor({ model }: { model: string }) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-lg font-bold">{config.label}</h1>
         <div className="flex gap-2">
-          <button type="button" disabled={saving} onClick={() => setReload(current => current + 1)} className="flex items-center gap-2 rounded-lg border border-slate-700 px-3 py-2 text-sm disabled:opacity-50"><RefreshCw size={15} /> Atualizar</button>
+          <button type="button" disabled={saving} onClick={() => setReload(current => current + 1)} className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm disabled:opacity-50"><RefreshCw size={15} /> Atualizar</button>
           <button type="button" disabled={saving} onClick={() => selectRecord(null)} className="flex items-center gap-2 rounded-lg bg-emerald-500 px-3 py-2 text-sm font-bold text-black disabled:opacity-50"><Plus size={16} /> Novo</button>
         </div>
       </div>
-      {feedback && <p role={feedback.error ? "alert" : "status"} className={`rounded-lg border p-3 text-sm ${feedback.error ? "border-red-500/40 bg-red-500/10 text-red-300" : "border-emerald-500/40 bg-emerald-500/10 text-emerald-300"}`}>{feedback.text}</p>}
+      {feedback && <p role={feedback.error ? "alert" : "status"} className={`rounded-lg border p-3 text-sm ${feedback.error ? "border-red-500/40 bg-red-500/10 text-red-700" : "border-emerald-500/40 bg-emerald-500/10 text-emerald-700"}`}>{feedback.text}</p>}
       <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(320px,0.85fr)]">
-        <section className="min-w-0 overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60">
-          <div className="flex flex-wrap gap-2 border-b border-slate-800 p-4">
+        <section className="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50/60">
+          <div className="flex flex-wrap gap-2 border-b border-slate-200 p-4">
             <label className="sr-only" htmlFor="search-field">Pesquisar por</label>
             <select id="search-field" value={searchField} onChange={event => { setSearchField(event.target.value); setPage(1); setLoading(true); }} className={`${inputStyle} !w-auto`}>
               <option value="">Todos os filtros</option>
@@ -149,30 +149,30 @@ function CadastroEditor({ model }: { model: string }) {
           </div>
           <div className="overflow-x-auto" aria-busy={loading}>
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-950/50 text-xs text-slate-400"><tr>{config.columns.map(column => <th key={column.name} className="whitespace-nowrap px-4 py-3">{column.label}</th>)}</tr></thead>
+              <thead className="bg-white/50 text-xs text-slate-600"><tr>{config.columns.map(column => <th key={column.name} className="whitespace-nowrap px-4 py-3">{column.label}</th>)}</tr></thead>
               <tbody>
-                {loading ? <tr><td colSpan={config.columns.length} className="p-8 text-center text-slate-400"><Loader2 size={20} className="mx-auto animate-spin" /><span className="sr-only">Carregando registros</span></td></tr>
+                {loading ? <tr><td colSpan={config.columns.length} className="p-8 text-center text-slate-600"><Loader2 size={20} className="mx-auto animate-spin" /><span className="sr-only">Carregando registros</span></td></tr>
                   : records.length === 0 ? <tr><td colSpan={config.columns.length} className="p-8 text-center text-slate-500">Nenhum registro encontrado.</td></tr>
                   : records.map(record => {
                     const active = selected?.[config.id] === record[config.id];
-                    return <tr key={String(record[config.id])} tabIndex={saving ? -1 : 0} aria-selected={active} onClick={() => { if (!saving) selectRecord(record); }} onKeyDown={event => { if (!saving && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); selectRecord(record); } }} className={`cursor-pointer border-t border-slate-800 outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500 ${active ? deleteOnSave ? "bg-red-500/15 text-red-300" : "bg-emerald-500/10 text-emerald-300" : "hover:bg-slate-800/50"}`}>
+                    return <tr key={String(record[config.id])} tabIndex={saving ? -1 : 0} aria-selected={active} onClick={() => { if (!saving) selectRecord(record); }} onKeyDown={event => { if (!saving && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); selectRecord(record); } }} className={`cursor-pointer border-t border-slate-200 outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500 ${active ? deleteOnSave ? "bg-red-500/15 text-red-700" : "bg-emerald-500/10 text-emerald-700" : "hover:bg-slate-100/50"}`}>
                       {config.columns.map(column => <td key={column.name} className="px-4 py-3">{String(record[column.name] ?? "")}</td>)}
                     </tr>;
                   })}
               </tbody>
             </table>
           </div>
-          <div className="flex items-center justify-between border-t border-slate-800 p-3 text-xs text-slate-400">
+          <div className="flex items-center justify-between border-t border-slate-200 p-3 text-xs text-slate-600">
             <span>{total} registros • Página {page} de {pages}</span>
             <div className="flex gap-2">
-              <button aria-label="Página anterior" disabled={page <= 1 || loading || saving} onClick={() => { setPage(current => current - 1); setLoading(true); }} className="rounded border border-slate-700 p-1.5 disabled:opacity-30"><ChevronLeft size={16} /></button>
-              <button aria-label="Próxima página" disabled={page >= pages || loading || saving} onClick={() => { setPage(current => current + 1); setLoading(true); }} className="rounded border border-slate-700 p-1.5 disabled:opacity-30"><ChevronRight size={16} /></button>
+              <button aria-label="Página anterior" disabled={page <= 1 || loading || saving} onClick={() => { setPage(current => current - 1); setLoading(true); }} className="rounded border border-slate-200 p-1.5 disabled:opacity-30"><ChevronLeft size={16} /></button>
+              <button aria-label="Próxima página" disabled={page >= pages || loading || saving} onClick={() => { setPage(current => current + 1); setLoading(true); }} className="rounded border border-slate-200 p-1.5 disabled:opacity-30"><ChevronRight size={16} /></button>
             </div>
           </div>
         </section>
-        <form onSubmit={save} className={`rounded-xl border p-5 transition-colors ${deleteOnSave ? "border-red-500 bg-red-950/30 text-red-300" : "border-slate-800 bg-slate-900/60"}`}>
+        <form onSubmit={save} className={`rounded-xl border p-5 transition-colors ${deleteOnSave ? "border-red-500 bg-red-50 text-red-700" : "border-slate-200 bg-slate-50/60"}`}>
           <h2 className="mb-4 font-semibold">{selected ? "Dados do registro" : editing ? "Novo registro" : "Selecione uma linha ou clique em Novo"}</h2>
-          <fieldset disabled={!editing || saving || deleteOnSave} className={`space-y-4 ${deleteOnSave ? "[&_input]:border-red-500/60 [&_input]:bg-red-950/40 [&_input]:text-red-300 [&_button]:border-red-500/60" : ""}`}>
+          <fieldset disabled={!editing || saving || deleteOnSave} className={`space-y-4 ${deleteOnSave ? "[&_input]:border-red-500/60 [&_input]:bg-red-50 [&_input]:text-red-700 [&_button]:border-red-500/60" : ""}`}>
             <label className="block text-xs font-semibold">Código
               <input disabled value={String(selected?.[config.id] ?? "")} placeholder={editing ? "Gerado ao gravar" : ""} className={`${inputStyle} mt-1`} />
             </label>
@@ -181,9 +181,9 @@ function CadastroEditor({ model }: { model: string }) {
             ) : field.kind === "image" ? (
               <div key={field.name} className="space-y-2">
                 <label htmlFor="bank-logo" className="block text-xs font-semibold">{field.label}</label>
-                {form.Logo && <div role="img" aria-label="Logotipo do banco" className={`h-20 w-36 rounded border ${deleteOnSave ? "border-red-500 opacity-50" : "border-slate-700"} bg-contain bg-center bg-no-repeat`} style={{ backgroundImage: `url("${form.Logo}")` }} />}
+                {form.Logo && <div role="img" aria-label="Logotipo do banco" className={`h-20 w-36 rounded border ${deleteOnSave ? "border-red-500 opacity-50" : "border-slate-200"} bg-contain bg-center bg-no-repeat`} style={{ backgroundImage: `url("${form.Logo}")` }} />}
                 <input id="bank-logo" type="file" accept="image/png,image/jpeg,image/gif,image/webp,image/bmp" className={`${inputStyle} text-xs`} onChange={event => void loadImage(event.target.files?.[0])} />
-                {form.Logo && <button type="button" onClick={() => changeField("Logo", "")} className="rounded border border-slate-700 px-2 py-1 text-xs">Remover logotipo</button>}
+                {form.Logo && <button type="button" onClick={() => changeField("Logo", "")} className="rounded border border-slate-200 px-2 py-1 text-xs">Remover logotipo</button>}
               </div>
             ) : (
               <label key={field.name} className="block text-xs font-semibold">{field.label}
@@ -191,13 +191,13 @@ function CadastroEditor({ model }: { model: string }) {
               </label>
             ))}
           </fieldset>
-          <div className="mt-5 space-y-3 border-t border-slate-700 pt-4">
-            <label className="flex items-center gap-2 text-sm font-semibold text-red-400">
+          <div className="mt-5 space-y-3 border-t border-slate-200 pt-4">
+            <label className="flex items-center gap-2 text-sm font-semibold text-red-700">
               <input type="checkbox" checked={deleteOnSave} disabled={!selected || saving} onChange={event => setDeleteOnSave(event.target.checked)} className="h-4 w-4 accent-red-500" /> Excluir registro ao gravar
             </label>
-            {deleteOnSave && <p role="alert" className="text-xs text-red-300">O registro de código {String(selected?.[config.id])} será excluído ao clicar em Gravar.</p>}
+            {deleteOnSave && <p role="alert" className="text-xs text-red-700">O registro de código {String(selected?.[config.id])} será excluído ao clicar em Gravar.</p>}
             <div className="flex justify-end gap-2">
-              <button type="button" disabled={!editing || saving} onClick={() => { setEditing(false); setSelected(null); setForm({}); setDeleteOnSave(false); }} className="rounded-lg border border-slate-700 px-3 py-2 text-sm disabled:opacity-40">Cancelar</button>
+              <button type="button" disabled={!editing || saving} onClick={() => { setEditing(false); setSelected(null); setForm({}); setDeleteOnSave(false); }} className="rounded-lg border border-slate-200 px-3 py-2 text-sm disabled:opacity-40">Cancelar</button>
               <button type="submit" disabled={!editing || saving} className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-bold disabled:opacity-40 ${deleteOnSave ? "bg-red-600 text-white" : "bg-emerald-500 text-black"}`}>
                 {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} {saving ? "Gravando..." : "Gravar"}
               </button>
@@ -219,7 +219,7 @@ export default function CadastrosCRUDPage() {
   }, [searchParams]);
 
   return (
-    <div className="flex flex-col gap-6 text-slate-100">
+    <div className="flex flex-col gap-6 text-slate-800">
       <CadastroEditor key={model} model={model} />
     </div>
   );

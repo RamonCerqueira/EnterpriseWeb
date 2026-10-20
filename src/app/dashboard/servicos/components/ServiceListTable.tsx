@@ -16,7 +16,7 @@ export function ServiceListTable({ services, onEdit, onDelete }: ServiceListTabl
   return (
     <table className="w-full text-left border-collapse min-w-[800px]">
       <thead>
-        <tr className="border-b border-border bg-[#0E131F]/50">
+        <tr className="border-b border-border bg-[#F8FAFC]/50">
           <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider pl-6">Código SKU</th>
           <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Descrição do Serviço</th>
           <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Valor do Serviço</th>
@@ -31,12 +31,12 @@ export function ServiceListTable({ services, onEdit, onDelete }: ServiceListTabl
         {services.map((s) => (
           <tr key={s.id} className="hover:bg-secondary/15 transition-colors text-xs">
             {/* SKU */}
-            <td className="p-3.5 pl-6 font-mono font-bold text-emerald-400">
+            <td className="p-3.5 pl-6 font-mono font-bold text-emerald-700">
               {s.codigo}
             </td>
 
             {/* Name / Description */}
-            <td className="p-3.5 font-bold text-slate-200">
+            <td className="p-3.5 font-bold text-slate-800">
               <div className="flex flex-col text-left">
                 <span>{s.nome}</span>
                 {s.descricao && <span className="text-[10px] text-muted-foreground font-normal line-clamp-1">{s.descricao}</span>}
@@ -44,12 +44,12 @@ export function ServiceListTable({ services, onEdit, onDelete }: ServiceListTabl
             </td>
 
             {/* Price */}
-            <td className="p-3.5 font-bold text-slate-100">
+            <td className="p-3.5 font-bold text-slate-800">
               {formatCurrency(s.preco)}
             </td>
 
             {/* Cost */}
-            <td className="p-3.5 text-slate-300 font-semibold">
+            <td className="p-3.5 text-slate-600 font-semibold">
               {s.custo > 0 ? formatCurrency(s.custo) : "—"}
             </td>
 
@@ -69,11 +69,11 @@ export function ServiceListTable({ services, onEdit, onDelete }: ServiceListTabl
             {/* Inactive Badge */}
             <td className="p-3.5">
               {s.inativo ? (
-                <span className="text-[8px] bg-red-950/45 text-red-400 border border-red-500/20 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
+                <span className="text-[8px] bg-red-50 text-red-700 border border-red-500/20 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
                   Inativo
                 </span>
               ) : (
-                <span className="text-[8px] bg-emerald-950/45 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
+                <span className="text-[8px] bg-emerald-50 text-emerald-700 border border-emerald-500/20 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
                   Ativo
                 </span>
               )}
@@ -86,7 +86,7 @@ export function ServiceListTable({ services, onEdit, onDelete }: ServiceListTabl
                   variant="ghost"
                   size="sm"
                   onClick={() => onEdit(s)}
-                  className="h-7 w-7 p-0 hover:text-emerald-400 hover:bg-slate-800/40 rounded-lg cursor-pointer"
+                  className="h-7 w-7 p-0 hover:text-emerald-700 hover:bg-slate-100/40 rounded-lg cursor-pointer"
                 >
                   <Edit className="h-3.5 w-3.5" />
                 </Button>
@@ -94,7 +94,7 @@ export function ServiceListTable({ services, onEdit, onDelete }: ServiceListTabl
                   variant="ghost"
                   size="sm"
                   onClick={() => onDelete(s.id)}
-                  className="h-7 w-7 p-0 hover:text-rose-400 hover:bg-slate-800/40 rounded-lg cursor-pointer"
+                  className="h-7 w-7 p-0 hover:text-rose-700 hover:bg-slate-100/40 rounded-lg cursor-pointer"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </Button>

@@ -239,8 +239,8 @@ export function ServiceFormDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="border-b border-border/40 pb-4 text-left">
-          <DialogTitle className="text-base font-extrabold text-slate-100 flex items-center gap-2">
-            <ClipboardList className="h-5 w-5 text-emerald-400" />
+          <DialogTitle className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+            <ClipboardList className="h-5 w-5 text-emerald-700" />
             {isEditing ? "Modificar Cadastro de Serviço" : "Novo Cadastro de Serviço"}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
@@ -250,14 +250,14 @@ export function ServiceFormDialog({
 
         {/* Warning Error */}
         {formError && (
-          <div className="bg-rose-950/45 border border-rose-500/35 text-rose-400 p-3 rounded-lg text-xs font-semibold flex items-center gap-2">
+          <div className="bg-rose-50 border border-rose-500/35 text-rose-700 p-3 rounded-lg text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="h-4.5 w-4.5 shrink-0" />
             <span>{formError}</span>
           </div>
         )}
 
         {/* Tab Headers */}
-        <div className="flex border-b border-slate-800/80 gap-1 mt-2">
+        <div className="flex border-b border-slate-200/80 gap-1 mt-2">
           {[
             { id: "gerais", label: "Dados Gerais", icon: Tag },
             { id: "financeiro", label: "Financeiro & Custos", icon: DollarSign },
@@ -269,8 +269,8 @@ export function ServiceFormDialog({
               onClick={() => setActiveTab(tab.id as ActiveTab)}
               className={`flex items-center gap-1.5 px-3 py-2 border-b-2 text-xs font-semibold transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? "border-emerald-500 text-emerald-400 bg-emerald-500/5"
-                  : "border-transparent text-muted-foreground hover:text-slate-200"
+                  ? "border-emerald-500 text-emerald-700 bg-emerald-500/5"
+                  : "border-transparent text-muted-foreground hover:text-slate-800"
               }`}
             >
               <tab.icon className="h-3.5 w-3.5" />
@@ -286,43 +286,43 @@ export function ServiceFormDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Código SKU (SKU/Ref)*</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Código SKU (SKU/Ref)*</label>
                   <Input
                     placeholder="Ex: SERV-0020"
                     value={formData.codigo}
                     onChange={(e) => setFormData({ ...formData, codigo: e.target.value.toUpperCase() })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     required
                   />
                 </div>
 
                 <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Nome do Serviço*</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Nome do Serviço*</label>
                   <Input
                     placeholder="Ex: Consultoria em TI Presencial"
                     value={formData.nome}
                     onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-bold text-slate-200"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-bold text-slate-800"
                     required
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Descrição Abreviada</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Descrição Abreviada</label>
                   <Input
                     placeholder="Ex: CONSULTORIA TI PRES"
                     value={formData.abreviado}
                     onChange={(e) => setFormData({ ...formData, abreviado: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-medium"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Cobrança (Unidade)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Cobrança (Unidade)</label>
                   <select
                     value={formData.unidade}
                     onChange={(e) => setFormData({ ...formData, unidade: e.target.value })}
-                    className="w-full h-9.5 rounded-md border border-input bg-[#0F1420] text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer font-semibold px-3"
+                    className="w-full h-9.5 rounded-md border border-input bg-[#FFFFFF] text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer font-semibold px-3"
                   >
                     <option value="HORA">Por Hora (HORA)</option>
                     <option value="DIARIA">Por Diária (DIARIA)</option>
@@ -333,11 +333,11 @@ export function ServiceFormDialog({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Categoria do Serviço</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Categoria do Serviço</label>
                   <select
                     value={formData.categoria}
                     onChange={(e) => setFormData({ ...formData, categoria: e.target.value })}
-                    className="w-full h-9.5 rounded-md border border-input bg-[#0F1420] text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer font-semibold px-3"
+                    className="w-full h-9.5 rounded-md border border-input bg-[#FFFFFF] text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer font-semibold px-3"
                   >
                     <option value="Suporte Técnico">Suporte Técnico</option>
                     <option value="Consultoria">Consultoria</option>
@@ -349,15 +349,15 @@ export function ServiceFormDialog({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 bg-[#0F1420] p-3 rounded-lg border border-slate-800">
+              <div className="flex items-center gap-2 bg-[#FFFFFF] p-3 rounded-lg border border-slate-200">
                 <input
                   type="checkbox"
                   id="chk-inativo"
                   checked={formData.inativo}
                   onChange={(e) => setFormData({ ...formData, inativo: e.target.checked })}
-                  className="h-4 w-4 text-emerald-500 focus:ring-0 focus:ring-offset-0 rounded bg-slate-900 border-slate-800 cursor-pointer"
+                  className="h-4 w-4 text-emerald-700 focus:ring-0 focus:ring-offset-0 rounded bg-slate-50 border-slate-200 cursor-pointer"
                 />
-                <label htmlFor="chk-inativo" className="text-xs text-slate-300 font-bold select-none cursor-pointer">
+                <label htmlFor="chk-inativo" className="text-xs text-slate-600 font-bold select-none cursor-pointer">
                   Serviço Inativo (Desabilita seleção deste serviço em novas Propostas e OS)
                 </label>
               </div>
@@ -369,22 +369,22 @@ export function ServiceFormDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">Valor de Venda Principal*</label>
+                  <label className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Valor de Venda Principal*</label>
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-500/70 text-xs font-bold font-mono">R$</span>
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-700 text-xs font-bold font-mono">R$</span>
                     <Input
                       type="number"
                       step="0.01"
                       value={formData.preco}
                       onChange={(e) => setFormData({ ...formData, preco: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold border-emerald-500/25 focus-visible:ring-emerald-500"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold border-emerald-500/25 focus-visible:ring-emerald-500"
                       required
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Custo de Provisão/Execução (Custo)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Custo de Provisão/Execução (Custo)</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -392,35 +392,35 @@ export function ServiceFormDialog({
                       step="0.01"
                       value={formData.custo}
                       onChange={(e) => setFormData({ ...formData, custo: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-bold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-bold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Comissão sobre Venda (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Comissão sobre Venda (%)</label>
                   <Input
                     type="number"
                     step="0.01"
                     value={formData.comissao}
                     onChange={(e) => setFormData({ ...formData, comissao: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Desconto Máximo Autorizado (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Desconto Máximo Autorizado (%)</label>
                   <Input
                     type="number"
                     step="0.1"
                     value={formData.descontoMaximo}
                     onChange={(e) => setFormData({ ...formData, descontoMaximo: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Valor Venda 2 (Contratual)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Valor Venda 2 (Contratual)</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -428,13 +428,13 @@ export function ServiceFormDialog({
                       step="0.01"
                       value={formData.preco2}
                       onChange={(e) => setFormData({ ...formData, preco2: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Valor Venda 3 (Parceiros)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Valor Venda 3 (Parceiros)</label>
                   <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground text-xs font-bold font-mono">R$</span>
                     <Input
@@ -442,7 +442,7 @@ export function ServiceFormDialog({
                       step="0.01"
                       value={formData.preco3}
                       onChange={(e) => setFormData({ ...formData, preco3: e.target.value })}
-                      className="pl-9 h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                      className="pl-9 h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                     />
                   </div>
                 </div>
@@ -455,57 +455,57 @@ export function ServiceFormDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Código Municipal do Serviço</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Código Municipal do Serviço</label>
                   <Input
                     placeholder="Ex: 01.07 / LC 116"
                     value={formData.classificacaoFiscal}
                     onChange={(e) => setFormData({ ...formData, classificacaoFiscal: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Alíquota ISS (%)</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Alíquota ISS (%)</label>
                   <Input
                     type="number"
                     step="0.01"
                     value={formData.icms} // Mapeando ISS no campo ICMS temporariamente ou usando o esquema
                     onChange={(e) => setFormData({ ...formData, icms: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Dias de Garantia do Serviço</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Dias de Garantia do Serviço</label>
                   <Input
                     type="number"
                     value={formData.diasGarantia}
                     onChange={(e) => setFormData({ ...formData, diasGarantia: e.target.value })}
-                    className="h-9.5 bg-[#0F1420] text-xs font-mono font-semibold"
+                    className="h-9.5 bg-[#FFFFFF] text-xs font-mono font-semibold"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Escopo / Descrição Técnica do Serviço</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Escopo / Descrição Técnica do Serviço</label>
                   <textarea
                     placeholder="Defina o escopo padrão do serviço, responsabilidades, materiais e termos..."
                     value={formData.caracteristicas}
                     onChange={(e) => setFormData({ ...formData, caracteristicas: e.target.value })}
                     rows={4}
-                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#0F1420] focus:outline-none focus:ring-1 focus:ring-ring text-slate-200 font-medium"
+                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#FFFFFF] focus:outline-none focus:ring-1 focus:ring-ring text-slate-800 font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Observações do Cadastro</label>
+                  <label className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">Observações do Cadastro</label>
                   <textarea
                     placeholder="Observações administrativas..."
                     value={formData.obs}
                     onChange={(e) => setFormData({ ...formData, obs: e.target.value })}
                     rows={2}
-                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#0F1420] focus:outline-none focus:ring-1 focus:ring-ring text-slate-200 font-medium"
+                    className="w-full rounded-md border border-input px-3 py-2 text-xs shadow-sm bg-[#FFFFFF] focus:outline-none focus:ring-1 focus:ring-ring text-slate-800 font-medium"
                   />
                 </div>
               </div>
@@ -513,7 +513,7 @@ export function ServiceFormDialog({
           )}
 
           {/* Footer Actions */}
-          <DialogFooter className="border-t border-slate-800/80 pt-4 gap-2">
+          <DialogFooter className="border-t border-slate-200/80 pt-4 gap-2">
             <DialogClose asChild>
               <Button type="button" variant="outline" size="sm" className="text-xs font-semibold cursor-pointer">
                 Cancelar

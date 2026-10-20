@@ -126,8 +126,8 @@ export default function ProductsPage() {
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <Package className="h-6 w-6 text-emerald-400" /> Catálogo de Produtos
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <Package className="h-6 w-6 text-emerald-700" /> Catálogo de Produtos
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Gerenciamento completo integrado à tabela SQL Server `Produto`. Suporte de precificação, tributário e volumetria.
@@ -147,7 +147,7 @@ export default function ProductsPage() {
       <ProductMetrics products={products} />
 
       {/* Search and Table Grid Container */}
-      <Card className="bg-[#121826]/75 border border-border/60 overflow-hidden">
+      <Card className="bg-[#FFFFFF]/75 border border-border/60 overflow-hidden">
         {/* Table Filter Bar Component */}
         <ProductFilterBar
           search={search}
@@ -165,7 +165,7 @@ export default function ProductsPage() {
         <div className="p-1.5 overflow-x-auto">
           {isLoading ? (
             <div className="p-16 flex flex-col items-center justify-center gap-3">
-              <Loader2 className="h-8 w-8 text-emerald-400 animate-spin" />
+              <Loader2 className="h-8 w-8 text-emerald-700 animate-spin" />
               <span className="text-xs text-muted-foreground font-semibold">Consultando acervo no SQL Server...</span>
             </div>
           ) : products.length === 0 ? (
@@ -189,9 +189,9 @@ export default function ProductsPage() {
 
         {/* Pagination Bar */}
         {totalItems > 0 && (
-          <div className="p-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30 text-xs font-semibold">
+          <div className="p-4 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#F8FAFC]/30 text-xs font-semibold">
             <div className="text-muted-foreground text-center sm:text-left">
-              Exibindo <span className="text-slate-200 font-bold">{products.length}</span> de <span className="text-slate-200 font-bold">{totalItems}</span> registros
+              Exibindo <span className="text-slate-800 font-bold">{products.length}</span> de <span className="text-slate-800 font-bold">{totalItems}</span> registros
             </div>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto justify-end">
@@ -203,7 +203,7 @@ export default function ProductsPage() {
                     setLimit(parseInt(e.target.value));
                     setPage(1);
                   }}
-                  className="h-7 px-2 rounded bg-[#0F1420] border border-border/60 text-slate-300 focus:outline-none focus:border-emerald-500 cursor-pointer font-bold"
+                  className="h-7 px-2 rounded bg-[#FFFFFF] border border-border/60 text-slate-600 focus:outline-none focus:border-emerald-500 cursor-pointer font-bold"
                 >
                   <option value={10}>10 por página</option>
                   <option value={20}>20 por página</option>
@@ -218,11 +218,11 @@ export default function ProductsPage() {
                   size="sm"
                   disabled={page === 1}
                   onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                  className="h-7 px-2 border border-border/60 hover:bg-[#1C2436] hover:text-emerald-400 text-muted-foreground disabled:opacity-40"
+                  className="h-7 px-2 border border-border/60 hover:bg-[#F1F5F9] hover:text-emerald-700 text-muted-foreground disabled:opacity-40"
                 >
                   Anterior
                 </Button>
-                <div className="h-7 px-3 flex items-center justify-center rounded bg-[#1F293D] border border-border/40 text-emerald-400 font-bold min-w-7">
+                <div className="h-7 px-3 flex items-center justify-center rounded bg-[#E2E8F0] border border-border/40 text-emerald-700 font-bold min-w-7">
                   {page} / {totalPages}
                 </div>
                 <Button
@@ -230,7 +230,7 @@ export default function ProductsPage() {
                   size="sm"
                   disabled={page >= totalPages}
                   onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-                  className="h-7 px-2 border border-border/60 hover:bg-[#1C2436] hover:text-emerald-400 text-muted-foreground disabled:opacity-40"
+                  className="h-7 px-2 border border-border/60 hover:bg-[#F1F5F9] hover:text-emerald-700 text-muted-foreground disabled:opacity-40"
                 >
                   Próximo
                 </Button>

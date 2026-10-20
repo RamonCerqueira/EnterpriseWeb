@@ -18,39 +18,39 @@ export function ServiceGrid({ services, onEdit, onDelete }: ServiceGridProps) {
       {services.map((s) => (
         <div
           key={s.id}
-          className="bg-[#0F1420]/75 border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-500/30 transition-all group relative min-h-[170px]"
+          className="bg-[#FFFFFF]/75 border border-slate-200/80 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-500/30 transition-all group relative min-h-[170px]"
         >
           <div>
             <div className="flex items-center justify-between gap-1 mb-2">
-              <span className="text-[9px] font-mono font-bold text-emerald-400 uppercase tracking-wider line-clamp-1">
+              <span className="text-[9px] font-mono font-bold text-emerald-700 uppercase tracking-wider line-clamp-1">
                 {s.codigo}
               </span>
               <div className="flex items-center gap-1">
                 <Badge variant="outline" className="text-[8px] px-1 font-mono">{s.unidade}</Badge>
                 {s.inativo && (
-                  <span className="text-[8px] bg-red-950/45 text-red-400 px-1 py-0.5 rounded font-bold uppercase">
+                  <span className="text-[8px] bg-red-50 text-red-700 px-1 py-0.5 rounded font-bold uppercase">
                     Inativo
                   </span>
                 )}
               </div>
             </div>
 
-            <h4 className="text-xs font-bold text-slate-100 line-clamp-2 leading-relaxed mb-1">{s.nome}</h4>
+            <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-relaxed mb-1">{s.nome}</h4>
             <p className="text-[10px] text-muted-foreground line-clamp-1 mb-3">
               {s.categoria || "Serviço"}
             </p>
           </div>
 
-          <div className="mt-2 pt-3 border-t border-slate-800/60 flex items-center justify-between">
+          <div className="mt-2 pt-3 border-t border-slate-200/60 flex items-center justify-between">
             <div>
               <span className="text-[9px] text-muted-foreground block">Valor</span>
-              <span className="text-xs font-extrabold text-slate-100">{formatCurrency(s.preco)}</span>
+              <span className="text-xs font-extrabold text-slate-800">{formatCurrency(s.preco)}</span>
             </div>
 
             {s.classificacaoFiscal && (
               <div className="text-right">
                 <span className="text-[9px] text-muted-foreground block">Cod. Serviço</span>
-                <span className="text-[10px] font-mono font-bold text-slate-300">
+                <span className="text-[10px] font-mono font-bold text-slate-600">
                   {s.classificacaoFiscal}
                 </span>
               </div>
@@ -58,12 +58,12 @@ export function ServiceGrid({ services, onEdit, onDelete }: ServiceGridProps) {
           </div>
 
           {/* Quick Actions overlay */}
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-[#131926]/90 p-1 rounded-lg border border-slate-800">
+          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-[#F8FAFC]/90 p-1 rounded-lg border border-slate-200">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => onEdit(s)}
-              className="h-6.5 w-6.5 p-0 hover:text-emerald-400 cursor-pointer"
+              className="h-6.5 w-6.5 p-0 hover:text-emerald-700 cursor-pointer"
             >
               <Edit className="h-3.5 w-3.5" />
             </Button>
@@ -71,7 +71,7 @@ export function ServiceGrid({ services, onEdit, onDelete }: ServiceGridProps) {
               variant="ghost"
               size="sm"
               onClick={() => onDelete(s.id)}
-              className="h-6.5 w-6.5 p-0 hover:text-rose-400 cursor-pointer"
+              className="h-6.5 w-6.5 p-0 hover:text-rose-700 cursor-pointer"
             >
               <Trash2 className="h-3.5 w-3.5" />
             </Button>

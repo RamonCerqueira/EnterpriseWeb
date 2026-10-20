@@ -28,8 +28,8 @@ export default function PermissoesPage() {
       {/* Header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <ShieldAlert className="h-6 w-6 text-emerald-400" /> Níveis de Acesso & Permissões
+          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+            <ShieldAlert className="h-6 w-6 text-emerald-700" /> Níveis de Acesso & Permissões
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Configure grupos de permissão (roles) e atribua privilégios com chaves operacionais específicas do SoftLine ERP.
@@ -44,10 +44,10 @@ export default function PermissoesPage() {
       {/* Split pane for roles list and specific active settings */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Side: Roles list */}
-        <Card className="lg:col-span-2 bg-[#121826]/75 border border-border/60 overflow-hidden">
-          <div className="p-4 border-b border-border/40 bg-[#0E131F]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <Card className="lg:col-span-2 bg-[#FFFFFF]/75 border border-border/60 overflow-hidden">
+          <div className="p-4 border-b border-border/40 bg-[#F8FAFC]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <CardTitle className="text-sm font-bold text-slate-200 font-bold">Grupos Definidos</CardTitle>
+              <CardTitle className="text-sm font-bold text-slate-800 font-bold">Grupos Definidos</CardTitle>
               <p className="text-[10px] text-muted-foreground">Perfis de acesso cadastrados na base.</p>
             </div>
             
@@ -60,7 +60,7 @@ export default function PermissoesPage() {
                 placeholder="Filtrar perfis..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full h-8 px-9 pr-4 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
+                className="w-full h-8 px-9 pr-4 rounded-lg bg-[#FFFFFF] border border-border/80 text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
               />
             </div>
           </div>
@@ -72,14 +72,14 @@ export default function PermissoesPage() {
                 onClick={() => setSelectedRole(role.name)}
                 className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 flex flex-col sm:flex-row justify-between sm:items-center gap-4 ${
                   selectedRole === role.name
-                    ? "border-emerald-500/40 bg-emerald-950/10"
-                    : "border-border/80 bg-[#0E1320] hover:border-border/100"
+                    ? "border-emerald-500/40 bg-emerald-50"
+                    : "border-border/80 bg-[#F8FAFC] hover:border-border/100"
                 }`}
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <Shield className={`h-4 w-4 ${selectedRole === role.name ? "text-emerald-400" : "text-muted-foreground"}`} />
-                    <h4 className="text-xs font-bold text-slate-200">{role.name}</h4>
+                    <Shield className={`h-4 w-4 ${selectedRole === role.name ? "text-emerald-700" : "text-muted-foreground"}`} />
+                    <h4 className="text-xs font-bold text-slate-800">{role.name}</h4>
                     <Badge variant="secondary" className="text-[9px] font-extrabold px-1.5 py-0.5">
                       {role.usersCount} usuários
                     </Badge>
@@ -88,10 +88,10 @@ export default function PermissoesPage() {
                 </div>
 
                 <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
-                  <Button variant="ghost" size="sm" className="h-7 px-2 hover:text-emerald-400">
+                  <Button variant="ghost" size="sm" className="h-7 px-2 hover:text-emerald-700">
                     <Edit className="h-3.5 w-3.5" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-7 px-2 hover:text-rose-400" disabled={role.name === "Administrador"}>
+                  <Button variant="ghost" size="sm" className="h-7 px-2 hover:text-rose-700" disabled={role.name === "Administrador"}>
                     <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 </div>
@@ -101,10 +101,10 @@ export default function PermissoesPage() {
         </Card>
 
         {/* Right Side: Specific active permissions toggle details */}
-        <Card className="bg-[#121826]/75 border border-border/60 p-5 flex flex-col h-fit">
+        <Card className="bg-[#FFFFFF]/75 border border-border/60 p-5 flex flex-col h-fit">
           <div className="border-b border-border/40 pb-3 mb-4">
-            <h3 className="text-sm font-bold text-slate-200 flex items-center gap-1.5 font-bold">
-              <Key className="h-4 w-4 text-emerald-400" /> Operações de: {selectedRole}
+            <h3 className="text-sm font-bold text-slate-800 flex items-center gap-1.5 font-bold">
+              <Key className="h-4 w-4 text-emerald-700" /> Operações de: {selectedRole}
             </h3>
             <p className="text-[10px] text-muted-foreground mt-0.5">Ajuste fino dos privilégios de transação SQL.</p>
           </div>
@@ -117,13 +117,13 @@ export default function PermissoesPage() {
               { op: "Op15", label: "Financeiro & Contas", desc: "Acessar duplicatas, caixa e lançamentos", enabled: selectedRole === "Administrador" || selectedRole === "Financeiro" },
               { op: "Op52", label: "Ordens de Serviço", desc: "Permite emitir e concluir OS de suporte", enabled: selectedRole === "Administrador" || selectedRole === "Técnico / Operador" },
             ].map((permission) => (
-              <div key={permission.op} className="flex items-start justify-between gap-3 p-2.5 rounded border border-border/40 bg-[#0E1320]/50 select-none">
+              <div key={permission.op} className="flex items-start justify-between gap-3 p-2.5 rounded border border-border/40 bg-[#F8FAFC]/50 select-none">
                 <div className="text-left">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[9px] font-mono font-bold text-emerald-400 bg-emerald-950/40 px-1 border border-emerald-500/10 rounded">
+                    <span className="text-[9px] font-mono font-bold text-emerald-700 bg-emerald-50 px-1 border border-emerald-500/10 rounded">
                       {permission.op}
                     </span>
-                    <span className="text-xs font-bold text-slate-200">{permission.label}</span>
+                    <span className="text-xs font-bold text-slate-800">{permission.label}</span>
                   </div>
                   <p className="text-[9px] text-muted-foreground mt-0.5 font-semibold">{permission.desc}</p>
                 </div>
@@ -133,7 +133,7 @@ export default function PermissoesPage() {
                   checked={permission.enabled}
                   onChange={() => {}}
                   disabled={selectedRole === "Administrador"}
-                  className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-emerald-600 focus:ring-emerald-500 cursor-pointer disabled:opacity-50 mt-0.5"
+                  className="h-4 w-4 rounded border-gray-200 bg-white text-emerald-600 focus:ring-emerald-500 cursor-pointer disabled:opacity-50 mt-0.5"
                 />
               </div>
             ))}

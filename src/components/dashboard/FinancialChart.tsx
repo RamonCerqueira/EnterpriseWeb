@@ -44,7 +44,7 @@ export default function FinancialChart() {
           </defs>
 
           {/* Grid lines */}
-          <CartesianGrid strokeDasharray="3 3" stroke="#1E293B/35" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
 
           {/* X Axis */}
           <XAxis
@@ -68,12 +68,12 @@ export default function FinancialChart() {
           {/* Custom Styled Tooltip */}
           <Tooltip
             contentStyle={{
-              backgroundColor: "#121826",
-              borderColor: "#1E293B",
+              backgroundColor: "#FFFFFF",
+              borderColor: "#D9E2EC",
               borderRadius: "8px",
-              color: "#F3F4F6",
+              color: "#172033",
               fontSize: "11px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
+              boxShadow: "0 8px 24px rgba(15, 23, 42, 0.12)",
             }}
             formatter={(value: any, name: any) => [
               new Intl.NumberFormat("pt-BR", {
@@ -90,7 +90,7 @@ export default function FinancialChart() {
             height={36}
             iconSize={8}
             iconType="circle"
-            formatter={(value) => <span className="text-[10px] text-slate-300 font-semibold">{value}</span>}
+            formatter={(value) => <span className="text-[10px] text-slate-600 font-semibold">{value}</span>}
           />
 
           {/* Glowing Area Line for Receitas */}
@@ -101,18 +101,18 @@ export default function FinancialChart() {
             strokeWidth={2}
             fillOpacity={1}
             fill="url(#colorReceitas)"
-            activeDot={{ r: 5, stroke: "#0B0F19", strokeWidth: 2 }}
+            activeDot={{ r: 5, stroke: "#F8FAFC", strokeWidth: 2 }}
           />
 
           {/* Muted Area Line for Despesas */}
           <Area
             type="monotone"
             dataKey="Despesas"
-            stroke="#9CA3AF"
+            stroke="#64748B"
             strokeWidth={1.5}
             fillOpacity={1}
             fill="url(#colorDespesas)"
-            activeDot={{ r: 4, stroke: "#0B0F19", strokeWidth: 1.5 }}
+            activeDot={{ r: 4, stroke: "#F8FAFC", strokeWidth: 1.5 }}
           />
         </AreaChart>
       </ResponsiveContainer>

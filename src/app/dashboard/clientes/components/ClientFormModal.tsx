@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { 
-  X, User, MapPin, CreditCard, Building2, Landmark, 
-  Phone, Mail, Globe, Calendar, Briefcase, FileText, 
+import {
+  X, User, MapPin, CreditCard, Building2, Landmark,
+  Phone, Mail, Globe, Calendar, Briefcase, FileText,
   HelpCircle, Shield, Check, Loader2, DollarSign
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -168,7 +168,7 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
       setBanco2(client.Banco2 || "");
       setAgencia2(client.Agencia2 || "");
       setConta2(client.Conta2 || "");
-      
+
       // Ref
       setReferencias1(client.Referencias1 || "");
       setReferencias1Cpf(client.Referencias1_CPF || "");
@@ -356,29 +356,29 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm select-none p-4 animate-fade-in">
-      <div className="relative w-full max-w-4xl bg-[#0F1422] border border-border/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        
+      <div className="relative w-full max-w-4xl bg-[#FFFFFF] border border-border/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border/60 bg-[#0E131F]/90">
+        <div className="flex items-center justify-between p-4 border-b border-border/60 bg-[#F8FAFC]/90">
           <div>
-            <h3 className="text-sm font-extrabold text-slate-100 flex items-center gap-2">
-              <Building2 className="h-5 w-5 text-emerald-400" />
+            <h3 className="text-sm font-extrabold text-slate-800 flex items-center gap-2">
+              <Building2 className="h-5 w-5 text-emerald-700" />
               {client ? `Editar Cliente: #${client.CodCli} - ${client.Cliente}` : "Cadastrar Novo Cliente"}
             </h3>
             <p className="text-[10px] text-muted-foreground mt-0.5">
               Preencha todos os campos do banco de dados local da tabela `CLIENTEs`.
             </p>
           </div>
-          <button 
-            onClick={onClose} 
-            className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+          <button
+            onClick={onClose}
+            className="text-slate-600 hover:text-slate-800 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
           >
             <X className="h-4.5 w-4.5" />
           </button>
         </div>
 
         {/* Dynamic Navigation Tabs */}
-        <div className="flex border-b border-border/40 bg-[#0C101B] overflow-x-auto scrollbar-none">
+        <div className="flex border-b border-border/40 bg-[#F8FAFC] overflow-x-auto scrollbar-none">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -388,9 +388,9 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-5 py-3 text-[11px] font-bold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
-                  isActive 
-                    ? "border-emerald-500 text-emerald-400 bg-emerald-950/10" 
-                    : "border-transparent text-muted-foreground hover:text-slate-200"
+                  isActive
+                    ? "border-emerald-500 text-emerald-700 bg-emerald-50"
+                    : "border-transparent text-muted-foreground hover:text-slate-800"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -403,7 +403,7 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
         {/* Modal Body / Form Container */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin">
           {formError && (
-            <div className="bg-rose-950/45 border border-rose-500/35 text-rose-400 p-3 rounded-lg text-xs font-semibold">
+            <div className="bg-rose-50 border border-rose-500/35 text-rose-700 p-3 rounded-lg text-xs font-semibold">
               {formError}
             </div>
           )}
@@ -412,34 +412,34 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
           {activeTab === "geral" && (
             <div className="space-y-4 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                
+
                 {/* Nome Fantasia */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Nome Fantasia / Cliente <span className="text-emerald-400">*</span></label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Nome Fantasia / Cliente <span className="text-emerald-700">*</span></label>
+                  <Input
                     value={cliente}
                     onChange={(e) => setCliente(e.target.value)}
                     placeholder="Nome Fantasia do Cliente"
-                    className="h-9.5 bg-[#070B14] border-border/80 text-xs font-semibold focus:border-emerald-500"
+                    className="h-9.5 bg-[#F8FAFC] border-border/80 text-xs font-semibold focus:border-emerald-500"
                     required
                   />
                 </div>
 
                 {/* Tipo de Cliente (F/J) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Tipo de Pessoa</label>
-                  <div className="grid grid-cols-2 gap-2 h-9.5 bg-[#070B14] p-1 rounded-md border border-border/80">
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Tipo de Pessoa</label>
+                  <div className="grid grid-cols-2 gap-2 h-9.5 bg-[#F8FAFC] p-1 rounded-md border border-border/80">
                     <button
                       type="button"
                       onClick={() => setTipo("F")}
-                      className={`text-[10px] font-bold rounded transition-all cursor-pointer ${tipo === "F" ? "bg-emerald-500 text-black font-extrabold" : "text-slate-400 hover:text-slate-200"}`}
+                      className={`text-[10px] font-bold rounded transition-all cursor-pointer ${tipo === "F" ? "bg-emerald-500 text-black font-extrabold" : "text-slate-600 hover:text-slate-800"}`}
                     >
                       Física
                     </button>
                     <button
                       type="button"
                       onClick={() => setTipo("J")}
-                      className={`text-[10px] font-bold rounded transition-all cursor-pointer ${tipo === "J" ? "bg-emerald-500 text-black font-extrabold" : "text-slate-400 hover:text-slate-200"}`}
+                      className={`text-[10px] font-bold rounded transition-all cursor-pointer ${tipo === "J" ? "bg-emerald-500 text-black font-extrabold" : "text-slate-600 hover:text-slate-800"}`}
                     >
                       Jurídica
                     </button>
@@ -448,70 +448,70 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
 
                 {/* Razão Social */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Razão Social / Nome Completo</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Razão Social / Nome Completo</label>
+                  <Input
                     value={razao}
                     onChange={(e) => setRazao(e.target.value)}
                     placeholder="Razão Social ou Nome Completo"
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* CNPJ ou CPF */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">
                     {tipo === "F" ? "C.P.F." : "C.N.P.J. / C.G.C."}
                   </label>
                   {tipo === "F" ? (
-                    <Input 
+                    <Input
                       value={cpf}
                       onChange={(e) => setCpf(e.target.value)}
                       placeholder="Ex: 000.000.000-00"
-                      className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                     />
                   ) : (
-                    <Input 
+                    <Input
                       value={cnpj}
                       onChange={(e) => setCnpj(e.target.value)}
                       placeholder="Ex: 00.000.000/0000-00"
-                      className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                     />
                   )}
                 </div>
 
                 {/* RG (Física) / Inscrição Estadual (Jurídica) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">
                     {tipo === "F" ? "R.G." : "Insc. Estadual (I.E.)"}
                   </label>
-                  <Input 
+                  <Input
                     value={tipo === "F" ? rg : ie}
                     onChange={(e) => tipo === "F" ? setRg(e.target.value) : setIe(e.target.value)}
                     placeholder={tipo === "F" ? "Número do RG" : "Inscrição Estadual"}
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Órgão Emissor / RG (Física) / Inscrição Municipal (Jurídica) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">
                     {tipo === "F" ? "Órgão" : "Insc. Municipal (I.M.)"}
                   </label>
-                  <Input 
+                  <Input
                     value={tipo === "F" ? orgao : im}
                     onChange={(e) => tipo === "F" ? setOrgao(e.target.value) : setIm(e.target.value)}
                     placeholder={tipo === "F" ? "SSP/SP" : "Inscrição Municipal"}
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Sexo (Física) / Situação (Ambos) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Sexo</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Sexo</label>
                   <select
                     value={sexo}
                     onChange={(e) => setSexo(e.target.value)}
-                    className="w-full h-9.5 rounded-md border border-border/80 bg-[#070B14] text-xs text-slate-200 px-3 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+                    className="w-full h-9.5 rounded-md border border-border/80 bg-[#F8FAFC] text-xs text-slate-800 px-3 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                   >
                     <option value="M">Masculino</option>
                     <option value="F">Feminino</option>
@@ -520,11 +520,11 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
 
                 {/* Situação Cadastral (A, B, C, D) */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Situação</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Situação</label>
                   <select
                     value={situacao}
                     onChange={(e) => setSituacao(e.target.value)}
-                    className="w-full h-9.5 rounded-md border border-border/80 bg-[#070B14] text-xs text-slate-200 px-3 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer font-bold"
+                    className="w-full h-9.5 rounded-md border border-border/80 bg-[#F8FAFC] text-xs text-slate-800 px-3 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer font-bold"
                   >
                     <option value="A">A - Ativo / Excelente</option>
                     <option value="B">B - Regular</option>
@@ -535,40 +535,40 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
 
                 {/* Data de Nascimento */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Nascimento</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Nascimento</label>
+                  <Input
                     type="date"
                     value={nasc}
                     onChange={(e) => setNasc(e.target.value)}
-                    className="h-9.5 bg-[#070B14] text-xs cursor-pointer font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs cursor-pointer font-bold"
                   />
                 </div>
 
                 {/* E-mail */}
                 <div className="space-y-1 md:col-span-2">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">E-mail Principal</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">E-mail Principal</label>
                   <div className="relative">
                     <Mail className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Ex: financeiro@cliente.com"
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs font-semibold"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs font-semibold"
                     />
                   </div>
                 </div>
 
                 {/* Site */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Site / Website</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Site / Website</label>
                   <div className="relative">
                     <Globe className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       value={site}
                       onChange={(e) => setSite(e.target.value)}
                       placeholder="www.cliente.com.br"
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                 </div>
@@ -581,97 +581,97 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
           {activeTab === "endereco" && (
             <div className="space-y-4 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                
+
                 {/* CEP */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cep <span className="text-emerald-400">*</span></label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cep <span className="text-emerald-700">*</span></label>
+                  <Input
                     value={cep}
                     onChange={(e) => setCep(e.target.value)}
                     placeholder="00000-000"
-                    className="h-9.5 bg-[#070B14] text-xs font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-bold"
                   />
                 </div>
 
                 {/* Logradouro */}
                 <div className="md:col-span-3 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Endereço / Logradouro</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Endereço / Logradouro</label>
+                  <Input
                     value={endereco}
                     onChange={(e) => setEndereco(e.target.value)}
                     placeholder="Rua, Avenida, Praça..."
-                    className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                   />
                 </div>
 
                 {/* Bairro */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Bairro</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Bairro</label>
+                  <Input
                     value={bairro}
                     onChange={(e) => setBairro(e.target.value)}
                     placeholder="Bairro"
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Cidade */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cidade</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cidade</label>
+                  <Input
                     value={cidade}
                     onChange={(e) => setCidade(e.target.value)}
                     placeholder="Cidade"
-                    className="h-9.5 bg-[#070B14] text-xs font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-bold"
                   />
                 </div>
 
                 {/* Estado */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">UF</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">UF</label>
+                  <Input
                     value={estado}
                     onChange={(e) => setEstado(e.target.value.substring(0, 2).toUpperCase())}
                     placeholder="SP"
-                    className="h-9.5 bg-[#070B14] text-xs text-center font-bold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs text-center font-bold"
                   />
                 </div>
 
                 {/* Complemento */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Complemento</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Complemento</label>
+                  <Input
                     value={complemento}
                     onChange={(e) => setComplemento(e.target.value)}
                     placeholder="Sala, Andar, Bloco, Referência..."
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Telefone Fixo */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Telefone Comercial</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Telefone Comercial</label>
                   <div className="relative">
                     <Phone className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       value={tel}
                       onChange={(e) => setTel(e.target.value)}
                       placeholder="(00) 0000-0000"
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                 </div>
 
                 {/* Telefone 2 / Celular */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">WhatsApp / Celular</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">WhatsApp / Celular</label>
                   <div className="relative">
                     <Phone className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-muted-foreground" />
-                    <Input 
+                    <Input
                       value={tel2}
                       onChange={(e) => setTel2(e.target.value)}
                       placeholder="(00) 90000-0000"
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                 </div>
@@ -683,112 +683,112 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
           {/* TAB 3: ENDEREÇOS ADICIONAIS */}
           {activeTab === "adicionais" && (
             <div className="space-y-6 animate-fade-in">
-              
+
               {/* Cobrança Section */}
-              <div className="p-4 rounded-xl border border-border/50 bg-[#090C15]/40 space-y-4">
-                <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="p-4 rounded-xl border border-border/50 bg-[#F8FAFC]/40 space-y-4">
+                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-wider flex items-center gap-1.5">
                   <CreditCard className="h-4 w-4" /> Endereço de Cobrança (Faturamento)
                 </span>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cep Cobrança</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cep Cobrança</label>
+                    <Input
                       value={cepCob}
                       onChange={(e) => setCepCob(e.target.value)}
                       placeholder="00000-000"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="md:col-span-3 space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Endereço Cobrança</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Endereço Cobrança</label>
+                    <Input
                       value={endCob}
                       onChange={(e) => setEndCob(e.target.value)}
                       placeholder="Endereço de faturamento"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="md:col-span-2 space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Bairro Cobrança</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Bairro Cobrança</label>
+                    <Input
                       value={bairroCob}
                       onChange={(e) => setBairroCob(e.target.value)}
                       placeholder="Bairro"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cidade Cobrança</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cidade Cobrança</label>
+                    <Input
                       value={cidCob}
                       onChange={(e) => setCidCob(e.target.value)}
                       placeholder="Cidade"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">UF Cob.</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">UF Cob.</label>
+                    <Input
                       value={estCob}
                       onChange={(e) => setEstCob(e.target.value.substring(0, 2).toUpperCase())}
                       placeholder="SP"
-                      className="h-9.5 bg-[#070B14] text-xs text-center font-bold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs text-center font-bold"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Entrega Section */}
-              <div className="p-4 rounded-xl border border-border/50 bg-[#090C15]/40 space-y-4">
-                <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="p-4 rounded-xl border border-border/50 bg-[#F8FAFC]/40 space-y-4">
+                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-wider flex items-center gap-1.5">
                   <MapPin className="h-4 w-4" /> Endereço de Entrega (Logística)
                 </span>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cep Entrega</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cep Entrega</label>
+                    <Input
                       value={cepEnt}
                       onChange={(e) => setCepEnt(e.target.value)}
                       placeholder="00000-000"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="md:col-span-3 space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Endereço Entrega</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Endereço Entrega</label>
+                    <Input
                       value={endEnt}
                       onChange={(e) => setEndEnt(e.target.value)}
                       placeholder="Endereço de logística"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="md:col-span-2 space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Bairro Entrega</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Bairro Entrega</label>
+                    <Input
                       value={bairroEnt}
                       onChange={(e) => setBairroEnt(e.target.value)}
                       placeholder="Bairro"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cidade Entrega</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cidade Entrega</label>
+                    <Input
                       value={cidEnt}
                       onChange={(e) => setCidEnt(e.target.value)}
                       placeholder="Cidade"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">UF Ent.</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">UF Ent.</label>
+                    <Input
                       value={estEnt}
                       onChange={(e) => setEstEnt(e.target.value.substring(0, 2).toUpperCase())}
                       placeholder="SP"
-                      className="h-9.5 bg-[#070B14] text-xs text-center font-bold"
+                      className="h-9.5 bg-[#F8FAFC] text-xs text-center font-bold"
                     />
                   </div>
                 </div>
@@ -801,99 +801,99 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
           {activeTab === "financeiro" && (
             <div className="space-y-4 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                
+
                 {/* Limite de Crédito */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Limite de Crédito (R$)</label>
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Limite de Crédito (R$)</label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-emerald-400" />
-                    <Input 
+                    <DollarSign className="absolute left-3 inset-y-0 my-auto h-4 w-4 text-emerald-700" />
+                    <Input
                       type="number"
                       step="any"
                       value={limite}
                       onChange={(e) => setLimite(e.target.value)}
-                      className="h-9.5 pl-9 bg-[#070B14] text-xs font-bold text-emerald-400"
+                      className="h-9.5 pl-9 bg-[#F8FAFC] text-xs font-bold text-emerald-700"
                     />
                   </div>
                 </div>
 
                 {/* Acordo Comercial */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Acordo de Desconto (%)</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Acordo de Desconto (%)</label>
+                  <Input
                     type="number"
                     step="any"
                     value={acordo}
                     onChange={(e) => setAcordo(e.target.value)}
-                    className="h-9.5 bg-[#070B14] text-xs font-semibold"
+                    className="h-9.5 bg-[#F8FAFC] text-xs font-semibold"
                   />
                 </div>
 
                 {/* Cargo */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Cargo</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Cargo</label>
+                  <Input
                     value={cargo}
                     onChange={(e) => setCargo(e.target.value)}
                     placeholder="Ex: Diretor, Comprador"
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Departamento */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Departamento</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Departamento</label>
+                  <Input
                     value={departamento}
                     onChange={(e) => setDepartamento(e.target.value)}
                     placeholder="Ex: Suprimentos"
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Renda/Faturamento 1 */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Renda Declarada / Faturamento</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Renda Declarada / Faturamento</label>
+                  <Input
                     type="number"
                     step="any"
                     value={renda1}
                     onChange={(e) => setRenda1(e.target.value)}
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Filiação Pai */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Nome do Pai</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Nome do Pai</label>
+                  <Input
                     value={filiacaoPai}
                     onChange={(e) => setFiliacaoPai(e.target.value)}
                     placeholder="Filiação Paterna"
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Filiação Mãe */}
                 <div className="md:col-span-2 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Nome da Mãe</label>
-                  <Input 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Nome da Mãe</label>
+                  <Input
                     value={filiacaoMae}
                     onChange={(e) => setFiliacaoMae(e.target.value)}
                     placeholder="Filiação Materna"
-                    className="h-9.5 bg-[#070B14] text-xs"
+                    className="h-9.5 bg-[#F8FAFC] text-xs"
                   />
                 </div>
 
                 {/* Observações */}
                 <div className="md:col-span-3 space-y-1">
-                  <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Observações de Contato / Vendas</label>
-                  <textarea 
+                  <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Observações de Contato / Vendas</label>
+                  <textarea
                     value={observacao}
                     onChange={(e) => setObservacao(e.target.value)}
                     rows={4}
                     placeholder="Históricos, detalhes de venda, restrições internas, etc."
-                    className="w-full bg-[#070B14] border border-border/80 rounded-md p-3 text-xs text-slate-200 focus:outline-none focus:border-emerald-500 font-semibold"
+                    className="w-full bg-[#F8FAFC] border border-border/80 rounded-md p-3 text-xs text-slate-800 focus:outline-none focus:border-emerald-500 font-semibold"
                   />
                 </div>
 
@@ -904,89 +904,89 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
           {/* TAB 5: DADOS BANCÁRIOS E REFERÊNCIAS */}
           {activeTab === "bancario" && (
             <div className="space-y-6 animate-fade-in">
-              
+
               {/* Banco 1 */}
-              <div className="p-4 rounded-xl border border-border/50 bg-[#090C15]/40 space-y-4">
-                <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="p-4 rounded-xl border border-border/50 bg-[#F8FAFC]/40 space-y-4">
+                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-wider flex items-center gap-1.5">
                   <Landmark className="h-4 w-4" /> Referência Bancária Principal
                 </span>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Nome do Banco</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Nome do Banco</label>
+                    <Input
                       value={banco1}
                       onChange={(e) => setBanco1(e.target.value)}
                       placeholder="Ex: Itaú, Bradesco"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Agência</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Agência</label>
+                    <Input
                       value={agencia1}
                       onChange={(e) => setAgencia1(e.target.value)}
                       placeholder="Agência"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Número da Conta</label>
-                    <Input 
+                    <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Número da Conta</label>
+                    <Input
                       value={conta1}
                       onChange={(e) => setConta1(e.target.value)}
                       placeholder="Conta Corrente"
-                      className="h-9.5 bg-[#070B14] text-xs"
+                      className="h-9.5 bg-[#F8FAFC] text-xs"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Referências Comerciais */}
-              <div className="p-4 rounded-xl border border-border/50 bg-[#090C15]/40 space-y-4">
-                <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="p-4 rounded-xl border border-border/50 bg-[#F8FAFC]/40 space-y-4">
+                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-wider flex items-center gap-1.5">
                   <FileText className="h-4 w-4" /> Referências de Crédito e Fiança
                 </span>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-4 border-r border-border/10 pr-2">
                     <div className="space-y-1">
-                      <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Referência Comercial 1</label>
-                      <Input 
+                      <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Referência Comercial 1</label>
+                      <Input
                         value={referencias1}
                         onChange={(e) => setReferencias1(e.target.value)}
                         placeholder="Nome da Referência"
-                        className="h-9.5 bg-[#070B14] text-xs"
+                        className="h-9.5 bg-[#F8FAFC] text-xs"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">CPF Referência 1</label>
-                      <Input 
+                      <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">CPF Referência 1</label>
+                      <Input
                         value={referencias1Cpf}
                         onChange={(e) => setReferencias1Cpf(e.target.value)}
                         placeholder="CPF da Referência 1"
-                        className="h-9.5 bg-[#070B14] text-xs"
+                        className="h-9.5 bg-[#F8FAFC] text-xs"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-4">
                     <div className="space-y-1">
-                      <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Referência Comercial 2</label>
-                      <Input 
+                      <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">Referência Comercial 2</label>
+                      <Input
                         value={referencias2}
                         onChange={(e) => setReferencias2(e.target.value)}
                         placeholder="Nome da Referência"
-                        className="h-9.5 bg-[#070B14] text-xs"
+                        className="h-9.5 bg-[#F8FAFC] text-xs"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">CPF Referência 2</label>
-                      <Input 
+                      <label className="text-[9px] font-bold text-slate-600 uppercase tracking-wider block">CPF Referência 2</label>
+                      <Input
                         value={referencias2Cpf}
                         onChange={(e) => setReferencias2Cpf(e.target.value)}
                         placeholder="CPF da Referência 2"
-                        className="h-9.5 bg-[#070B14] text-xs"
+                        className="h-9.5 bg-[#F8FAFC] text-xs"
                       />
                     </div>
                   </div>
@@ -999,12 +999,12 @@ export default function ClientFormModal({ isOpen, onClose, onSuccess, client }: 
         </form>
 
         {/* Modal Footer */}
-        <div className="flex justify-end gap-2.5 p-4 border-t border-border/60 bg-[#0E131F]/90">
-          <Button 
-            type="button" 
-            variant="outline" 
-            size="sm" 
-            onClick={onClose} 
+        <div className="flex justify-end gap-2.5 p-4 border-t border-border/60 bg-[#F8FAFC]/90">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={onClose}
             className="text-xs h-9 cursor-pointer"
           >
             Cancelar
