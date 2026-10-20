@@ -13,7 +13,7 @@ const ThemeProviderContext = React.createContext<ThemeProviderState | undefined>
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
+  defaultTheme = "light",
   storageKey = "softline-theme",
 }: {
   children: React.ReactNode;
@@ -22,13 +22,18 @@ export function ThemeProvider({
 }) {
   const [theme, setThemeState] = React.useState<Theme>(defaultTheme);
 
-  // Read saved theme from localStorage on client mount
+  // Read the saved preference on mount. New visitors start in light mode and
+  // receive a saved preference immediately as well.
   React.useEffect(() => {
-    const saved = localStorage.getItem(storageKey) as Theme;
-    if (saved) {
+    const saved = localStorage.getItem(storageKey);
+
+    if (saved === "light" || saved === "dark" || saved === "system") {
       setThemeState(saved);
+      return;
     }
-  }, [storageKey]);
+
+    localStorage.setItem(storageKey, defaultTheme);
+  }, [defaultTheme, storageKey]);
 
   // Apply selected theme class to document
   React.useEffect(() => {

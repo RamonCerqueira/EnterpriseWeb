@@ -1,124 +1,14 @@
 "use client";
-
 import React from "react";
-import { Users, Search, Plus, Loader2 } from "lucide-react";
+import { Plus, Search, Loader2, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
-interface CollaboratorsSidebarProps {
-  users: any[];
-  isLoading: boolean;
-  search: string;
-  setSearch: (v: string) => void;
-  selectedUser: any;
-  loadUserRecord: (u: any) => void;
-  handleStartCreateNew: () => void;
-}
-
-export default function CollaboratorsSidebar({
-  users,
-  isLoading,
-  search,
-  setSearch,
-  selectedUser,
-  loadUserRecord,
-  handleStartCreateNew
-}: CollaboratorsSidebarProps) {
-  
-  const filteredUsersList = users.filter(u => 
-    u.nome.toLowerCase().includes(search.toLowerCase()) ||
-    u.usuario.toLowerCase().includes(search.toLowerCase())
-  );
-
-  return (
-    <div className="w-[320px] flex flex-col bg-[#121826]/75 border border-border/80 rounded-2xl backdrop-blur-xl shrink-0 overflow-hidden text-slate-100">
-      
-      {/* Sidebar Header */}
-      <div className="p-4 border-b border-border/40 space-y-3 bg-[#0E131F]/30">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
-            <Users className="h-4 w-4" /> Contas & Equipe
-          </h3>
-          <Badge className="text-[9px] bg-slate-800 border-border text-slate-300">Total: {users.length}</Badge>
-        </div>
-
-        <div className="relative">
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
-            <Search className="h-3.5 w-3.5" />
-          </span>
-          <input
-            type="text"
-            placeholder="Buscar colaborador..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-8 pl-8 pr-3 rounded-lg bg-[#0F1420] border border-border/70 text-[11px] text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 font-semibold"
-          />
-        </div>
-
-        <Button
-          type="button"
-          onClick={handleStartCreateNew}
-          className="w-full h-8.5 text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-black shadow-[0_0_12px_rgba(16,185,129,0.15)] flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <Plus className="h-4 w-4" /> Novo Colaborador
-        </Button>
-      </div>
-
-      {/* Scrollable list */}
-      <div className="flex-1 overflow-y-auto p-2.5 space-y-1.5 scrollbar-thin">
-        {isLoading ? (
-          <div className="py-12 flex flex-col items-center justify-center gap-2.5">
-            <Loader2 className="h-5.5 w-5.5 text-emerald-400 animate-spin" />
-            <span className="text-[10px] text-muted-foreground font-mono">Buscando banco...</span>
-          </div>
-        ) : filteredUsersList.length === 0 ? (
-          <div className="py-12 text-center text-[10px] text-muted-foreground">
-            Nenhum colaborador encontrado.
-          </div>
-        ) : (
-          filteredUsersList.map((u) => {
-            const isActive = !u.inativo;
-            const hasCol = !!u.colaborador;
-            const isSel = selectedUser?.id === u.id;
-
-            return (
-              <div
-                key={u.id}
-                onClick={() => loadUserRecord(u)}
-                className={`group p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
-                  isSel
-                    ? "bg-emerald-950/20 border-emerald-500/50 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.06)]"
-                    : "bg-[#0E1320]/40 border-border/50 hover:bg-[#1C2538]/30 hover:border-slate-700 text-slate-300"
-                }`}
-              >
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className={`h-8 w-8 rounded-lg flex items-center justify-center font-extrabold text-[10px] border shrink-0 ${
-                    isSel 
-                      ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" 
-                      : "bg-[#0F1420] border-border text-slate-400"
-                  }`}>
-                    {u.nome.substring(0, 2).toUpperCase()}
-                  </div>
-
-                  <div className="flex flex-col min-w-0 text-left">
-                    <span className={`text-[11px] font-bold truncate ${isSel ? "text-slate-100" : "text-slate-300"}`}>
-                      {u.nome}
-                    </span>
-                    <span className="text-[9px] text-muted-foreground font-mono truncate">
-                      @{u.usuario} • {hasCol ? (u.colaborador.cargo || "Ficha") : "Sem ficha"}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <span className={`h-2 w-2 rounded-full ${isActive ? "bg-emerald-500" : "bg-rose-500"}`} />
-                </div>
-              </div>
-            );
-          })
-        )}
-      </div>
-
-    </div>
-  );
+interface Props { users:any[]; isLoading:boolean; search:string; setSearch:(v:string)=>void; selectedUser:any; loadUserRecord:(u:any)=>void; handleStartCreateNew:()=>void; }
+export default function CollaboratorsSidebar({users,isLoading,search,setSearch,selectedUser,loadUserRecord,handleStartCreateNew}:Props) {
+ const filtered=users.filter(u=>[u.id,u.nome,u.colaborador?.cpf,u.colaborador?.cnpj,u.colaborador?.cep].some(v=>String(v||"").toLowerCase().includes(search.toLowerCase())));
+ return <section className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-border/80 bg-[#121826]/75 text-slate-100 xl:max-w-[52%]">
+  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/40 p-4"><div><h3 className="flex items-center gap-1.5 text-xs font-bold uppercase text-emerald-400"><Users className="h-4 w-4"/> Colaboradores</h3><p className="mt-1 text-[10px] text-muted-foreground">{users.length} registros</p></div><Button type="button" onClick={handleStartCreateNew} className="h-8 bg-emerald-500 text-xs font-bold text-black"><Plus className="mr-1 h-4 w-4"/>Novo</Button></div>
+  <div className="relative border-b border-border/40 p-3"><Search className="absolute left-6 top-5 h-3.5 w-3.5 text-muted-foreground"/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Código, colaborador, CPF, CNPJ ou CEP..." className="h-8 w-full rounded-lg border border-border/70 bg-[#0F1420] pl-8 pr-3 text-[11px] outline-none focus:border-emerald-500"/></div>
+  <div className="min-h-0 flex-1 overflow-auto"><table className="w-full min-w-[670px] text-left text-[11px]"><thead className="sticky top-0 bg-[#0b101b] text-[9px] uppercase text-slate-400"><tr><th className="px-3 py-3">Código</th><th>Colaborador</th><th>CPF</th><th>CGC</th><th>CEP</th><th>S</th><th>T</th></tr></thead><tbody>{isLoading?<tr><td colSpan={7} className="p-10 text-center"><Loader2 className="mx-auto h-5 w-5 animate-spin text-emerald-400"/></td></tr>:filtered.length===0?<tr><td colSpan={7} className="p-10 text-center text-muted-foreground">Nenhum colaborador encontrado.</td></tr>:filtered.map(u=>{const c=u.colaborador||{},sel=selectedUser?.id===u.id;return <tr key={u.id} onClick={()=>loadUserRecord(u)} className={sel?"cursor-pointer border-t border-border/40 bg-emerald-500/10 text-emerald-300":"cursor-pointer border-t border-border/40 hover:bg-slate-800/40"}><td className="px-3 py-3 font-bold text-emerald-400">{u.id}</td><td className="px-3 py-3 font-semibold">{u.nome}</td><td>{c.cpf||"—"}</td><td>{c.cnpj||"—"}</td><td>{c.cep||"—"}</td><td>{u.inativo?"I":"A"}</td><td>{c.tipo||"F"}</td></tr>})}</tbody></table></div>
+ </section>;
 }

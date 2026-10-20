@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { getCurrentTenant } from "@/lib/tenant";
 
 export interface SessionData {
   id: number;
@@ -7,17 +8,19 @@ export interface SessionData {
   role: string;
   permissions: Record<string, boolean>;
   foto?: string | null;
+  tenantId?: string;
 }
 
 const SESSION_COOKIE_NAME = "softline_session";
 
 export async function setSession(data: SessionData) {
   const cookieStore = await cookies();
+  const tenant = await getCurrentTenant();
   const expires = new Date(Date.now() + 1000 * 60 * 60 * 8); // 8 hours session
   
   // Simple base64 encoding for mock/demo session.
   // In production, encrypt using jose or iron-session.
-  const serialized = Buffer.from(JSON.stringify(data)).toString("base64");
+  const serialized = Buffer.from(JSON.stringify({ ...data, tenantId: tenant.id })).toString("base64");
   
   cookieStore.set(SESSION_COOKIE_NAME, serialized, {
     httpOnly: true,
@@ -34,7 +37,11 @@ export async function getSession(): Promise<SessionData | null> {
   
   try {
     const raw = Buffer.from(cookie.value, "base64").toString("utf-8");
-    return JSON.parse(raw) as SessionData;
+    const session = JSON.parse(raw) as SessionData;
+    const tenant = await getCurrentTenant();
+    if (session.tenantId && session.tenantId !== tenant.id) return null;
+    if (!session.tenantId && tenant.id !== "default") return null;
+    return { ...session, tenantId: tenant.id };
   } catch {
     return null;
   }

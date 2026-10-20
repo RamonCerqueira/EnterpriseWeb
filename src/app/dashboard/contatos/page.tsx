@@ -1,155 +1,23 @@
 "use client";
-
-import React, { useState } from "react";
-import { Contact, Plus, Search, Mail, Phone, MapPin, Loader2, AlertCircle, Edit, Trash2, CheckCircle2 } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { FormEvent, useEffect, useState } from "react";
+import { Contact, Loader2, Plus, Save, Search, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
-export default function ContatosPage() {
-  const [search, setSearch] = useState("");
-
-  const contacts = [
-    { id: 1, name: "Lucas Pereira", company: "Supermercado Pão Bom", role: "Gerente de Compras", email: "lucas@paobom.com", phone: "(11) 98888-7766", status: "Cliente" },
-    { id: 2, name: "Beatriz Oliveira", company: "Empresa ABC Ltda", role: "Diretora Financeira", email: "beatriz@empresaabc.com", phone: "(11) 97777-6655", status: "Cliente" },
-    { id: 3, name: "Roberto Santos", company: "Importadora Global ME", role: "Despachante Aduaneiro", email: "roberto@importadoraglobal.com", phone: "(21) 96666-5544", status: "Fornecedor" },
-    { id: 4, name: "Juliana Costa", company: "SoftLine Sistemas", role: "Atendente de Suporte", email: "juliana.costa@softline.com", phone: "(11) 95555-4433", status: "Parceiro" },
-  ];
-
-  const filteredContacts = contacts.filter(
-    (c) =>
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.company.toLowerCase().includes(search.toLowerCase()) ||
-      c.role.toLowerCase().includes(search.toLowerCase())
-  );
-
-  return (
-    <div className="space-y-6 select-none animate-fade-in pb-12 text-left">
-      {/* Header section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-100 flex items-center gap-2">
-            <Contact className="h-6 w-6 text-emerald-400" /> Agenda de Contatos CRM
-          </h2>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Cadastre, edite e consulte a lista de representantes, contatos corporativos e interlocutores dos seus clientes e fornecedores.
-          </p>
-        </div>
-
-        <Button className="text-xs font-semibold h-9 bg-emerald-500 hover:bg-emerald-400 text-black flex items-center gap-1.5 shadow-[0_0_10px_rgba(16,185,129,0.15)] cursor-pointer">
-          <Plus className="h-4 w-4" /> Novo Contato
-        </Button>
-      </div>
-
-      {/* Row 1: Summary Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
-          <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Contatos Cadastrados</div>
-          <div className="text-2xl font-extrabold text-slate-100">4 Pessoas</div>
-          <span className="text-[9px] text-emerald-400 font-semibold mt-1 block">Acesso unificado do comercial</span>
-        </Card>
-
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
-          <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Última Interação</div>
-          <div className="text-md font-extrabold text-slate-100">Lucas Pereira</div>
-          <span className="text-[9px] text-blue-400 font-semibold mt-1 block">Fatura enviada via WhatsApp</span>
-        </Card>
-
-        <Card className="p-4 bg-[#121826]/75 border border-border/60">
-          <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Novos Contatos (Mês)</div>
-          <div className="text-2xl font-extrabold text-slate-100">+2 no Período</div>
-          <span className="text-[9px] text-muted-foreground font-semibold mt-1 block">Crescimento de 50% vs abril</span>
-        </Card>
-      </div>
-
-      {/* Main card grid table */}
-      <Card className="bg-[#121826]/75 border border-border/60 overflow-hidden">
-        {/* Table Header Filter */}
-        <div className="p-5 border-b border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0E131F]/30">
-          <div>
-            <CardTitle className="text-sm font-bold text-slate-200">Banco de Contatos CRM</CardTitle>
-            <p className="text-[10px] text-muted-foreground">Localize interlocutores por nome, cargo ou empresa parceira.</p>
-          </div>
-
-          {/* Search bar filter */}
-          <div className="relative w-full sm:w-80">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
-              <Search className="h-3.5 w-3.5" />
-            </span>
-            <input
-              type="text"
-              placeholder="Filtrar por nome, empresa ou cargo..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-8.5 pl-9 pr-4 rounded-lg bg-[#0F1420] border border-border/80 text-xs text-slate-200 placeholder:text-muted-foreground focus:outline-none focus:border-emerald-500 transition-all font-semibold"
-            />
-          </div>
-        </div>
-
-        {/* Table list */}
-        <div className="overflow-x-auto">
-          {filteredContacts.length === 0 ? (
-            <div className="p-12 text-center text-xs text-muted-foreground font-semibold">
-              Nenhum contato correspondente localizado.
-            </div>
-          ) : (
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-border bg-[#0E131F]/50">
-                  <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider pl-6">Nome Completo</th>
-                  <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Empresa</th>
-                  <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Cargo / Função</th>
-                  <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">E-mail</th>
-                  <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Celular</th>
-                  <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Perfil</th>
-                  <th className="p-3.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider pr-6 text-right">Ação</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/20">
-                {filteredContacts.map((c) => (
-                  <tr key={c.id} className="hover:bg-secondary/15 transition-colors text-xs">
-                    <td className="p-3.5 pl-6 font-semibold text-slate-200">{c.name}</td>
-                    <td className="p-3.5 text-slate-200 font-bold">{c.company}</td>
-                    <td className="p-3.5 text-slate-300 font-semibold">{c.role}</td>
-                    <td className="p-3.5 text-slate-300 font-semibold">
-                      <div className="flex items-center gap-1.5">
-                        <Mail className="h-3.5 w-3.5 text-emerald-400" />
-                        <span>{c.email}</span>
-                      </div>
-                    </td>
-                    <td className="p-3.5 text-slate-300 font-semibold">
-                      <div className="flex items-center gap-1.5">
-                        <Phone className="h-3.5 w-3.5 text-emerald-400" />
-                        <span>{c.phone}</span>
-                      </div>
-                    </td>
-                    <td className="p-3.5">
-                      <Badge
-                        variant={
-                          c.status === "Cliente" ? "success" :
-                            c.status === "Fornecedor" ? "warning" : "info"
-                        }
-                      >
-                        {c.status}
-                      </Badge>
-                    </td>
-                    <td className="p-3.5 pr-6 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button variant="ghost" size="sm" className="h-7 px-2 hover:text-emerald-400">
-                          <Edit className="h-3.5 w-3.5" />
-                        </Button>
-                        <Button variant="ghost" size="sm" className="h-7 px-2 hover:text-rose-400">
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-      </Card>
-    </div>
-  );
+type Item=Record<string,any>; type Form=Record<string,string|boolean>;
+const blank:Form={contato:"",tratamento:"",cpf:"",rg:"",orgao:"",inativo:false,decidePelaEmpresa:false,cargo:"",departamento:"",telefone:"",celular:"",whatsapp:"",nacionalidade:"",nire:"",cotaSocialPercentual:"",capitalSocial:"",condicao:"",usoFirma:"",cno:"",estadoCivil:"",cep:"",endereco:"",numero:"",complemento:"",bairro:"",municipio:"",uf:"",email1:"",email2:"",dataCadastro:"",faturou:false,baixa:"",nascimento:"",codConsultor:"",consultorNome:"",codCliente:"",clienteNome:"",codFornecedor:"",fornecedorNome:"",observacao:""};
+const groups:[string,[string,string,string?][]][]=[["Identificação",[["Contato *","contato"],["Tratamento","tratamento"],["CPF","cpf"],["RG","rg"],["Órgão","orgao"],["Nascimento","nascimento","date"],["Nacionalidade","nacionalidade"],["Estado civil","estadoCivil"],["Inativo","inativo","checkbox"],["Decide pela empresa","decidePelaEmpresa","checkbox"]]],["Profissional e societário",[["Cargo","cargo"],["Departamento","departamento"],["NIRE","nire"],["Cota social (%)","cotaSocialPercentual","number"],["Capital social (R$)","capitalSocial","number"],["Condição","condicao"],["Uso da firma","usoFirma"],["CNO","cno"]]],["Canais e endereço",[["Telefone","telefone","tel"],["Celular","celular","tel"],["WhatsApp","whatsapp","tel"],["E-mail (1)","email1","email"],["E-mail (2)","email2","email"],["CEP","cep"],["Endereço","endereco"],["Número","numero"],["Complemento","complemento"],["Bairro","bairro"],["Município","municipio"],["UF","uf"]]],["Vínculos",[["Cód. consultor","codConsultor","number"],["Nome consultor","consultorNome"],["Cód. cliente","codCliente","number"],["Nome cliente","clienteNome"],["Cód. fornecedor","codFornecedor","number"],["Nome fornecedor","fornecedorNome"],["Data cadastro","dataCadastro","date"],["Baixa","baixa","date"],["Faturou","faturou","checkbox"]]]];
+const fmt=(v:any)=>v?new Date(v).toISOString().slice(0,10):"";
+function map(c:Item):Form{return {...blank,contato:c.Contato||"",tratamento:c.Tratamento||"",cpf:c.CPF||"",rg:c.RG||"",orgao:c.Orgao||"",inativo:c.Marcado==="S",decidePelaEmpresa:c.Decisao==="S",cargo:c.Cargo||"",departamento:c.Departamento||"",telefone:c.Tel||"",celular:c.Cel||"",whatsapp:c.TelContato||"",nacionalidade:c.Nacionalidade||"",nire:c.NireSede||"",cotaSocialPercentual:c.CotaCapital?.toString()||"",capitalSocial:c.CapitalSocial?.toString()||"",condicao:c.Condicao||"",usoFirma:c.UsoFirma||"",cno:c.CNO||"",estadoCivil:c.Estado_Civil||"",cep:c.Cep||"",endereco:c.Endereco||"",numero:c.Numero||"",complemento:c.ComplementoEndereco||"",bairro:c.Bairro||"",municipio:c.Cidade||"",uf:c.Estado||"",email1:c.Email||"",email2:c.EMail2||"",dataCadastro:fmt(c.Data),faturou:!!c.Dat_Faturamento,baixa:fmt(c.DataBaixa),nascimento:c.Ano_Nasc?String(c.Ano_Nasc).padStart(4,"0")+"-"+String(c.Mes_Nasc).padStart(2,"0")+"-"+String(c.Dia_Nasc).padStart(2,"0"):"",codConsultor:c.CodVen?.toString()||"",codCliente:c.CodCli?.toString()||"",clienteNome:c.Cliente||"",codFornecedor:c.CodFor?.toString()||"",fornecedorNome:c.Fornec||"",observacao:c.Obs||""};}
+export default function ContatosPage(){
+ const [items,setItems]=useState<Item[]>([]),[search,setSearch]=useState(""),[selected,setSelected]=useState<Item|null>(null),[form,setForm]=useState<Form>(blank),[loading,setLoading]=useState(true),[saving,setSaving]=useState(false),[message,setMessage]=useState("");
+ const load=async()=>{setLoading(true);try{const u=new URL("/api/contatos",location.origin);if(search)u.searchParams.set("search",search);const r=await fetch(u),d=await r.json();setItems(d.items||[])}finally{setLoading(false)}};
+ useEffect(()=>{const t=setTimeout(load,250);return()=>clearTimeout(t)},[search]);
+ const change=(n:string,v:string|boolean)=>setForm(x=>({...x,[n]:v}));
+ const select=(c:Item)=>{setSelected(c);setForm(map(c));setMessage("")};
+ const novo=()=>{setSelected(null);setForm({...blank,dataCadastro:new Date().toISOString().slice(0,10)});setMessage("")};
+ const save=async(e:FormEvent)=>{e.preventDefault();if(!String(form.contato).trim())return setMessage("Informe o contato.");setSaving(true);try{const path=selected?"/api/contatos/"+selected.CodCon:"/api/contatos";const r=await fetch(path,{method:selected?"PUT":"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});if(!r.ok)throw Error();const d=await r.json();setMessage("Registro gravado.");if(d.contato)select(d.contato);load()}catch{setMessage("Não foi possível gravar.")}finally{setSaving(false)}};
+ const remove=async()=>{if(!selected||!confirm("Excluir este contato?"))return;const r=await fetch("/api/contatos/"+selected.CodCon,{method:"DELETE"});if(r.ok){novo();load()}};
+ return <div className="space-y-4 pb-10 text-slate-100"><div className="flex items-center justify-between"><div><h2 className="flex items-center gap-2 text-xl font-bold"><Contact className="h-6 w-6 text-emerald-400"/>Cadastro de Contatos</h2><p className="text-xs text-muted-foreground">Selecione um registro ou crie um novo.</p></div><Button onClick={novo} className="bg-emerald-500 font-bold text-black"><Plus className="mr-1 h-4 w-4"/>Novo</Button></div>
+ <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(420px,0.9fr)]"><section className="min-w-0 overflow-hidden rounded-xl border border-border/70 bg-[#121826]/75"><div className="relative border-b border-border/40 p-3"><Search className="absolute left-6 top-5 h-3.5 w-3.5 text-muted-foreground"/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Código, contato, cargo ou CPF..." className="h-8 w-full rounded border border-border/70 bg-[#0F1420] pl-8 pr-3 text-xs outline-none focus:border-emerald-500"/></div><div className="overflow-auto"><table className="w-full min-w-[620px] text-left text-xs"><thead className="bg-[#0b101b] text-[10px] uppercase text-slate-400"><tr><th className="p-3">Código</th><th>Contato</th><th>Cargo</th><th>Telefone</th><th>E-mail</th></tr></thead><tbody>{loading?<tr><td colSpan={5} className="p-12 text-center"><Loader2 className="mx-auto h-5 w-5 animate-spin text-emerald-400"/></td></tr>:items.map(c=><tr key={c.CodCon} onClick={()=>select(c)} className={selected?.CodCon===c.CodCon?"cursor-pointer border-t border-border/40 bg-emerald-500/10":"cursor-pointer border-t border-border/40 hover:bg-slate-800/40"}><td className="p-3 font-bold text-emerald-400">{c.CodCon}</td><td className="font-semibold">{c.Contato}</td><td>{c.Cargo||"—"}</td><td>{c.Cel||c.Tel||"—"}</td><td>{c.Email||"—"}</td></tr>)}</tbody></table></div></section>
+ <form onSubmit={save} className="overflow-hidden rounded-xl border border-border/70 bg-[#121826]/75"><div className="border-b border-border/40 p-4"><h3 className="font-bold">{selected?"Dados do contato #"+selected.CodCon:"Novo contato"}</h3>{message&&<p className="mt-1 text-xs text-emerald-400">{message}</p>}</div><div className="max-h-[calc(100vh-280px)] space-y-4 overflow-y-auto p-4">{groups.map(([title,fields])=><section key={title}><h4 className="mb-2 text-[10px] font-bold uppercase text-emerald-400">{title}</h4><div className="grid grid-cols-2 gap-2">{fields.map(([label,name,type])=>type==="checkbox"?<label key={name} className="flex h-8 items-center gap-2 text-[11px]"><input type="checkbox" checked={!!form[name]} onChange={e=>change(name,e.target.checked)} className="accent-emerald-500"/>{label}</label>:<label key={name} className="text-[10px] text-slate-400">{label}<input type={type||"text"} value={String(form[name])} onChange={e=>change(name,e.target.value)} className="mt-1 h-8 w-full rounded border border-border/70 bg-[#0F1420] px-2 text-xs text-slate-100 outline-none focus:border-emerald-500"/></label>)}</div></section>)}<label className="text-[10px] text-slate-400">Observação<textarea value={String(form.observacao)} onChange={e=>change("observacao",e.target.value)} rows={3} className="mt-1 w-full rounded border border-border/70 bg-[#0F1420] p-2 text-xs"/></label></div><div className="flex justify-between border-t border-border/40 p-3"><Button type="button" variant="ghost" disabled={!selected} onClick={remove} className="text-rose-400"><Trash2 className="mr-1 h-4 w-4"/>Excluir</Button><Button type="submit" disabled={saving} className="bg-emerald-500 font-bold text-black">{saving?<Loader2 className="mr-1 h-4 w-4 animate-spin"/>:<Save className="mr-1 h-4 w-4"/>}Gravar</Button></div></form></div></div>;
 }

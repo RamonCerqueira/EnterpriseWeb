@@ -1474,6 +1474,66 @@ export const dbService = {
     }
   },
 
+  // CONTATOS (tabela Contato)
+  async getContatos(params: { search?: string; page?: number; limit?: number } = {}) {
+    const page = Math.max(params.page || 1, 1);
+    const limit = Math.min(Math.max(params.limit || 25, 1), 100);
+    const where: any = params.search ? {
+      OR: [
+        { Contato: { contains: params.search } },
+        { Cargo: { contains: params.search } },
+        { Cliente: { contains: params.search } },
+        { Fornec: { contains: params.search } },
+        { CPF: { contains: params.search } },
+      ],
+    } : {};
+    try {
+      const [total, items] = await Promise.all([
+        prisma.contato.count({ where }),
+        prisma.contato.findMany({ where, orderBy: { CodCon: "asc" }, skip: (page - 1) * limit, take: limit }),
+      ]);
+      return { items, total, page, limit, pages: Math.max(Math.ceil(total / limit), 1) };
+    } catch (err) {
+      console.error("[SoftLine DB] getContatos error:", err);
+      throw new Error("Falha ao consultar contatos no banco de dados.");
+    }
+  },
+
+  async createContato(data: any) {
+    const last = await prisma.contato.findFirst({ orderBy: { CodCon: "desc" }, select: { CodCon: true } });
+    const contact = this.mapContato(data);
+    return prisma.contato.create({ data: { CodCon: (last?.CodCon || 0) + 1, ...contact } });
+  },
+
+  async updateContato(codCon: number, data: any) {
+    return prisma.contato.update({ where: { CodCon: codCon }, data: this.mapContato(data) });
+  },
+
+  async deleteContato(codCon: number) {
+    await prisma.contato.delete({ where: { CodCon: codCon } });
+    return { success: true };
+  },
+
+  mapContato(data: any): any {
+    const nullable = (value: unknown) => value === "" || value === undefined ? null : value;
+    const date = (value: unknown) => value ? new Date(String(value)) : null;
+    const birthday = String(data.nascimento || "").split("-");
+    return {
+      Contato: nullable(data.contato), Tratamento: nullable(data.tratamento), CPF: nullable(data.cpf), RG: nullable(data.rg), Orgao: nullable(data.orgao),
+      Marcado: data.inativo ? "S" : null, Decisao: data.decidePelaEmpresa ? "S" : null,
+      Cargo: nullable(data.cargo), Departamento: nullable(data.departamento), Tel: nullable(data.telefone), Cel: nullable(data.celular), TelContato: nullable(data.whatsapp),
+      Nacionalidade: nullable(data.nacionalidade), NireSede: nullable(data.nire), CotaCapital: data.cotaSocialPercentual === "" || data.cotaSocialPercentual === undefined ? null : new Decimal(data.cotaSocialPercentual),
+      CapitalSocial: data.capitalSocial === "" || data.capitalSocial === undefined ? null : new Decimal(data.capitalSocial), Condicao: nullable(data.condicao), UsoFirma: nullable(data.usoFirma),
+      CNO: nullable(data.cno), Estado_Civil: nullable(data.estadoCivil), Cep: nullable(data.cep), Endereco: nullable(data.endereco), Numero: nullable(data.numero),
+      ComplementoEndereco: nullable(data.complemento), Bairro: nullable(data.bairro), Cidade: nullable(data.municipio), Estado: nullable(data.uf),
+      Email: nullable(data.email1), EMail2: nullable(data.email2), Data: date(data.dataCadastro), Dat_Faturamento: data.faturou ? new Date() : null, DataBaixa: date(data.baixa),
+      CodVen: data.codConsultor === "" || data.codConsultor === undefined ? null : Number(data.codConsultor), CodCli: data.codCliente === "" || data.codCliente === undefined ? null : Number(data.codCliente),
+      Cliente: nullable(data.clienteNome), CodFor: data.codFornecedor === "" || data.codFornecedor === undefined ? null : Number(data.codFornecedor), Fornec: nullable(data.fornecedorNome),
+      Obs: nullable(data.observacao),
+      Ano_Nasc: birthday.length === 3 ? Number(birthday[0]) : null, Mes_Nasc: birthday.length === 3 ? Number(birthday[1]) : null, Dia_Nasc: birthday.length === 3 ? Number(birthday[2]) : null,
+    };
+  },
+
   async getFornecedores(params?: {
     search?: string;
     statusFilter?: string;

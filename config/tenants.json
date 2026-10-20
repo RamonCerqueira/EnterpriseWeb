@@ -1,0 +1,16 @@
+{
+  "defaultTenant": "default",
+  "defaultHosts": ["localhost", "127.0.0.1", "enterprise-web.gleeze.com"],
+  "tenants": [
+    {
+      "id": "default",
+      "databaseUrlEnv": "DATABASE_URL",
+      "hosts": []
+    },
+    {
+      "id": "exemplo",
+      "databaseUrlEnv": "TENANT_EXEMPLO_DATABASE_URL",
+      "hosts": ["exemplo.localhost", "exemplo.seusistema.com"]
+    }
+  ]
+}

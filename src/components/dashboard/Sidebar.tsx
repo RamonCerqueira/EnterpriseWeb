@@ -215,7 +215,7 @@ export default function Sidebar({ session }: SidebarProps) {
     {
       name: "Módulo Financeiro",
       items: [
-        { name: "Tabela", href: "/dashboard/produtos", op: "Op5", icon: Package },
+        { name: "Tabela", href: "/dashboard/tabela", op: "Op5", icon: Package },
         { name: "Forma de Pagamento", href: "/dashboard/cadastros?model=Forma", op: "Op19", icon: CreditCard },
         { name: "Tipo Contábil", href: "/dashboard/cadastros?model=Tipo", op: "Op20", icon: Calculator },
         { name: "Conta Bancária", href: "/dashboard/cadastros?model=Banco", op: "Op15", icon: Landmark },
