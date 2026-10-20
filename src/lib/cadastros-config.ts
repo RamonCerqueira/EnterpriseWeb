@@ -71,6 +71,23 @@ export const cadastrosConfig: Record<string, CadastroConfig> = {
     columns: [{ name: "CodCen", label: "Código" }, { name: "Classificacao", label: "Class." }, { name: "Centro", label: "Centro de resultado" }],
     searchFields: [{ name: "CodCen", label: "Código" }, { name: "Classificacao", label: "Classificação" }, { name: "Centro", label: "Centro de resultado" }],
   },
+  Grup_Seg: {
+    label: "Grupo de Segmentos de Atividades", id: "CodGrpSeg",
+    fields: [{ name: "Grupo_Segmento", label: "Grupo de segmento", maxLength: 150 }],
+    columns: [{ name: "CodGrpSeg", label: "Código" }, { name: "Grupo_Segmento", label: "Grupo Segmento" }],
+    searchFields: [{ name: "CodGrpSeg", label: "Código" }, { name: "Grupo_Segmento", label: "Grp. Segmento" }],
+  },
+  Segmento: {
+    label: "Segmentos de Atividade", id: "CodSeg",
+    fields: [
+      { name: "Segmento", label: "Segmento", maxLength: 150 },
+      { name: "CNAE", label: "CNAE", maxLength: 10 },
+      { name: "CodGrpSeg", label: "Código do grupo de segmento", kind: "number" },
+      { name: "Comissao", label: "Comissão (%)", kind: "number" },
+    ],
+    columns: [{ name: "CodSeg", label: "Código" }, { name: "CodGrpSeg", label: "Grupo" }, { name: "Segmento", label: "Segmento" }],
+    searchFields: [{ name: "CodSeg", label: "Código" }, { name: "Segmento", label: "Segmento" }, { name: "CNAE", label: "CNAE" }],
+  },
 };
 
 export function buildCadastroSearch(model: string, search: string, searchField: string) {

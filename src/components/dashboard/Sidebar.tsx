@@ -206,6 +206,8 @@ export default function Sidebar({ session }: SidebarProps) {
         { name: "Fornecedores", href: "/dashboard/fornecedores", op: "Op4", icon: Truck },
         { name: "Contatos", href: "/dashboard/contatos", op: "Op3", icon: Contact },
         { name: "Colaboradores", href: "/dashboard/usuarios?view=colaboradores", op: "Op8", icon: Users },
+        { name: "Grupo de Segmentos", href: "/dashboard/cadastros?model=Grup_Seg", op: "Op60", icon: BookMarked },
+        { name: "Segmentos de Atividade", href: "/dashboard/cadastros?model=Segmento", op: "Op29", icon: BookMarked },
       ],
     },
     {
