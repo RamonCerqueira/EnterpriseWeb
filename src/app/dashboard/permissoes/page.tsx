@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { ShieldAlert, Plus, Search, CheckCircle, Shield, Edit, Trash2, Key, Users, Settings } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ShieldAlert, Search, Shield, Key } from "lucide-react";
+import { Card, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export default function PermissoesPage() {
@@ -11,10 +11,10 @@ export default function PermissoesPage() {
   const [selectedRole, setSelectedRole] = useState("Administrador");
 
   const roles = [
-    { id: 1, name: "Administrador", desc: "Acesso irrestrito a todas as operações, módulos de faturamento, e configurações globais.", usersCount: 1, ops: ["Op91", "Op3", "Op5", "Op15", "Op28"] },
-    { id: 2, name: "Vendedor", desc: "Acesso básico de cadastro de clientes, preenchimento de propostas e registro de vendas.", usersCount: 2, ops: ["Op3", "Op84", "Op9"] },
-    { id: 3, name: "Técnico / Operador", desc: "Acesso restrito para consultar, preencher e fechar ordens de serviço (OS) alocadas.", usersCount: 2, ops: ["Op52"] },
-    { id: 4, name: "Financeiro", desc: "Acesso de contas a receber, fluxo de caixa, conciliação e geração de relatórios de DRE.", usersCount: 1, ops: ["Op15", "Op33"] },
+    { id: 1, name: "Administrador", desc: "Acesso irrestrito a todas as operações, módulos de faturamento, e configurações globais." },
+    { id: 2, name: "Vendedor", desc: "Acesso básico de cadastro de clientes, preenchimento de propostas e registro de vendas." },
+    { id: 3, name: "Técnico / Operador", desc: "Acesso restrito para consultar, preencher e fechar ordens de serviço (OS) alocadas." },
+    { id: 4, name: "Financeiro", desc: "Acesso de contas a receber, fluxo de caixa, conciliação e geração de relatórios de DRE." },
   ];
 
   const filteredRoles = roles.filter(
@@ -32,13 +32,16 @@ export default function PermissoesPage() {
             <ShieldAlert className="h-6 w-6 text-emerald-700" /> Níveis de Acesso & Permissões
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Configure grupos de permissão (roles) e atribua privilégios com chaves operacionais específicas do SoftLine ERP.
+            Consulte perfis de referência. As permissões efetivas são configuradas por usuário.
           </p>
         </div>
 
-        <Button className="text-xs font-semibold h-9 bg-emerald-500 hover:bg-emerald-400 text-black flex items-center gap-1.5 shadow-[0_0_10px_rgba(16,185,129,0.15)] cursor-pointer">
-          <Plus className="h-4 w-4" /> Novo Nível de Acesso
-        </Button>
+        <Link
+          href="/dashboard/usuarios?view=usuarios"
+          className="inline-flex h-9 items-center justify-center rounded-md bg-emerald-500 px-4 text-xs font-semibold text-black shadow-[0_0_10px_rgba(16,185,129,0.15)] transition-colors hover:bg-emerald-400"
+        >
+          Gerenciar permissões por usuário
+        </Link>
       </div>
 
       {/* Split pane for roles list and specific active settings */}
@@ -48,7 +51,7 @@ export default function PermissoesPage() {
           <div className="p-4 border-b border-border/40 bg-[#F8FAFC]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
               <CardTitle className="text-sm font-bold text-slate-800 font-bold">Grupos Definidos</CardTitle>
-              <p className="text-[10px] text-muted-foreground">Perfis de acesso cadastrados na base.</p>
+              <p className="text-[10px] text-muted-foreground">Perfis ilustrativos; não são grupos persistidos no banco.</p>
             </div>
             
             <div className="relative w-full sm:w-60">
@@ -80,20 +83,8 @@ export default function PermissoesPage() {
                   <div className="flex items-center gap-2">
                     <Shield className={`h-4 w-4 ${selectedRole === role.name ? "text-emerald-700" : "text-muted-foreground"}`} />
                     <h4 className="text-xs font-bold text-slate-800">{role.name}</h4>
-                    <Badge variant="secondary" className="text-[9px] font-extrabold px-1.5 py-0.5">
-                      {role.usersCount} usuários
-                    </Badge>
                   </div>
                   <p className="text-[10px] text-muted-foreground max-w-md leading-relaxed font-semibold">{role.desc}</p>
-                </div>
-
-                <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
-                  <Button variant="ghost" size="sm" className="h-7 px-2 hover:text-emerald-700">
-                    <Edit className="h-3.5 w-3.5" />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="h-7 px-2 hover:text-rose-700" disabled={role.name === "Administrador"}>
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
                 </div>
               </div>
             ))}
@@ -106,7 +97,7 @@ export default function PermissoesPage() {
             <h3 className="text-sm font-bold text-slate-800 flex items-center gap-1.5 font-bold">
               <Key className="h-4 w-4 text-emerald-700" /> Operações de: {selectedRole}
             </h3>
-            <p className="text-[10px] text-muted-foreground mt-0.5">Ajuste fino dos privilégios de transação SQL.</p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">Esta matriz é apenas uma referência visual. Edite os níveis de acesso no cadastro do usuário.</p>
           </div>
 
           <div className="space-y-3.5">
@@ -128,22 +119,15 @@ export default function PermissoesPage() {
                   <p className="text-[9px] text-muted-foreground mt-0.5 font-semibold">{permission.desc}</p>
                 </div>
 
-                <input
-                  type="checkbox"
-                  checked={permission.enabled}
-                  onChange={() => {}}
-                  disabled={selectedRole === "Administrador"}
-                  className="h-4 w-4 rounded border-gray-200 bg-white text-emerald-600 focus:ring-emerald-500 cursor-pointer disabled:opacity-50 mt-0.5"
-                />
+                <Badge variant={permission.enabled ? "default" : "secondary"} className="mt-0.5 text-[9px]">
+                  {permission.enabled ? "Acesso" : "Sem acesso"}
+                </Badge>
               </div>
             ))}
           </div>
-
-          {selectedRole !== "Administrador" && (
-            <Button className="w-full text-xs font-semibold h-9 bg-emerald-500 hover:bg-emerald-400 text-black mt-4 flex items-center justify-center gap-1.5 shadow-[0_0_10px_rgba(16,185,129,0.15)] cursor-pointer">
-              Salvar Privilégios
-            </Button>
-          )}
+          <Link href="/dashboard/usuarios?view=usuarios" className="mt-4 text-center text-xs font-semibold text-emerald-700 hover:underline">
+            Abrir cadastro de usuários
+          </Link>
         </Card>
       </div>
     </div>

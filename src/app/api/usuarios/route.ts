@@ -16,6 +16,8 @@ export async function GET() {
     // Merge users and collaborators by name matching (case-insensitive and trimmed)
     const merged = users.map(user => {
       const col = collaborators.find(
+        c => c.codUsu === user.id
+      ) || collaborators.find(
         c => c.nome.toLowerCase().trim() === user.nome.toLowerCase().trim() ||
              c.nome.toLowerCase().trim() === user.usuario.toLowerCase().trim()
       );
@@ -67,6 +69,7 @@ export async function POST(req: NextRequest) {
       try {
         newCol = await dbService.createCollaborator({
           ...body,
+          codUsu: newUser.id,
           nome: body.nome,
           email: body.email || "",
           telefone: body.telefone || "",
@@ -75,7 +78,15 @@ export async function POST(req: NextRequest) {
         });
       } catch (colErr) {
         console.error("[SoftLine API] Failed to create matched collaborator:", colErr);
-        // We don't fail the user creation if collaborator fails, but log it
+        try {
+          await dbService.deleteUser(newUser.id);
+        } catch (rollbackErr) {
+          console.error("[SoftLine API] Failed to roll back user after collaborator creation error:", rollbackErr);
+        }
+        return NextResponse.json(
+          { error: "NÃ£o foi possÃ­vel salvar a ficha do colaborador. A credencial nÃ£o foi mantida." },
+          { status: 500 }
+        );
       }
     }
 

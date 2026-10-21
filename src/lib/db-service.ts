@@ -125,7 +125,7 @@ export const dbService = {
     try {
       const list = await prisma.senha.findMany({
         orderBy: {
-          CodUsu: "asc",
+          CodUsu: "desc",
         },
         take: 200,
       });
@@ -244,7 +244,7 @@ export const dbService = {
     try {
       const list = await prisma.indicado.findMany({
         orderBy: {
-          CodInd: "asc",
+          CodInd: "desc",
         },
         take: 200,
       });
@@ -386,6 +386,7 @@ export const dbService = {
 
       return {
         id: newCol.CodInd,
+        codUsu: newCol.CodUsu || null,
         nome: newCol.Indicador || "",
         email: newCol.EMail || "",
         telefone: newCol.Tel || "",
@@ -1115,6 +1116,7 @@ export const dbService = {
     console.log(`[SoftLine DB] Updating collaborator: ${codInd}`);
     try {
       const updateData: any = {};
+      if (data.codUsu !== undefined) updateData.CodUsu = Number(data.codUsu);
       if (data.nome !== undefined) updateData.Indicador = data.nome;
       if (data.razao !== undefined) updateData.Razao = data.razao || null;
       if (data.tipo !== undefined) updateData.Tipo = data.tipo || "F";
@@ -1183,6 +1185,7 @@ export const dbService = {
 
       return {
         id: updatedCol.CodInd,
+        codUsu: updatedCol.CodUsu || null,
         nome: updatedCol.Indicador || "",
         email: updatedCol.EMail || "",
         telefone: updatedCol.Tel || "",

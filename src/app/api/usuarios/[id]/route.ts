@@ -46,6 +46,7 @@ export async function PUT(
       // Existing collaborator - update it
       updatedCol = await dbService.updateCollaborator(parseInt(body.colaboradorId), {
         ...body,
+        codUsu: codUsu,
         nome: body.nome,
         email: body.email,
         telefone: body.telefone,
@@ -56,6 +57,7 @@ export async function PUT(
       // Toggled on during edit - create new collaborator record
       updatedCol = await dbService.createCollaborator({
         ...body,
+        codUsu: codUsu,
         nome: body.nome,
         email: body.email || "",
         telefone: body.telefone || "",

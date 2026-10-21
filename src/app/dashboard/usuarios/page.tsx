@@ -206,7 +206,7 @@ export default function UsersDashboard() {
     setIsCreatingNew(false);
 
     // Bind User directives
-    setNome(u.nome || "");
+    setNome(u.colaborador?.nome || u.nome || "");
     setUsuario(u.usuario || "");
     setSenha("");
     setRole(u.role || "Operador");
@@ -386,46 +386,11 @@ export default function UsersDashboard() {
         trabalhoSex,
         trabalhoSab,
         emailAlternativo,
-        email,
         spool,
         tipoPreco,
         permissions: selectedPermissions,
         colaboradorId: selectedUser?.colaborador?.id || undefined,
-      };
-
-      if (senha) {
-        userPayload.senha = senha;
-      }
-
-      const userRes = await fetch(userUrl, {
-        method: userMethod,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userPayload),
-      });
-
-      const userData = await userRes.json();
-      if (!userRes.ok) {
-        setFormError(userData.error || "Erro ao salvar credenciais do usuário.");
-        setIsSubmitLoading(false);
-        return;
-      }
-
-      const savedUserRecord = selectedUser || userData.user;
-
-      // 2. Automatically save linked Collaborator details (Indicado table)
-      const colHasRecord = !!savedUserRecord?.colaborador;
-      const colUrl = colHasRecord ? `/api/usuarios/${savedUserRecord.id}` : "/api/colaboradores";
-      const colMethod = colHasRecord ? "PUT" : "POST";
-
-      const colPayload: any = {
-        nome,
-        usuario,
-        role,
-        inativo,
-        permissions: selectedPermissions,
-
         criarColaborador: true,
-        colaboradorId: savedUserRecord?.colaborador?.id || undefined,
         tipo: tipoColaborador,
         razao: razao || nome,
         cpf: cpfColaborador,
@@ -464,31 +429,39 @@ export default function UsersDashboard() {
         conselho: conselhoColaborador,
         situacao: situacaoColaborador,
         vencimento: parseInt(vencimentoColaborador) || 30,
-        codUsu: savedUserRecord.id
       };
 
-      const colRes = await fetch(colUrl, {
-        method: colMethod,
+      if (senha) {
+        userPayload.senha = senha;
+      }
+
+      const userRes = await fetch(userUrl, {
+        method: userMethod,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(colPayload),
+        body: JSON.stringify(userPayload),
       });
 
-      const colData = await colRes.json();
-      if (!colRes.ok) {
-        setFormError(colData.error || "Credenciais salvas, mas erro ao registrar ficha de colaborador.");
+      const userData = await userRes.json();
+      if (!userRes.ok) {
+        setFormError(userData.error || "Erro ao salvar credenciais do usuário.");
         setIsSubmitLoading(false);
         return;
       }
 
-      setSuccessMsg("Ficha cadastral completa e diretivas salvas com sucesso!");
-      await fetchUsers();
+      const savedUserRecord = {
+        ...(selectedUser || {}),
+        ...userData.user,
+        nome,
+        usuario,
+        role,
+        permissions: selectedPermissions,
+        colaborador: userData.colaborador || selectedUser?.colaborador || null,
+      };
 
-      if (userData.user) {
-        loadUserRecord(userData.user);
-      } else {
-        const refreshed = users.find(u => u.id === savedUserRecord.id);
-        if (refreshed) loadUserRecord(refreshed);
-      }
+      await fetchUsers();
+      setSelectedUser(savedUserRecord);
+      setIsCreatingNew(false);
+      setSuccessMsg("Ficha cadastral completa e diretivas salvas com sucesso!");
 
       setTimeout(() => setSuccessMsg(null), 2500);
 
