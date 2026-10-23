@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -52,6 +52,7 @@ export default function Sidebar({ session }: SidebarProps) {
 
   // Sidebar collapse states
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
   // States for Interactive Company Selector
@@ -198,9 +199,10 @@ export default function Sidebar({ session }: SidebarProps) {
     }
   };
 
-  const cadastroGroups = [
+  const menuGroups = useMemo(() => [
     {
-      name: "",
+      name: "Cadastros",
+      icon: Database,
       items: [
         { name: "Clientes", href: "/dashboard/clientes", op: "Op3", icon: Users },
         { name: "Fornecedores", href: "/dashboard/fornecedores", op: "Op4", icon: Truck },
@@ -211,9 +213,10 @@ export default function Sidebar({ session }: SidebarProps) {
       ],
     },
     {
-      name: "Módulo Financeiro",
+      name: "Tabela",
+      icon: Package,
       items: [
-        { name: "Tabela", href: "/dashboard/tabela", op: "Op5", icon: Package },
+        { name: "Tabela de Preços", href: "/dashboard/tabela", op: "Op5", icon: Package },
         { name: "Forma de Pagamento", href: "/dashboard/cadastros?model=Forma", op: "Op19", icon: CreditCard },
         { name: "Tipo Contábil", href: "/dashboard/cadastros?model=Tipo", op: "Op20", icon: Calculator },
         { name: "Conta Bancária", href: "/dashboard/cadastros?model=Banco", op: "Op15", icon: Landmark },
@@ -222,6 +225,7 @@ export default function Sidebar({ session }: SidebarProps) {
     },
     {
       name: "Configurações",
+      icon: Settings,
       items: [
         { name: "Usuários", href: "/dashboard/usuarios?view=usuarios", op: "Op8", icon: Users },
         { name: "Permissões", href: "/dashboard/permissoes", op: "Op91", icon: ShieldAlert },
@@ -229,8 +233,15 @@ export default function Sidebar({ session }: SidebarProps) {
         { name: "Integrações", href: "/dashboard/integracoes", op: "Op70", icon: Network },
       ],
     },
-  ];
+  ], []);
 
+  useEffect(() => {
+    const activeGroup = menuGroups.find(group => group.items.some(item => {
+      const [itemPath, itemSearch] = item.href.split("?");
+      return pathname === itemPath && searchParams.toString() === (itemSearch ?? "");
+    }));
+    if (activeGroup) setOpenMenu(activeGroup.name);
+  }, [menuGroups, pathname, searchParams]);
   const hiddenMenuModules = [
     {
       name: "Clientes",
@@ -242,7 +253,7 @@ export default function Sidebar({ session }: SidebarProps) {
       name: "Propostas",
       icon: FileText,
       href: "/dashboard/propostas",
-      op: "Op84", // Prospecção / Propostas
+      op: "Op84", // ProspecÃ§Ã£o / Propostas
     },
     {
       name: "Vendas",
@@ -251,7 +262,7 @@ export default function Sidebar({ session }: SidebarProps) {
       op: "Op9", // Vendas
     },
     {
-      name: "Ordens de Serviço",
+      name: "Ordens de ServiÃ§o",
       icon: ClipboardList,
       href: "/dashboard/ordens-servico",
       op: "Op52", // OS
@@ -263,7 +274,7 @@ export default function Sidebar({ session }: SidebarProps) {
       op: "Op5", // Produtos
     },
     {
-      name: "Serviços",
+      name: "ServiÃ§os",
       icon: ClipboardList,
       href: "/dashboard/servicos", // Mapped to Services screen
       op: "Op5", // Mapped to Products / Services permission
@@ -293,10 +304,10 @@ export default function Sidebar({ session }: SidebarProps) {
       op: "Op4", // Fornecedores
     },
     {
-      name: "Locação",
+      name: "LocaÃ§Ã£o",
       icon: Hammer,
       href: "/dashboard/locacao",
-      op: "Op52", // OS / Locações
+      op: "Op52", // OS / LocaÃ§Ãµes
     },
     {
       name: "Contatos",
@@ -305,48 +316,14 @@ export default function Sidebar({ session }: SidebarProps) {
       op: "Op3", // Clientes / CRM Contatos
     },
     {
-      name: "Relatórios",
+      name: "RelatÃ³rios",
       icon: BarChart3,
       href: "/dashboard/relatorios",
-      op: "Op33", // Relatórios
+      op: "Op33", // RelatÃ³rios
     },
   ];
 
-  const menuModules = cadastroGroups.flatMap(group => group.items.map(item => ({ ...item, section: group.name })));
   void hiddenMenuModules;
-
-  const hiddenMenuConfig = [
-    {
-      name: "Configurações",
-      icon: Settings,
-      href: "/dashboard/configuracoes",
-      op: "Op28", // Configurações
-    },
-    {
-      name: "Usuários",
-      icon: Users,
-      href: "/dashboard/usuarios", // Mapped to Users screen
-      op: "Op8", // Senha (Users)
-    },
-    {
-      name: "Permissões",
-      icon: ShieldAlert,
-      href: "/dashboard/permissoes",
-      op: "Op91", // Admin role
-    },
-    {
-      name: "Cadastros",
-      icon: Database,
-      href: "/dashboard/cadastros",
-      op: "Op91", // Admin role
-    },
-    {
-      name: "Integrações",
-      icon: Network,
-      href: "/dashboard/integracoes",
-      op: "Op70", // Interoperabilidade
-    },
-  ];
 
   // Prevent flicker during server rendering
   if (!mounted) {
@@ -541,115 +518,93 @@ export default function Sidebar({ session }: SidebarProps) {
           </div>
         </div>
 
-        {/* Cadastros section */}
+        {/* Expandable navigation groups */}
         <div className="space-y-1.5">
-          {!isCollapsed ? (
-            <h2 className="px-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-left">
-              Cadastros
-            </h2>
-          ) : (
-            <div className="border-t border-border/40 my-2 mx-1" />
-          )}
-          <div className="space-y-0.5">
-            {menuModules.map((item, index) => {
-              const visible = hasPermission(item.op);
-              if (!visible) return null;
+          {menuGroups.map(group => {
+            const items = group.items.filter(item => hasPermission(item.op));
+            if (items.length === 0) return null;
 
+            const expanded = openMenu === group.name;
+            const isGroupActive = items.some(item => {
               const [itemPath, itemSearch] = item.href.split("?");
-              const active = pathname === itemPath && searchParams.toString() === (itemSearch ?? "");
+              return pathname === itemPath && searchParams.toString() === (itemSearch ?? "");
+            });
+            const GroupIcon = group.icon;
 
-              return (
-                <div key={item.name} className="relative group">
-                  {item.section && (index === 0 || menuModules[index - 1].section !== item.section) && !isCollapsed && (
-                    <h2 className="px-3 pb-1 pt-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground first:pt-0">{item.section}</h2>
+            return (
+              <div key={group.name}>
+                <button
+                  type="button"
+                  title={isCollapsed ? group.name : undefined}
+                  aria-expanded={!isCollapsed && expanded}
+                  onClick={() => {
+                    if (isCollapsed) {
+                      setIsCollapsed(false);
+                      localStorage.setItem("sidebar-collapsed", "false");
+                      setOpenMenu(group.name);
+                    } else {
+                      setOpenMenu(expanded ? null : group.name);
+                    }
+                  }}
+                  className={cn(
+                    "flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-xs font-semibold transition-colors",
+                    isGroupActive ? "text-emerald-700" : "text-muted-foreground hover:bg-slate-50/50 hover:text-slate-800",
+                    isCollapsed && "justify-center px-0"
                   )}
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "relative flex items-center gap-3 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-300 group overflow-hidden",
-                      active
-                        ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-700 font-medium pl-4.5"
-                        : "text-muted-foreground hover:bg-slate-50/40 hover:text-slate-800",
-                      isCollapsed && "justify-center px-0"
-                    )}
-                  >
-                    {active && (
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[55%] rounded-r-md bg-gradient-to-b from-emerald-400 to-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.7)] animate-pulse" />
-                    )}
-                    <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-emerald-700" : "text-muted-foreground group-hover:text-foreground")} />
-                    {!isCollapsed && <span>{item.name}</span>}
-                  </Link>
-                  {isCollapsed && (
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-50 border border-border text-slate-800 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
-                      {item.name}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                >
+                  <GroupIcon className="h-4 w-4 shrink-0" />
+                  {!isCollapsed && <span className="flex-1">{group.name}</span>}
+                  {!isCollapsed && <ChevronDown className={cn("h-3.5 w-3.5 shrink-0 transition-transform", expanded && "rotate-180")} />}
+                </button>
+
+                {!isCollapsed && expanded && (
+                  <div className="ml-3 mt-1 space-y-0.5 border-l border-border/50 pl-2">
+                    {items.map(item => {
+                      const [itemPath, itemSearch] = item.href.split("?");
+                      const active = pathname === itemPath && searchParams.toString() === (itemSearch ?? "");
+                      const ItemIcon = item.icon;
+
+                      return (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          className={cn(
+                            "flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-xs transition-colors",
+                            active ? "bg-emerald-500/10 font-semibold text-emerald-700" : "text-muted-foreground hover:bg-slate-50/50 hover:text-slate-800"
+                          )}
+                        >
+                          <ItemIcon className="h-3.5 w-3.5 shrink-0" />
+                          <span>{item.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Legacy configuration links are intentionally hidden. */}
         <div className="hidden space-y-1.5">
-          {!isCollapsed ? (
-            <h2 className="px-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-left">
-              Configurações
-            </h2>
-          ) : (
-            <div className="border-t border-border/40 my-2 mx-1" />
-          )}
-          <div className="space-y-0.5">
-            {hiddenMenuConfig.map((item) => {
-              const visible = hasPermission(item.op);
-              if (!visible) return null;
-
-              const active = pathname === item.href;
-
-              return (
-                <div key={item.name} className="relative group">
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "relative flex items-center gap-3 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-300 group overflow-hidden",
-                      active
-                        ? "bg-gradient-to-r from-emerald-500/10 via-emerald-500/2 to-transparent text-emerald-700 font-medium pl-4.5"
-                        : "text-muted-foreground hover:bg-slate-50/40 hover:text-slate-800",
-                      isCollapsed && "justify-center px-0"
-                    )}
-                  >
-                    {active && (
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[55%] rounded-r-md bg-gradient-to-b from-emerald-400 to-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.7)] animate-pulse" />
-                    )}
-                    <item.icon className={cn("h-4 w-4 shrink-0 transition-colors", active ? "text-emerald-700" : "text-muted-foreground group-hover:text-foreground")} />
-                    {!isCollapsed && <span>{item.name}</span>}
-                  </Link>
-                  {isCollapsed && (
-                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1.5 bg-slate-50 border border-border text-slate-800 text-[10px] font-bold rounded shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-50 whitespace-nowrap">
-                      {item.name}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          <h2 className="px-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-left">Configurações</h2>
+          <div className="space-y-0.5" />
         </div>
       </div>
-
       {/* bottom news notification box */}
       <div className={cn("border-t border-border/40 shrink-0", isCollapsed ? "p-2 py-4 space-y-4 flex flex-col items-center" : "p-3 space-y-4")}>
         {!isCollapsed ? (
           <div className="bg-[#FFFFFF] border border-border/80 rounded-lg p-3 relative overflow-hidden group">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] font-bold text-slate-600 flex items-center gap-1">
-                <Info className="h-3.5 w-3.5 text-emerald-700" /> Novidades da Versão
+                <Info className="h-3.5 w-3.5 text-emerald-700" /> Novidades da VersÃ£o
               </span>
               <span className="text-[8px] font-extrabold bg-emerald-500 text-black px-1.5 py-0.5 rounded-full uppercase">
                 Novo
               </span>
             </div>
             <p className="text-[10px] text-muted-foreground leading-snug">
-              Versão 2026.1.0 liberada! Desfrute do novo dashboard com assistente de IA.
+              VersÃ£o 2026.1.0 liberada! Desfrute do novo dashboard com assistente de IA.
             </p>
           </div>
         ) : (
@@ -659,7 +614,7 @@ export default function Sidebar({ session }: SidebarProps) {
             </div>
             <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 p-3 bg-slate-50 border border-border text-slate-800 text-[10px] rounded shadow-xl opacity-0 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-1 transition-all duration-200 z-50 w-52 leading-relaxed text-left">
               <div className="font-extrabold text-emerald-700 mb-1 flex items-center justify-between">
-                <span>Versão 2026.1.0</span>
+                <span>VersÃ£o 2026.1.0</span>
                 <span className="bg-emerald-500 text-black text-[8px] px-1 rounded font-extrabold uppercase">Novo</span>
               </div>
               Desfrute do novo dashboard com assistente de IA.

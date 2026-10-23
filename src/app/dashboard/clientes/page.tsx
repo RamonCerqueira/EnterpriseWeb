@@ -14,7 +14,7 @@ import ClientFormModal from "./components/ClientFormModal";
 export default function ClientesPage() {
   const [clients, setClients] = useState<any[]>([]);
   const [search, setSearch] = useState("");
-  const [viewMode, setViewMode] = useState<"card" | "list">("card");
+  const [viewMode, setViewMode] = useState<"card" | "list">("list");
   
   // Estados para controle de Paginação
   const [page, setPage] = useState(1);
@@ -141,6 +141,7 @@ export default function ClientesPage() {
       </div>
 
       {/* Main Grid Card Container */}
+      <div className={viewMode === "list" ? "grid min-w-0 items-start gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(420px,0.85fr)]" : ""}>
       <Card className="bg-[#FFFFFF]/75 border border-border/60 overflow-hidden shadow-2xl">
 
         {/* Toolbar: Search, View Mode Toggle */}
@@ -278,9 +279,24 @@ export default function ClientesPage() {
         )}
       </Card>
 
+      {viewMode === "list" && (isModalOpen ? (
+        <ClientFormModal
+          isOpen={isModalOpen}
+          inline
+          onClose={() => setIsModalOpen(false)}
+          onSuccess={fetchClients}
+          client={selectedClient}
+        />
+      ) : (
+        <div className="flex min-h-72 items-center justify-center rounded-xl border border-border/60 bg-[#FFFFFF]/75 p-6 text-center text-sm text-muted-foreground">
+          Selecione um cliente na lista ou clique em Novo Cliente.
+        </div>
+      ))}
+      </div>
+
       {/* Main Client Creation/Edit Modal */}
       <ClientFormModal
-        isOpen={isModalOpen}
+        isOpen={isModalOpen && viewMode === "card"}
         onClose={() => setIsModalOpen(false)}
         onSuccess={fetchClients}
         client={selectedClient}

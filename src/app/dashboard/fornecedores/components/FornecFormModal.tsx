@@ -14,9 +14,10 @@ interface FornecFormModalProps {
   onClose: () => void;
   onSuccess: () => void;
   fornec?: any; // If provided, we are in Edit Mode
+  inline?: boolean;
 }
 
-export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: FornecFormModalProps) {
+export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec, inline = false }: FornecFormModalProps) {
   const [activeTab, setActiveTab] = useState("geral");
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -159,7 +160,7 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
     setFormError(null);
   }, [fornec, isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen && !inline) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -247,8 +248,8 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm select-none p-4 animate-fade-in">
-      <div className="relative w-full max-w-4xl bg-[#FFFFFF] border border-border/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className={inline ? "min-w-0 select-none" : "fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm select-none p-4 animate-fade-in"}>
+      <div className={`relative w-full bg-[#FFFFFF] border border-border/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col ${inline ? "max-h-[calc(100vh-180px)] min-h-[560px]" : "max-w-4xl max-h-[90vh]"}`}>
 
         {/* Modal Header */}
         <div className="flex items-center justify-between p-4 border-b border-border/60 bg-[#F8FAFC]/90">
@@ -261,12 +262,12 @@ export default function FornecFormModal({ isOpen, onClose, onSuccess, fornec }: 
               Preencha os campos para atualizar os registros corporativos da tabela `Fornec`.
             </p>
           </div>
-          <button
+          {!inline && <button
             onClick={onClose}
             className="text-slate-600 hover:text-slate-800 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
           >
             <X className="h-4.5 w-4.5" />
-          </button>
+          </button>}
         </div>
 
         {/* Dynamic Navigation Tabs */}
