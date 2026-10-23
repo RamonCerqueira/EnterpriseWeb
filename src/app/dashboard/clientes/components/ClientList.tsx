@@ -53,7 +53,19 @@ export default function ClientList({ clients, onEdit, onDelete }: ClientListProp
           {clients.map((c) => {
             const status = getStatusDetails(c.Situacao);
             return (
-              <tr key={c.CodCli} className="hover:bg-secondary/10 transition-colors text-[11px] font-semibold text-slate-800">
+              <tr
+                key={c.CodCli}
+                tabIndex={0}
+                aria-label={`Selecionar cliente ${c.Cliente || c.CodCli}`}
+                onClick={() => onEdit(c)}
+                onKeyDown={(event) => {
+                  if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) {
+                    event.preventDefault();
+                    onEdit(c);
+                  }
+                }}
+                className="cursor-pointer outline-none hover:bg-emerald-500/10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500 transition-colors text-[11px] font-semibold text-slate-800"
+              >
                 {/* ID */}
                 <td className="p-3.5 pl-6 font-mono text-emerald-700">
                   #{c.CodCli}
@@ -95,7 +107,7 @@ export default function ClientList({ clients, onEdit, onDelete }: ClientListProp
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      onClick={() => onEdit(c)}
+                      onClick={(event) => { event.stopPropagation(); onEdit(c); }}
                       className="h-7 w-7 p-0 hover:text-emerald-700 hover:bg-slate-100 rounded-md cursor-pointer"
                     >
                       <Edit className="h-3.5 w-3.5" />
@@ -103,7 +115,7 @@ export default function ClientList({ clients, onEdit, onDelete }: ClientListProp
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      onClick={() => onDelete(c.CodCli)}
+                      onClick={(event) => { event.stopPropagation(); onDelete(c.CodCli); }}
                       className="h-7 w-7 p-0 hover:text-rose-700 hover:bg-slate-100 rounded-md cursor-pointer"
                     >
                       <Trash2 className="h-3.5 w-3.5" />

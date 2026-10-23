@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Camera, ChevronDown, LogOut, UserRound, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SessionData } from "@/lib/auth";
+import DashboardNavigation from "@/components/dashboard/DashboardNavigation";
+import CompanySwitcher from "@/components/dashboard/CompanySwitcher";
 
 interface HeaderProps {
   session: SessionData | null;
@@ -65,7 +67,11 @@ export default function Header({ session }: HeaderProps) {
   };
 
   return (
-    <header className="h-16 border-b border-border bg-[#F8FAFC] flex items-center justify-between px-6 select-none shrink-0 z-40">
+    <header className="relative z-40 min-h-16 shrink-0 border-b border-border bg-white/95 px-3 shadow-sm backdrop-blur md:px-5 select-none">
+      <div className="flex min-h-16 items-center gap-2 md:gap-4">
+        <CompanySwitcher />
+        <div className="h-8 w-px shrink-0 bg-border/70" />
+        <DashboardNavigation session={session} />
       {/* Profile panel */}
       <div className="relative ml-auto flex items-center justify-end" ref={profileMenu}>
         {/* Administrator Profile Card */}
@@ -109,6 +115,7 @@ export default function Header({ session }: HeaderProps) {
         )}
       </div>
       <input ref={photoInput} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(e) => choosePhoto(e.target.files?.[0])} />
+      </div>
       {source && (
         <div className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4">
           <div className="w-full max-w-sm rounded-xl border border-border bg-[#FFFFFF] p-5 shadow-2xl">

@@ -50,7 +50,19 @@ export default function FornecList({ fornecedores, onEdit, onDelete }: FornecLis
           {fornecedores.map((f) => {
             const status = getStatusDetails(f.Situacao);
             return (
-              <tr key={f.CodFor} className="hover:bg-secondary/10 transition-colors text-[11px] font-semibold text-slate-800">
+              <tr
+                key={f.CodFor}
+                tabIndex={0}
+                aria-label={`Selecionar fornecedor ${f.Fornec || f.CodFor}`}
+                onClick={() => onEdit(f)}
+                onKeyDown={(event) => {
+                  if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) {
+                    event.preventDefault();
+                    onEdit(f);
+                  }
+                }}
+                className="cursor-pointer outline-none hover:bg-sky-500/10 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-500 transition-colors text-[11px] font-semibold text-slate-800"
+              >
                 {/* ID */}
                 <td className="p-3.5 pl-6 font-mono text-sky-700">
                   #{f.CodFor}
@@ -92,7 +104,7 @@ export default function FornecList({ fornecedores, onEdit, onDelete }: FornecLis
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      onClick={() => onEdit(f)}
+                      onClick={(event) => { event.stopPropagation(); onEdit(f); }}
                       className="h-7 w-7 p-0 hover:text-sky-700 hover:bg-slate-100 rounded-md cursor-pointer"
                     >
                       <Edit className="h-3.5 w-3.5" />
@@ -100,7 +112,7 @@ export default function FornecList({ fornecedores, onEdit, onDelete }: FornecLis
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      onClick={() => onDelete(f.CodFor)}
+                      onClick={(event) => { event.stopPropagation(); onDelete(f.CodFor); }}
                       className="h-7 w-7 p-0 hover:text-rose-700 hover:bg-slate-100 rounded-md cursor-pointer"
                     >
                       <Trash2 className="h-3.5 w-3.5" />

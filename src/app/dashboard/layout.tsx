@@ -1,7 +1,6 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
-import Sidebar from "@/components/dashboard/Sidebar";
 import Header from "@/components/dashboard/Header";
 
 interface DashboardLayoutProps {
@@ -17,20 +16,11 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
   }
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground select-none">
-      {/* Sidebar navigation */}
-      <Sidebar session={session} />
-
-      {/* Main viewport */}
-      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
-        {/* Top Header */}
-        <Header session={session} />
-
-        {/* Scrollable page content */}
-        <main className="flex-1 overflow-y-auto bg-background p-6 relative">
-          {children}
-        </main>
-      </div>
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-background text-foreground select-none">
+      <Header session={session} />
+      <main className="relative flex-1 overflow-y-auto bg-background p-4 md:p-6">
+        {children}
+      </main>
     </div>
   );
 }
